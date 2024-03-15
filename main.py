@@ -1,4 +1,5 @@
 import os
+import json
 import importlib
 import traceback
 import numpy as np
@@ -28,10 +29,19 @@ def evaluate(problem, samples):
         feedback += 'Cannot load function!\n'
         feedback += traceback.format_exc() + '\n'
         return feedback
+    
+    for i, sample in enumerate(samples):
+        try:
+            func(**sample['input'])
+        except BaseException as e:
+            feedback += 'Runtime error!\n'
+            feedback += traceback.format_exc() + '\n'
+            return feedback
+    
     return None
 
 
-def chain_of_experts(problem, max_collaborate_nums=5, model_name='gpt-3.5-turbo'):
+def chain_of_experts(problem, max_collaborate_nums=5, model_name='gpt-3.5-turbo', enable_reflection=True):
     """Run Chain of Experts pipeline
     
     Args:
@@ -55,68 +65,32 @@ def chain_of_experts(problem, max_collaborate_nums=5, model_name='gpt-3.5-turbo'
         comment_pool.add_comment(Comment(next_expert, comment_text))
         expert_stack.append(next_expert)
         answer = comment_text
-    # answer = reducer.forward(problem, comment_pool)
+    answer = reducer.forward(problem, comment_pool)
 
     code = extract_code_from_string(answer)
     with open('generated_code.py', 'w') as f:
         f.write(code)
 
-    dataset = 'LPWP'
-    problem = 'prob_240'
-    test_samples = read_test_samples(dataset, problem)
-    feedback = evaluate(problem, test_samples)
-    print('============== feedback ==============')
-    print(feedback)
-
-    if feedback is not None:
-        while expert_stack:
-            previous_expert = expert_stack.pop()
-            result = previous_expert.backward(feedback)
-            break
-        print('=========== reflection ===========')
-        print(result)
-
+    if enable_reflection:
+        dataset = 'LPWP'
+        problem = 'prob_250'
+        feedback_pool = CommentPool(all_experts, visible_matrix=np.ones((num_experts, num_experts)))
+        test_samples = read_test_samples(dataset, problem)
+        feedback = evaluate(problem, test_samples)
+        feedback_pool.add_comment(feedback)
+        if feedback is not None:
+            while expert_stack:
+                previous_expert = expert_stack.pop()
+                result = previous_expert.backward(feedback_pool)
+                result = json.loads(result)
+                if result['is_caused_by_you']:
+                    break
+                else:
+                    feedback_pool.add_comment(result['reason'])
     return answer
-
-    # num_experts = len(all_experts)
-
-    # workspace = Workspace(all_experts, visible_matrix=np.ones((num_experts, num_experts)))
-
-    # conductor = Conductor(model_name)
-    # reducer = Reducer(model_name)
-    # # evaluator = Evaluator()
-
-    # while True:
-    #     for round in range(max_collaborate_nums):
-    #         print(problem)
-    #         next_expert = conductor.forward(problem['description'], workspace)
-
-    #         print(f'Round {round}, choose expert: {next_expert.name}')
-
-    #         comment_text = next_expert.forward(problem, workspace)
-
-    #         print(f'Give comment:\n{comment_text}')
-
-    #         comment = Comment(next_expert, comment_text)
-    #         workspace.add_comment(comment)
-
-    #     answer = reducer.forward(problem, workspace)
-
-    #     feedback, done = evaluator.forward(answer)
-    #     if done:
-    #         break
-    #     found_mistake = False
-    #     last_answer = answer
-    #     while not found_mistake:
-    #         comment = comment_set.pop_comment()
-    #         expert = comment.expert
-    #         feedback, found_mistake = expert.backward(problem, last_answer, feedback)
-    #         last_answer = comment.comment_text
-
-    # return answer
 
 
 if __name__ == '__main__':
     from utils import read_problem
-    problem = read_problem('LPWP', 'prob_240')
+    problem = read_problem('LPWP', 'prob_250')
     chain_of_experts(problem, model_name='gpt-3.5-turbo-1106')
