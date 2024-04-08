@@ -18,18 +18,22 @@ python run_exp.py --dataset LPWP --problem "prob_.*" --algorithm coe
 ```
 
 ## Usage
-`--dataset`: Specifies the dataset name. Currently supports "LPWP" or "ComplexOR". This argument is required.
-`--problem`: Specifies the name of the problem to solve. This argument is required.
-`--algorithm`: Specifies the algorithm to use. Supported algorithms include 'standard', 'chain_of_thought' ('cot'), 'progressive_hint' ('php'), 'solo_performance_prompting' ('ssp'), and 'reflexion'. This argument is required.
-`--enable_reflection`: Adds reflection capabilities to the selected algorithm. This is optional and is disabled by default.
-`--log_dir`: Specifies the directory where logs will be stored. The default is 'log'.
-`--model`: Specifies the base large language model to use. The default is 'gpt-3.5-turbo'.
-`--max_collaborate_nums`: Sets the maximum number of collaborations allowed. The default value is 3.
-`--max_trials`: Sets the maximum number of forward-backward trials allowed. The default value is 3.
+- `--dataset`: Specifies the dataset name. Currently supports "LPWP" or "ComplexOR". This argument is required.
+
+- `--problem`: Specifies the name of the problem to solve. This argument is required.
+
+- `--algorithm`: Specifies the algorithm to use. Supported algorithms include 'standard', 'chain_of_thought' ('cot'), 'progressive_hint' ('php'), 'solo_performance_prompting' ('ssp'), and 'reflexion'. This argument is required.
+
+- `--enable_reflection`: Adds reflection capabilities to the selected algorithm. This is optional and is disabled by default.
+- `--log_dir`: Specifies the directory where logs will be stored. The default is 'log'.
+- `--model`: Specifies the base large language model to use. The default is 'gpt-3.5-turbo'.
+- `--max_collaborate_nums`: Sets the maximum number of collaborations allowed. The default value is 3.
+- `--max_trials`: Sets the maximum number of forward-backward trials allowed. The default value is 3.
 
 ## Dataset
 The LPWP dataset is uploaded in this repo.
-Please note that 
+
+Please note that the ComplexOR dataset is still in the review stage, and we have uploaded a raw version of the ComplexOR dataset. The formal 37 datasets mentioned in the paper will be released soon.
 
 ## Citation
 ```
