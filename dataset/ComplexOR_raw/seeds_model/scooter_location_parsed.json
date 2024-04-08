@@ -1,0 +1,111 @@
+{
+  "title": "Scooter Location Problem",
+  "description": "Floating e-scooters can be picked up from any location and dropped off anywhere. However, at the end of each day, scooters should be relocated to account for the fluctuation in demand. We have daily estimated demand for hubs such as public transportation hubs, malls, and residential complexes. Many potential locations (based on security, space availability, and accessibility) are identified to place the collected scooters. `n` scooters are already available for redistribution and a maximum of `NewMax` scooters can be added. Due to the operational cost of relocation, it is better to limit the number of selected locations to `m`. The planner wants to select the best locations that minimize the users travel distance to reach a scooter and decide on the number of new scooters to add to the system. Note that each demand location will be assigned at most to one location and all its demand should be satisfied.",
+  "category": [
+    "Logistics",
+    "Facility Location Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "DemandPoints",
+        "description": "Demand points"
+      },
+      {
+        "name": "CandidateLocations",
+        "description": "Candidate locations"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "EstimatedDemand",
+        "description": "Estimated demand of demand point `i`",
+        "domain": "{i <in> DemandPoints}"
+      },
+      {
+        "name": "Distance",
+        "description": "Distance/travel time between demand point `i` and location `j`",
+        "domain": "{i <in> DemandPoints, j <in> CandidateLocations}"
+      },
+      {
+        "name": "NumAvailableScooters",
+        "description": "Number of available scooters"
+      },
+      {
+        "name": "MaxSelectedLocations",
+        "description": "Maximum number of selected locations"
+      },
+      {
+        "name": "NewMax",
+        "description": "Maximum number of new scooters"
+      }
+    ],
+    "variable": [
+      {
+        "name": "SelectedLocation",
+        "description": "Binary variable, 1 if candidate location `j` is selected; 0 otherwise",
+        "domain": "{j <in> CandidateLocations}",
+        "type": "binary"
+      },
+      {
+        "name": "Assign",
+        "description": "Binary variable, 1 if demand point `i` is assigned to candidate location `j`",
+        "domain": "{i <in> DemandPoints, j <in> CandidateLocations}",
+        "type": "binary"
+      },
+      {
+        "name": "NewScooters",
+        "description": "The number of new scooters to be added to the system",
+        "type": "integer"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinTotalDistance",
+        "description": "Minimize the total users travel distance to find a scooter",
+        "sense": "min",
+        "function": "<sum>_{i <in> DemandPoints, j <in> CandidateLocations} EstimatedDemand_{i} * Distance_{i,j} * Assign_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "AssignConstraint1",
+        "description": "Can only assign demand to location `i` if we select the location",
+        "domain": "{i <in> DemandPoints, j <in> CandidateLocations}",
+        "function": "Assign_{i,j} <= SelectedLocation_{j}"
+      },
+      {
+        "name": "AssignConstraint2",
+        "description": "Each demand should be assigned at most to one location",
+        "domain": "{i <in> DemandPoints}",
+        "function": "<sum>_{j <in> CandidateLocations} Assign_{i,j} <= 1"
+      },
+      {
+        "name": "DemandCover",
+        "description": "Only can cover demand as much as the number of scooters",
+        "function": "<sum>_{i <in> DemandPoints, j <in> CandidateLocations} EstimatedDemand_{i} * Assign_{i,j} = NewScooters + NumAvailableScooters"
+      },
+      {
+        "name": "LimitLocation",
+        "description": "Limit the number of selected locations",
+        "function": "<sum>_{j <in> CandidateLocations} SelectedLocation_{j} <= MaxSelectedLocations"
+      },
+      {
+        "name": "UpperBoundNew",
+        "description": "Maximum of `NewMax` scooters can be added",
+        "function": "NewScooters <= NewMax"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "scooter_location_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

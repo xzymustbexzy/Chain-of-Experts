@@ -1,0 +1,145 @@
+{
+  "title": "Electrical Power Problem",
+  "description": "In this problem, power generation units are grouped into three distinct types, with different characteristics for each type (power output, cost per megawatt hour, startup cost, etc.). A unit can be on or off, with a startup cost associated with transitioning from off to on, and power output that can fall anywhere between a specified minimum and maximum value when the unit is on. A 5-hour time horizon is with an expected total power demand for each hour. The model decides which units to turn on, and when, in order to satisfy demand for each time period. The model also captures a reserve requirement, where the selected power plants must be capable of increasing their output, while still respecting their maximum output, in order to cope with the situation where actual demand exceeds predicted demand.",
+  "category": [
+    "Energy",
+    "The Unit Commitment Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "GeneratorTypes",
+        "description": "Set of generator types"
+      },
+      {
+        "name": "TimePeriods",
+        "description": "Set of time periods",
+        "range": "[1, P]"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Generators",
+        "description": "Number of generators of type `t`",
+        "domain": "{t <in> GeneratorTypes}"
+      },
+      {
+        "name": "Demand",
+        "description": "Total power demand for time period `p`",
+        "domain": "{p <in> TimePeriods}"
+      },
+      {
+        "name": "OnStart",
+        "description": "Number of generators that are on at the beginning of the time horizon"
+      },
+      {
+        "name": "MinOutput",
+        "description": "Minimum output for generator type `t`",
+        "domain": "{t <in> GeneratorTypes}"
+      },
+      {
+        "name": "MaxOutput",
+        "description": "Maximum output for generator type `t`",
+        "domain": "{t <in> GeneratorTypes}"
+      },
+      {
+        "name": "BaseCost",
+        "description": "Minimum operating cost (per hour) for a generator of type `t`",
+        "domain": "{t <in> GeneratorTypes}"
+      },
+      {
+        "name": "PerMWCost",
+        "description": "Cost to generate one MW (per hour) for a generator of type `t`",
+        "domain": "{t <in> GeneratorTypes}"
+      },
+      {
+        "name": "StartupCost",
+        "description": "Startup cost for generator of type `t`",
+        "domain": "{t <in> GeneratorTypes}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "NumGenerators",
+        "description": "Number of generators of type `t` that are on in time period `p`",
+        "domain": "{t <in> GeneratorTypes, p <in> TimePeriods}",
+        "type": "integer"
+      },
+      {
+        "name": "PowerOutput",
+        "description": "Total power output from generators of type `t` in time period `p`",
+        "domain": "{t <in> GeneratorTypes, p <in> TimePeriods}",
+        "type": "continuous"
+      },
+      {
+        "name": "NumStart",
+        "description": "Number of generators of type `t` to start in time period `p`",
+        "domain": "{t <in> GeneratorTypes, p <in> TimePeriods}",
+        "type": "integer"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "the cost to satisfy the predicted electricity demand",
+        "sense": "min",
+        "function": "<sum>_{t <in> GeneratorTypes, p <in> TimePeriods} BaseCost_{t} * NumGenerators_{t,p} + <sum>_{t <in> GeneratorTypes, p <in> TimePeriods} PerMWCost_{t} * PowerOutput_{t,p} + <sum>_{t <in> GeneratorTypes, p<in> TimePeriods} StartupCost_{t} * NumStart_{t,p}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "AvailableGenerators",
+        "description": "Number of generators used must be less than or equal to the number available",
+        "domain": "{t <in> GeneratorTypes, p <in> TimePeriods}",
+        "function": "NumGenerators_{t,p} <=  Generators_{t}"
+      },
+      {
+        "name": "Demand",
+        "description": "Total power generated across all generator types must meet anticipated demand for each time period `p`",
+        "domain": "{p <in> TimePeriods}",
+        "function": "<sum>_{t <in> GeneratorTypes} PowerOutput_{t,p} >= Demand_{p}"
+      },
+      {
+        "name": "MinGeneration",
+        "description": "Power generation must respect generator minimum values",
+        "domain": "{t <in> GeneratorTypes, p <in> TimePeriods}",
+        "function": "PowerOutput_{t,p} >= MinOutput_{t} * NumGenerators_{t,p}"
+      },
+      {
+        "name": "MaxGeneration",
+        "description": "Power generation must respect generator maximum values",
+        "domain": "{t <in> GeneratorTypes, p <in> TimePeriods}",
+        "function": "PowerOutput_{t,p} <= MaxOutput_{t} * NumGenerators_{t,p}"
+      },
+      {
+        "name": "Reserve",
+        "description": "Selected generators must be able to satisfy demand that is as much as 15% above the prediction",
+        "domain": "{p <in> TimePeriods}",
+        "function": "<sum>_{t <in> GeneratorTypes} MaxOutput_{t} * NumGenerators_{t,p} >= 1.15 * Demand_{p}"
+      },
+      {
+        "name": "Startup1",
+        "description": "Establish relationship between number of active generators and number of startups",
+        "domain": "{t <in> GeneratorTypes}",
+        "function": "NumGenerators_{t,1} <= OnStart + NumStart_{t,1}"
+      },
+      {
+        "name": "Startup2",
+        "description": "Establish relationship between number of active generators and number of startups",
+        "domain": "p > 1, {t <in> GeneratorTypes, p <in> TimePeriods}",
+        "function": "NumGenerators_{t,p} <= NumGenerators_{t,p - 1} + NumStart_{t,p}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "electrical_power_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "2820",
+      "Remark": "nan"
+    }
+  ]
+}

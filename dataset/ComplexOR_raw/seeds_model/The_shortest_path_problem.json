@@ -1,0 +1,54 @@
+{
+  "title": "The Shortest Path Problem",
+  "description": "Suppose that each arc of a graph is assigned a scalar cost, and suppose that we define the cost of a forward path to be the sum of the costs of its arcs. Given a pair of nodes, the shortest path problem is to find a forward path that connects these nodes and has minimum cost.",
+  "category": ["Transportation", "The Shortest Path Problem"],
+  "model": {
+    "set": [
+      {
+        "name": "N",
+        "description": "Set of nodes"
+      },
+      {
+        "name": "E",
+        "description": "Set of arcs from node `i` to `j`",
+        "domain": "{i <in> N, j <in> N}"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "a",
+        "description": "scalar cost of arc from node `i` to `j`",
+        "domain": "{(i, j) <in> E}"
+      },
+      {
+        "name": "b",
+        "description": " b_{i} is 1 if `i` is the starting node, −1 if `i` is the ending node, and 0 otherwise.",
+        "domain": "{i <in> N}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "x",
+        "description": "x_{i,j} is 1 if arc from node `i` to node `j` is in the path otherwise 0",
+        "domain": "{(i, j) <in> E}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastCost",
+        "description": "the total cost",
+        "sense": "min",
+        "function": "<sum>_{{i,j} <in> E} a_{i,j} * x_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "node flow balance",
+        "description": "node flow balance equation",
+        "domain": "{i <in> N}",
+        "function": "<sum>_{j <in> N | (i,j) <in> E} x_{i,j} - <sum>_{k <in> N | (k,i) <in> E} x_{k,i} = b_{i}"
+      }
+    ]
+  }
+}

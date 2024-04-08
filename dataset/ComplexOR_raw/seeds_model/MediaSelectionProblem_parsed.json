@@ -1,0 +1,66 @@
+{
+  "title": "Main Media Selection Problem",
+  "description": "The main media selection problem is a problem of allocating advertising budgets between possible advertising outlets. Given a set of media options, it aims to determine which media should be selected so that all audiences are reached with minimum campaign cost. It does not matter if an audience is covered more than once, as long as it is covered at least once. Moreover, the company does not wish to spend more money on the campaign than necessary.",
+  "category": [
+    "Advertising"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "TargetAudiences",
+        "description": "Set of target audiences"
+      },
+      {
+        "name": "AdvertisingMedia",
+        "description": "Set of advertising media"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Incidence",
+        "description": "Audience `t` is covered by media `m`",
+        "domain": "{t <in> TargetAudiences, m <in> AdvertisingMedia}"
+      },
+      {
+        "name": "CostOfMedia",
+        "description": "Cost of media parameter",
+        "domain": "{m <in> AdvertisingMedia}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "IsSelectedMIP",
+        "description": "Binary variable indicating if media `m` is selected",
+        "domain": "{m <in> AdvertisingMedia}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCostMIP",
+        "description": "Total cost of selected media",
+        "sense": "min",
+        "function": "<sum>_{m <in> AdvertisingMedia} CostOfMedia_{m} * IsSelectedMIP_{m}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "AudiencesAreCoveredMIP",
+        "description": "Constraint ensuring that each target audience is covered",
+        "domain": "{t <in> TargetAudiences}",
+        "function": "<sum>_{m <in> AdvertisingMedia} Incidence_{t,m} * IsSelectedMIP_{m} >=1"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "MediaSelectionProblem_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "Exception: The param Incidence has no param data."
+    }
+  ]
+}

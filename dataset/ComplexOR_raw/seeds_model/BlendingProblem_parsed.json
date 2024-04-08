@@ -1,0 +1,77 @@
+{
+  "title": "Blending Problem",
+  "description": "The problem aims to determine the optimal amounts of alloys to purchase in order to achieve a desired blend of required elements at the minimum cost. We are given a set of alloys available on the market and a set of required elements for the blend, the percentage composition data of each required element in each alloy, the desired blend percentage of each required element, the price of each alloy. The decision is the amount of each alloy to be purchased, which is continuous. The objective is to minimize the total cost of the alloy purchased. There are two constraints. The first set of constraints ensures that the desired blend percentage of each required element is met. The second constraint ensures that the total amount of alloys purchased is equal to 1.",
+  "category": [
+    "Blending Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "AlloysOnMarket",
+        "description": "Set of alloys available on the market"
+      },
+      {
+        "name": "RequiredElements",
+        "description": "Set of required elements"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "CompositionDataPercentage",
+        "description": "Percentage of composition data of required element `e` in alloy `a`",
+        "domain": "{e <in> RequiredElements, a <in> AlloysOnMarket}"
+      },
+      {
+        "name": "DesiredBlendPercentage",
+        "description": "Desired blend percentage of required element `e`",
+        "domain": "{e <in> RequiredElements}"
+      },
+      {
+        "name": "AlloyPrice",
+        "description": "Price of alloy `a`",
+        "domain": "{a <in> AlloysOnMarket}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "AlloyPurchased",
+        "description": "Amount of alloys purchased",
+        "domain": "{a <in> AlloysOnMarket}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastCost",
+        "description": "Total cost of the alloy blend",
+        "sense": "min",
+        "function": "<sum>_{a <in> AlloysOnMarket} AlloyPrice_{a} * AlloyPurchased_{a}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "PurchaseConstraint",
+        "description": "Constraint to ensure desired blend percentage",
+        "domain": "{e <in> RequiredElements}",
+        "function": "<sum>_{a <in> AlloysOnMarket} CompositionDataPercentage_{e,a} * AlloyPurchased_{a} = DesiredBlendPercentage_{e}"
+      },
+      {
+        "name": "MaterialBalance",
+        "description": "Constraint to ensure material balance",
+        "domain": "",
+        "function": "<sum>_{a <in> AlloysOnMarket} AlloyPurchased_{a} = 1"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "BlendingProblem_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

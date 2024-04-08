@@ -1,0 +1,93 @@
+{
+  "title": "Team Formulation Problem",
+  "description": "As a team leader, you have several projects requiring different expertise levels in different areas. You want to assign a set of people to these projects. Each person has a level of expertise in each of the areas. How to assign people to projects to minimize the maximum skill shortage from the project expertise requirement?",
+  "category": [
+    "Project Management", "Team Formulation Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "People",
+        "description": "Set of people or staff"
+      },
+      {
+        "name": "Projects",
+        "description": "Set of projects"
+      },
+      {
+        "name": "Skills",
+        "description": "Set of skills or expertise"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "RequiredSkill",
+        "description": "Required level of skill `s` for project `c`",
+        "domain": "{c <in> Projects, s <in> Skills}"
+      },
+      {
+        "name": "IndividualSkill",
+        "description": "Level of skill `s` of individual `p`",
+        "domain": "{p <in> People, s <in> Skills}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Assign",
+        "description": "Binary variable, 1 if individual `p` is assigned to project `c`",
+        "domain": "{p <in> People, c <in> Projects}",
+        "type": "binary"
+      },
+      {
+        "name": "AttainedSkill",
+        "description": "The attained level of skill `s` for project `c`",
+        "domain": "{c <in> Projects, s <in> Skills}",
+        "type": "continuous"
+      },
+      {
+        "name": "MaxSkillShortage",
+        "description": "The maximum skill shortage over all projects",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastSkillShortage",
+        "description": "The maximum skill shortage over all projects",
+        "sense": "min",
+        "function": "MaxSkillShortage"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "AssignmentConstraint",
+        "description": "Each person should be assigned to only one project",
+        "domain": "{p <in> People}",
+        "function": "<sum>_{c <in> Projects} Assign_{p,c} = 1"
+      },
+      {
+        "name": "SkillLevel",
+        "description": "Attained skill level for each project is the maximum level of individuals assigned to the project",
+        "domain": "{p <in> People, c <in> Projects, s <in> Skills}",
+        "function": "IndividualSkill_{p,s} * Assign_{p,c} <= AttainedSkill_{c,s}"
+      },
+      {
+        "name": "SkillShortage",
+        "description": "The maximum skill shortage",
+        "domain": "{c <in> Projects, s <in> Skills}",
+        "function": "RequiredSkill_{c,s} - AttainedSkill_{c,s} <= MaxSkillShortage"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "team_formulation_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

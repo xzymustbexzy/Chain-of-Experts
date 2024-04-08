@@ -1,0 +1,148 @@
+{
+  "title": "Capacitated Lot Sizing Problem with Lost Sales",
+  "category": [
+    "Manufacturing",
+    "Multi-item lot sizing",
+    "Setup times",
+    "Ending inventories",
+    "Rolling horizon",
+    "Lost sales"
+  ],
+  "description": "We consider the capacitated lot-sizing problem with setup times and lost sales, where `N` items have to be produced over a planning horizon of `T` periods. The discrete demand of each item `i` is given by `Demand_{i,t}` at period `t`. Each unit of item `i` produced at period `t` induces a production time `ProductionTime_{i,t}` as well as a fixed setup time `SetupTime_{i,t}`. We aim at finding an optimal production plan, i.e., a production plan complying with the capacity restriction for each period `t` while minimizing the total cost. This cost comprises the fixed and unitary production costs to be incurred each time a production takes place, the inventory holding costs for all the items, as well as the lost-sales costs penalizing the unsatisfied demand. The cost parameters are the unitary production cost `ProductionCost_{i,t}`, fixed setup cost `SetupCost_{i,t}`, unitary inventory holding cost `InventoryHoldingCost_{i,t}` for item `i` at period `t`, and the lost-sales cost penalizing each unit of unsatisfied demand of item `i` at period `t` defined by `LostSalesCost_{i,t}`.",
+  "model": {
+    "set": [
+      {
+        "name": "Periods",
+        "description": "set of time periods in the planning horizon",
+        "range": "[1,T]"
+      },
+      {
+        "name": "Items",
+        "description": "set of items (subassemblies and/or end items)"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Demand",
+        "description": "demand of item `i` at period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "ProductionTime",
+        "description": "production time for one unit of item `i` produced at period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "SetupTime",
+        "description": "fixed setup time for one unit of item `i` produced at period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "Capacity",
+        "description": "capacity restriction for period `t`",
+        "domain": "{t <in> Periods}"
+      },
+      {
+        "name": "ProductionCost",
+        "description": "production cost for one unit of item `i` at period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "SetupCost",
+        "description": "fixed setup cost for one unit of item `i` at period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "InventoryHoldingCost",
+        "description": "inventory holding cost for one unit of item `i` at period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "LostSalesCost",
+        "description": "lost sales cost for one unit of item `i` at period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "BigNumber",
+        "description": "a large number"
+      }
+    ],
+    "variable": [
+      {
+        "name": "ProductionUnits",
+        "description": "number of units of item `i` produced in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "integer"
+      },
+      {
+        "name": "Inventory",
+        "description": "inventory of item `i` at the end of period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "integer"
+      },
+      {
+        "name": "SetupVariable",
+        "description": "setup variable equals to 1 if there is production for item `i` at period `t`, and 0 otherwise",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "binary"
+      },
+      {
+        "name": "LostSales",
+        "description": "quantity of lost sales for item `i` at the end of period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "integer"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinimizeCost",
+        "description": "the total production, setup, inventory, and lost-sales costs of all items over the planning horizon",
+        "sense": "min",
+        "function": "<sum>_{i <in> Items, t <in> Periods} (SetupCost_{i,t} * SetupVariable_{i,t} + ProductionCost_{i,t} * ProductionUnits_{i,t} + InventoryHoldingCost_{i,t} * Inventory_{i,t} + LostSalesCost_{i,t} * LostSales_{i,t})"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "InventoryBalance",
+        "description": "inventory balance equations",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "Inventory_{i,t-1} + ProductionUnits_{i,t} + LostSales_{i,t} = Demand_{i,t} + Inventory_{i,t}"
+      },
+      {
+        "name": "CapacityConstraints",
+        "description": "the capacity consumed by setup and production times does not exceed the maximum production capacity",
+        "domain": "{t <in> Periods}",
+        "function": "<sum>_{i <in> Items} (SetupTime_{i,t} * SetupVariable_{i,t} + ProductionTime_{i,t} * ProductionUnits_{i,t}) <= Capacity_{t}"
+      },
+      {
+        "name": "SetupConstraints1",
+        "description": "constraints link the continuous production variables with the binary setup variables",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "ProductionUnits_{i,t} <= BigNumber * SetupVariable_{i,t}"
+      },
+      {
+        "name": "SetupConstraints2",
+        "description": "ensure that no production occurs for item `i` in period `t` unless the corresponding binary setup variable, `SetupVariable_{i,t}` takes a value of 1",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "ProductionUnits_{i,t} <= BigNumber * SetupVariable_{i,t}"
+      },
+      {
+        "name": "LostSalesConstraints",
+        "description": "the quantity of lost sales cannot exceed the demand",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "LostSales_{i,t} <= Demand_{i,t}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "CLSP_lost_sales_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "ValueError: All dimensions should be specified in brackets []"
+    }
+  ]
+}

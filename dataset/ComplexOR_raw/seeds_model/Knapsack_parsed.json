@@ -1,0 +1,68 @@
+{
+  "title": "Knapsack Problem",
+  "description": "The Knapsack Problem is a classic optimization problem in operations research and computer science. The problem is to determine the most valuable combination of items to include in a knapsack, given a set of items with different values and weights, and a maximum weight capacity of the knapsack. The goal is to maximize the total value of the items in the knapsack without exceeding its weight capacity.",
+  "category": [
+    "Knapsack Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Items",
+        "description": "Set of items"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "ItemValue",
+        "description": "Value of item `i`",
+        "domain": "{i <in> Items}",
+        "type": "continuous"
+      },
+      {
+        "name": "ItemWeight",
+        "description": "Weight of item `i`",
+        "domain": "{i <in> Items}",
+        "type": "continuous"
+      },
+      {
+        "name": "MaxWeightKnapsack",
+        "description": "Maximum weight capacity of the knapsack",
+        "type": "continuous"
+      }
+    ],
+    "variable": [
+      {
+        "name": "KnapsackItems",
+        "description": "Item `i` is placed in knapsack",
+        "domain": "{i <in> Items}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "KnapsackModel",
+        "description": "maximize total value of the items in the knapsack",
+        "sense": "max",
+        "function": "<sum>_{i <in> Items} KnapsackItems_{i} * ItemValue_{i}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "LimitKnapsackWeight",
+        "description": "Constraint on the weight capacity of the knapsack",
+        "function": "<sum>_{i <in> Items} KnapsackItems_{i} * ItemWeight_{i} <= MaxWeightKnapsack"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "Knapsack_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "0",
+      "Remark": "nan"
+    }
+  ]
+}

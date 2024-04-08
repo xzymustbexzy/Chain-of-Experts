@@ -1,0 +1,91 @@
+{
+  "title": "Structure Based Assignment Problem",
+  "description": "The NMR SBA problem is constructed by the Nuclear Vector Replacement (NVR) framework. The goal is to find a mapping between the set of peaks and the set of amino acids that minimizes the total mapping cost. Each peak-amino matching has an assignment probability, which is then converted into an assignment cost. The available assignments are restricted by the Nuclear Overhauser Effect constraints that make the problem considerably harder to solve. In the NMR SBA problem, each peak pair has a binary relation called a NOE relation, i.e. for any given two peaks, they either have an NOE relation or not. The amino acids also have a similar binary relation, i.e. for any given two amino acids, the distance between the (amide) protons of the amino acids is either less than a threshold value (NTH) or not.",
+  "category": [
+    "Biology",
+    "Assignment Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "P",
+        "description": "set of peaks"
+      },
+      {
+        "name": "A",
+        "description": "set of amino acids"
+      },
+      {
+        "name": "NOE",
+        "domain": "{i <in> P}",
+        "description": "set of peaks that have an NOE relation with peak `i`"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "N",
+        "description": "number of peaks to be assigned"
+      },
+      {
+        "name": "NTH",
+        "description": "distance threshold for an NOE relation"
+      },
+      {
+        "name": "c",
+        "description": "cost of assigning peak `i` to amino acid `j`",
+        "domain": "{i <in> P, j <in> A}"
+      },
+      {
+        "name": "d",
+        "description": "distance between amide proteins of amino acids `k` and `l`",
+        "domain": "{k <in> A, l <in> A}"
+      },
+      {
+        "name": "b",
+        "description": "indicator parameter equal to 1 if `d_{kl}` is smaller than NTH",
+        "domain": "{k <in> A, l <in> A}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "x",
+        "description": "binary variable if peak `i` is assigned to amino acid `j` otherwise 0",
+        "domain": "{i <in> P, j <in> A}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastTotalCost",
+        "description": "the total cost of the assignment",
+        "sense": "min",
+        "function": "<sum>_{i <in> P, j <in> A} c_{i,j} * x_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Assignment Constraint 1",
+        "description": "constraints ensure that each NMR peak is assigned to at most one amino acid",
+        "domain": "{j <in> A}",
+        "function": "<sum>_{i <in> P} x_{i,j} <= 1"
+      },
+      {
+        "name": "Assignment Constraint 2",
+        "description": "constraints ensure that each amino acid is assigned to at most one peak",
+        "domain": "{j <in> P}",
+        "function": "<sum>_{i <in> A} x_{i,j} <= 1"
+      },
+      {
+        "name": "Assignment Constraint 3",
+        "description": "constraint determines the number of peak-amino acid assignments",
+        "function": "<sum>_{i <in> P, j <in> A} x_{i,j} = N"
+      },
+      {
+        "name": "Assignment Constraint 4",
+        "description": "the NOE constraints",
+        "domain": "{j <in> A, l <in> A, i <in> P, k <in> NOE_{i}}",
+        "function": "x_{i,j} + x_{k,l} <= b_{jl} + 1"
+      }
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "title": "The Personnel Deployment Problem",
+  "category": ["Military", "Personnel Deployment Problem", "Matching Problem"],
+  "description": "A military commander needs to deploy a certain number of soldiers to different regions to perform various tasks, such as securing border areas, conducting reconnaissance missions, or providing support during disasters. The objective is to minimize the total cost of deployment while considering various constraints, such as the total number of soldiers available and the need for certain specialized skills in specific tasks. This can be formulated as a mixed integer linear programming problem, with decision variables representing the number of soldiers to be deployed to each task. Constraints would include the availability of soldiers for each task (e.g., the total number of soldiers available is limited), the need to meet specific requirements in terms of skills or training for certain tasks, and the need to allocate soldiers proportionally to the importance or priority of each task.",
+  "model": {
+    "set": [
+      {
+        "name": "N",
+        "description": "Set of tasks"
+      },
+      {
+        "name": "S",
+        "description": "Set of skills"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "c",
+        "description": "the cost of deploy a soldier to task `i`",
+        "domain": "{i <in> N}"
+      },
+      {
+        "name": "k",
+        "description": "the number of deploy a soldier to task `i`",
+        "domain": "{i <in> N, s <in> S}"
+      },
+      {
+        "name": "a",
+        "description": "the total number of soldiers available"
+      }
+    ],
+    "variable": [
+      {
+        "name": "x",
+        "description": "number of soldiers assigned to task `i`",
+        "domain": "{i <in> N}",
+        "type": "integer"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinTotalCost",
+        "description": "the total deployment costs",
+        "sense": "min",
+        "function": "<sum>_{i <in> N} c_{i} * x_{i}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Availability of Soldiers",
+        "description": "Total number of soldiers available for deployment should not exceed the available pool of soldiers",
+        "function": "<sum>_{i <in> N} x_{i} <= a"
+      },
+      {
+        "name": "binary variables' relation",
+        "description": "binary variables' relation",
+        "domain": "{i <in> N, j <in> N}",
+        "function": "z_{i,j} <= x_{i}"
+      },
+      {
+        "name": "binary variables' relation",
+        "description": "binary variables' relation",
+        "domain": "{i <in> N, j <in> N}",
+        "function": "z_{i,j} <= x_{j}"
+      },
+      {
+        "name": "binary variables' relation",
+        "description": "binary variables' relation",
+        "domain": "{i <in> N, j <in> N}",
+        "function": "z_{i,j} >= x_{i} + x_{j} - 1"
+      }
+    ]
+  }
+}

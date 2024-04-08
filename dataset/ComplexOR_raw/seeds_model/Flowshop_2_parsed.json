@@ -1,0 +1,92 @@
+{
+  "title": "Flow Shop Scheduling",
+  "description": "A set of jobs `Jobs` need to be processed on a set of machines `Machines` in series. All jobs have the same processing order through all the machines from machine 1 to machine M. Each machine can work in parallel. The workflow is the following: the first job of the sequence goes to the first machine to be processed; meanwhile, other jobs wait; when the first machine has processed the first job, the first job goes to the second machine and the second job of the sequence starts to be processed by the first machine; and so on. The time required to process job `j` on machine `m` is `ProcesTime_{j, m}`. The problem aims to minimize the total makespan. The goal is to find a sequence of jobs that minimize the makespan: the time when all jobs have been processed.",
+  "category": [
+    "Manufacturing",
+    "Flow Shop Scheduling"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Jobs",
+        "description": "Set of all Jobs"
+      },
+      {
+        "name": "Schedules",
+        "description": "Set of all schedules",
+        "range": "[1, S]"
+      },
+      {
+        "name": "Machines",
+        "description": "Set of all machines",
+        "range": "[1, M]"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "ProcesTime",
+        "description": "Time required to process job `j` on machine `m`",
+        "domain": "{j <in> Jobs, m <in> Machines}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "JobSchedule",
+        "description": "Determining the schedule of the job: 1 if job `j` in schedule position `s`; otherwise 0",
+        "domain": "{j <in> Jobs, s <in> Schedules}",
+        "type": "binary"
+      },
+      {
+        "name": "StartTime",
+        "description": "The time at which job in schedule position `s` commences processing on machine `m`",
+        "domain": "{s <in> Schedules, m <in> Machines}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TimeSpan",
+        "description": "Minimize the total time to process all jobs on all machines",
+        "sense": "min",
+        "function": "StartTime_{S,M} + <sum>_{j <in> Jobs} ProcesTime_{j,M} * JobSchedule_{j,S}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "OneJobPerSchedule",
+        "description": "Only one job is related to schedule `s`",
+        "domain": "{s <in> Schedules}",
+        "function": "<sum>_{j <in> Jobs} JobSchedule_{j,s} = 1"
+      },
+      {
+        "name": "OneSchedulePerJob",
+        "description": "Only one schedule is related to job `j`",
+        "domain": "{j <in> Jobs}",
+        "function": "<sum>_{s <in> Schedules} JobSchedule_{j,s} = 1"
+      },
+      {
+        "name": "MachineStartTime",
+        "description": "The commencement of schedule `s` on machine `m+1` is no earlier than its finish on machine `m`",
+        "domain": "m != M, {s <in> Schedules, m <in> Machines}",
+        "function": "StartTime_{s,m + 1} >=  StartTime_{s,m} + <sum>_{j <in> Jobs} ProcesTime_{j,m} * JobSchedule_{j,s}"
+      },
+      {
+        "name": "ScheduleStartTime",
+        "description": "The commencement of schedule `s + 1` on machine `m` is no earlier than the finish time of job in schedule position `s` on machine `m`",
+        "domain": "s != S, {s <in> Schedules, m <in> Machines}",
+        "function": "StartTime_{s + 1,m} >=  StartTime_{s,m} + <sum>_{j <in> Jobs} ProcesTime_{j,m} * JobSchedule_{j,s}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "Flowshop_2_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "1377",
+      "Remark": "nan"
+    }
+  ]
+}

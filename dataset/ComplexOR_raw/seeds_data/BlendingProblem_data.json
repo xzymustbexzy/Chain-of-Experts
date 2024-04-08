@@ -1,0 +1,37 @@
+{
+  "status": "feasible",
+  "set": [
+    {
+      "name": "AlloysOnMarket",
+      "dim": 1,
+      "data": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    },
+    {
+      "name": "RequiredElements",
+      "dim": 1,
+      "data": ["lead", "zinc", "tin"]
+    }
+  ],
+  "param": [
+    {
+      "name": "CompositionDataPercentage",
+      "dim": 2,
+      "data": [[0.1, 0.1, 0.4, 0.6, 0.3, 0.3, 0.3, 0.5, 0.2],
+       [0.1, 0.3, 0.5, 0.3, 0.3, 0.4, 0.2, 0.4, 0.3],
+       [0.8, 0.6, 0.1, 0.1, 0.4, 0.3, 0.5, 0.1, 0.5]],
+      "domain": ["RequiredElements", "AlloysOnMarket"]
+    },
+    {
+      "name": "DesiredBlendPercentage",
+      "dim": 1,
+      "data": [0.3, 0.3, 0.4],
+      "domain": "RequiredElements"
+    },
+    {
+      "name": "AlloyPrice",
+      "dim": 1,
+      "data": [10, 16, 17, 17, 12, 12, 12, 11, 10],
+      "domain": "AlloysOnMarket"
+    }
+  ]
+}

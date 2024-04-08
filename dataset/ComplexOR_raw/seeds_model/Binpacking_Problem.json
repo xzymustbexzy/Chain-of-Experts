@@ -1,0 +1,58 @@
+{
+  "title": "Binpacking Problem",
+  "description": "In the bin packing problem, a number of items with known weights must be assigned to bins with uniform capacity. The objective is to minimize the number of bins used such that all items are placed.",
+  "category": ["Binpacking Problem"],
+  "model": {
+    "set": [
+      {
+        "name": "I",
+        "description": "Set of items"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "s",
+        "description": "weight of item `i`",
+        "domain": "{i <in> I}"
+      },
+      {
+        "name": "c",
+        "description": "Capacity of a bin"
+      }
+    ],
+    "variable": [
+      {
+        "name": "y",
+        "description": "Binary variable, 1 if we use bin `j`",
+        "domain": "{j <in> I}"
+      },
+      {
+        "name": "x",
+        "description": "Binary variable, 1 if we assign item `i` to bin `j`",
+        "domain": "{i <in> I, j <in> I}"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinBins",
+        "description": "Minimize the total number of used bins",
+        "sense": "min",
+        "function": "<sum>_{j <in> I} y_{j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "CapConstraint",
+        "description": "The total weight of assigned items to a bin should not exceed the bin capacity",
+        "domain": "{j <in> I}",
+        "function": "<sum>_{i <in> I} s_{i} * x_{i,j} <= c * y_{j}"
+      },
+      {
+        "name": "AssignConstraint",
+        "description": "Every items should be assigned to a bin",
+        "domain": "{i <in> I}",
+        "function": "<sum>_{j <in> I} x_{i,j} = 1"
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "title": "Knapsack Problem",
+  "description": "Given a set of items, each with a weight and a value, determine a subset of items in such a way that their total weight is less than a given bound and their total value is as large as possible.",
+  "category": ["Knapsack Problem"],
+  "model": {
+    "set": [
+      {
+        "name": "ITEMS",
+        "description": "Set of items"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "rating",
+        "description": "rate of item `i`",
+        "domain": "{i <in> ITEMS}"
+      },
+      {
+        "name": "weight",
+        "description": "Weight of item `i`",
+        "domain": "{i <in> ITEMS}"
+      },
+      {
+        "name": "cap",
+        "description": "Capacity of the knapsack"
+      }
+    ],
+    "variable": [
+      {
+        "name": "x",
+        "description": "Binary variable, 1, if item `i` is selected, 0 otherwise",
+        "domain": "{i <in> ITEMS}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MaxRates",
+        "description": "Maximize the total rate of selected items",
+        "sense": "max",
+        "function": "<sum>_{i <in> ITEMS} rating_{i} * x_{i}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "LimitKnapsackCap",
+        "description": "Capacity limit on the weight of selected items",
+        "function": "<sum>_{i <in> ITEMS} weight_{i} * x_{i} <= cap"
+      }
+    ]
+  }
+}

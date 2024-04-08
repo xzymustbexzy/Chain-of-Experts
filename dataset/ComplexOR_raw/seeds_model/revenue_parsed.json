@@ -1,0 +1,83 @@
+{
+  "title": "Revenue Maximation Problem",
+  "description": "We have a set of flight legs (one-way non-stop flight) with a limited passenger capacity. According to market research, we defined a set of flight itineraries to sell as a package with a given price. For each package, we have an estimated demand. How many units of each package should we sell to maximize the revenue? We reserve the passenger seats according to the number of packages we want to sell.",
+  "category": [
+    "Airline Industry",
+    "Revenue Management"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "FlightLegs",
+        "description": "Set of flight legs (one-way non-stop flight)"
+      },
+      {
+        "name": "Packages",
+        "description": "Set of packages"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "AvailableSeats",
+        "description": "Number of available seats for flight `r`",
+        "domain": "{r <in> FlightLegs}"
+      },
+      {
+        "name": "Demand",
+        "description": "Estimated demand of package `p`",
+        "domain": "{p <in> Packages}"
+      },
+      {
+        "name": "Revenue",
+        "description": "Revenue gained for selling a unit of package `p`",
+        "domain": "{p <in> Packages}"
+      },
+      {
+        "name": "Delta",
+        "description": "Binary parameter, 1 if package `p` uses resource `r`",
+        "domain": "{p <in> Packages, r <in> FlightLegs}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Sell",
+        "description": "Number of package `p` to sell",
+        "domain": "{p <in> Packages}",
+        "type": "integer"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MaximizeRevenue",
+        "description": "Maximize the revenue",
+        "sense": "max",
+        "function": "<sum>_{p <in> Packages} Revenue_{p} * Sell_{p}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "UpperBound",
+        "description": "Cannot sell more than the demand",
+        "domain": "{p <in> Packages}",
+        "function": "Sell_{p} <= Demand_{p}"
+      },
+      {
+        "name": "AvailableResource",
+        "description": "Cannot use more of a resource than available",
+        "domain": "{r <in> FlightLegs}",
+        "function": "<sum>_{p <in> Packages} Delta_{p,r} * Sell_{p} <= AvailableSeats_{r}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "revenue_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "2500",
+      "Remark": "nan"
+    }
+  ]
+}

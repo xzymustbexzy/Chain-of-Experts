@@ -1,0 +1,101 @@
+{
+  "title": "Diet Problem",
+  "description": "Consider a diet problem. Given a set of foods `Foods` and a set of nutrients `Nutrients` which is the union of nutrients with minimum requirements `MinRequirements` and nutrients with maximum requirements `MaxRequirements`. Each food `j` has a cost `Cost_{j}` and the amount of each nutrient `i` it contains is `NutrientAmount_{i, j}`. The problem aims to minimize the total cost of buying foods. It is constrained that the total amount of each nutrient `i` with minimum requirements in the foods bought is at least `MinRequirement_{i}` and the total amount of each nutrient `i` with maximum requirements in the foods bought is at most `MaxRequirement_{i}`. How to decide the amount of each food `j` to buy?",
+  "category": [
+    "Health Care",
+    "Diet Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "MinRequirements",
+        "description": "a set of nutrients with minimum requirements"
+      },
+      {
+        "name": "MaxRequirements",
+        "description": "a set of nutrients with maximum requirements"
+      },
+      {
+        "name": "Nutrients",
+        "description": "a set of nutrients"
+      },
+      {
+        "name": "Foods",
+        "description": "a set of foods"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Cost",
+        "description": "cost of each food `j`",
+        "domain": "{j <in> Foods}"
+      },
+      {
+        "name": "MinAmount",
+        "description": "minimum amount of each food `j` to buy",
+        "domain": "{j <in> Foods}"
+      },
+      {
+        "name": "MaxAmount",
+        "description": "maximum amount of each food `j` to buy",
+        "domain": "{j <in> Foods}"
+      },
+      {
+        "name": "MinRequirement",
+        "description": "minimum requirement of each nutrient `i`",
+        "domain": "{i <in> MinRequirements}"
+      },
+      {
+        "name": "MaxRequirement",
+        "description": "maximum requirement of each nutrient `i`",
+        "domain": "{i <in> MaxRequirements}"
+      },
+      {
+        "name": "NutrientAmount",
+        "description": "amount of each nutrient `i` in each food `j`",
+        "domain": "{i <in> Nutrients, j <in> Foods}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Buy",
+        "description": "amount of each food `j` to buy",
+        "domain": "{j <in> Foods}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "the total cost of buying foods",
+        "sense": "min",
+        "function": "<sum>_{j <in> Foods} Cost_{j} * Buy_{j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "DietMin",
+        "description": "the total amount of each nutrient `i` with minimum requirements in the foods bought is at least `MinRequirement_{i}`",
+        "domain": "{i <in> MinRequirements}",
+        "function": "<sum>_{j <in> Foods} NutrientAmount_{i,j} * Buy_{j} >= MinRequirement_{i}"
+      },
+      {
+        "name": "DietMax",
+        "description": "the total amount of each nutrient `i` with maximum requirements in the foods bought is at most `MaxRequirement_{i}`",
+        "domain": "{i <in> MaxRequirements}",
+        "function": "<sum>_{j <in> Foods} NutrientAmount_{i,j} * Buy_{j} <= MaxRequirement_{i}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "dietu_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "Exception: The param cost has no param data."
+    }
+  ]
+}

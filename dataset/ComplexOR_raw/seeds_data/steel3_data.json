@@ -1,0 +1,41 @@
+{
+    "set": [
+        {
+            "name": "PROD", 
+            "dim": 1, 
+            "data": ["bands", "coils", "plate"]
+        }
+    ],
+    "parameter": [
+        {
+            "name": "rate", 
+            "dim": 1, 
+            "data": [200,140,160],
+            "domain": "PROD"
+        }, 
+        {
+            "name": "profit", 
+            "dim": 1,
+            "data": [25,30,29],
+            "domain": "PROD"
+        }, 
+        {
+            "name": "commit", 
+            "dim": 1,
+            "data": [1000,500,750],
+            "domain": "PROD"
+        },
+        {
+            "name": "market", 
+            "dim": 1,
+            "data": [6000,4000,3500],
+            "domain": "PROD"
+        },
+        {
+            "name": "avail", 
+            "dim": 0,
+            "data": 40,
+            "domain": ""
+        }
+    ]
+}

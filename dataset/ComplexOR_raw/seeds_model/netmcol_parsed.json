@@ -1,0 +1,99 @@
+{
+  "title": "Transportation Problem with Multiple Products",
+  "description": "Consider a transportation problem with multiple products. Given a set of cities `Cities` and a set of links `Links` between the cities. Each city `i` has a certain supply of each product `p` `Supply_{i,p}` and a certain demand for each product `p` `Demand_{i,p}`. The cost of shipping one package of product `p` from city `i` to city `j` is `ShipmentCost_{i, j, p}`. Each link `(i, j)` has a certain capacity for each product `p` `Capacity_{i,j,p}` and a joint capacity `JointCapacity_{i, j}` for all products. The problem aims to minimize the total cost of shipping products from the cities to the cities. The total number of packages to be shipped on each link `(i, j)` should not exceed its joint capacity. How to decide the number of packages of each product `p` to be shipped from each city `i` to each city `j`?",
+  "category": [
+    "Transportation",
+    "multi-commodity network flow"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Cities",
+        "description": "a set of cities"
+      },
+      {
+        "name": "Links",
+        "description": "a set of links between the cities",
+        "domain": "{i <in> Cities, j <in> Cities}"
+      },
+      {
+        "name": "Products",
+        "description": "a set of products"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Supply",
+        "description": "amounts of each product `p` available at city `i`",
+        "domain": "{i <in> Cities, p <in> Products}"
+      },
+      {
+        "name": "Demand",
+        "description": "amounts of each product `p` required at city `i`",
+        "domain": "{i <in> Cities, p <in> Products}"
+      },
+      {
+        "name": "ShipmentCost",
+        "description": "shipment costs per package of product `p` from city `i` to city `j`",
+        "domain": "{i <in> Links, j <in> Links, p <in> Products}"
+      },
+      {
+        "name": "Capacity",
+        "description": "maximum number of packages of product `p` that can be shipped from city `i` to city `j`",
+        "domain": "{i <in> Links, j <in> Links, p <in> Products}"
+      },
+      {
+        "name": "JointCapacity",
+        "description": "maximum total number of packages that can be shipped on link `(i, j)`",
+        "domain": "{i <in> Links, j <in> Links}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Ship",
+        "description": "number of packages of product `p` to be shipped from city `i` to city `j`",
+        "domain": "{i <in> Links, j <in> Links, p <in> Products}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "the total cost of shipping products from the cities to the cities",
+        "sense": "min",
+        "function": "<sum>_{i <in> Links, j <in> Links, p <in> Products} ShipmentCost_{i, j, p} * Ship_{i, j, p}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Balance",
+        "description": "the net flow constraint for each product `p` to each city `k`",
+        "domain": "{k <in> Cities, p <in> Products}",
+        "function": "Supply_{k, p} + <sum>_{i <in> Links, k <in> Links} Ship_{i, k, p} = Demand_{k, p} + <sum>_{k <in> Links, j <in> Links} Ship_{k, j, p}"
+      },
+      {
+        "name": "JointCapacity",
+        "description": "the total number of packages to be shipped on each link `(i, j)` should not exceed its joint capacity",
+        "domain": "{i <in> Links, j <in> Links}",
+        "function": "<sum>_{p <in> Products} Ship_{i, j, p} <= JointCapacity_{i, j}"
+      },
+      {
+        "name": "Capacity",
+        "description": "number of packages of product `p` that can be shipped from city `i` to city `j` can't exceed the capacity",
+        "domain": "{i <in> Links, j <in> Links, p <in> Products}",
+        "function": "Ship_{i,j,p} <= Capacity_{i,j,p}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "netmcol_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Network Flow Problem",
+  "description": "This is a network flow problem. Given a set of cities `Cities` and a set of links `Links` between the cities. Each city `i` has a certain supply of goods `Supply_{i}` and a certain demand for goods `Demand_{i}`. The cost of shipping one package from city `i` to city `j` is `ShippingCost_{i, j}` and the maximum number of packages that can be shipped from city `i` to city `j` is `Capacity_{i, j}`. The problem aims to minimize the total cost of shipping packages from the cities to the cities. How to decide the number of packages to be shipped from each city `i` to each city `j`?",
+  "category": [
+    "Network Flow Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Cities",
+        "description": "a set of cities"
+      },
+      {
+        "name": "Links",
+        "description": "a set of links between the cities",
+        "domain": "{i <in> Cities, j <in> Cities}"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Supply",
+        "description": "amounts of goods available at city `i`",
+        "domain": "{i <in> Cities}"
+      },
+      {
+        "name": "Demand",
+        "description": "amounts of goods required at city `i`",
+        "domain": "{i <in> Cities}"
+      },
+      {
+        "name": "ShippingCost",
+        "description": "shipment costs one package from city `i` to city `j`",
+        "domain": "{i <in> Links, j <in> Links}"
+      },
+      {
+        "name": "Capacity",
+        "description": "maximum number of packages that can be shipped from city `i` to city `j`",
+        "domain": "{i <in> Links, j <in> Links}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Ship",
+        "description": "number of packages to be shipped from city `i` to city `j`",
+        "domain": "{i <in> Links, j <in> Links}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "the total cost of shipping packages from the cities to the cities",
+        "sense": "minimize",
+        "function": "<sum>_{i <in> Links, j <in> Links} ShippingCost_{i, j} * Ship_{i, j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Balance",
+        "description": "the balance flow constraints for city `k`",
+        "domain": "{k <in> Cities}",
+        "function": "Supply_{k} + <sum>_{i <in> Links, k <in> Links} Ship_{i, k} = Demand_{k} + <sum>_{k <in> Links, j <in> Links} Ship_{k, j}"
+      },
+      {
+        "name": "Capacity",
+        "description": "max packages that can be shipped from city `i` to city `j`",
+        "domain": "{i <in> Links, j <in> Links}",
+        "function": "Ship_{i, j} <= Capacity_{i, j}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "net1_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

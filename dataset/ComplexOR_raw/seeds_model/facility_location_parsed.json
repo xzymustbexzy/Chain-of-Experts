@@ -1,0 +1,146 @@
+{
+  "title": "Main Facility Location",
+  "description": "The Main Facility Location model is a mathematical programming model that aims to optimize the location of facilities in a distribution system. The model considers different locations, commodities, product plants, distribution centers, and customer zones. It takes into account parameters such as supply, demand, maximum and minimum throughput, unit throughput cost, fixed throughput cost, and variable cost. The model includes variables to represent the shipment, selection, and service of commodities. It also includes constraints to ensure supply and demand balance, throughput constraints, and allocation constraints. The objective of the model is to minimize the total cost of the distribution system.",
+  "category": [
+    "Logistics",
+    "Facility Location Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Locations",
+        "description": "Set of locations"
+      },
+      {
+        "name": "Commodities",
+        "description": "Set of commodities"
+      },
+      {
+        "name": "ProductPlants",
+        "description": "Subset of locations representing product plants"
+      },
+      {
+        "name": "DistributionCenters",
+        "description": "Subset of locations representing distribution centers"
+      },
+      {
+        "name": "CustomerZones",
+        "description": "Subset of locations representing customer zones"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Supply",
+        "description": "supply of commodity `c` at location `l`",
+        "domain": "{c <in> Commodities, l <in> Locations}"
+      },
+      {
+        "name": "Demand",
+        "description": "demand of commodity `c` at location `l`",
+        "domain": "{c <in> Commodities, l <in> Locations}"
+      },
+      {
+        "name": "MaxThroughput",
+        "description": "maximum throughput at location `l`",
+        "domain": "{l <in> Locations}"
+      },
+      {
+        "name": "MinThroughput",
+        "description": "minimum throughput at location `l`",
+        "domain": "{l <in> Locations}"
+      },
+      {
+        "name": "UnitThroughputCost",
+        "description": "unit throughput cost at location `l`",
+        "domain": "{l <in> Locations}"
+      },
+      {
+        "name": "FixedThroughputCost",
+        "description": "fixed throughput cost at location `l`",
+        "domain": "{l <in> Locations}"
+      },
+      {
+        "name": "VariableCost",
+        "description": "variable cost of commodity `c` at product plant `p`, distribution center `d`, and customer zone `z`",
+        "domain": "{c <in> Commodities, p <in> ProductPlants, d <in> DistributionCenters, z <in> CustomerZones}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Shipped",
+        "description": "the shipment of commodity `c` at product plant `p`, distribution center `d`, and customer zone `z`",
+        "domain": "{c <in> Commodities, p <in> ProductPlants, d <in> DistributionCenters, z <in> CustomerZones}",
+        "type": "continuous"
+      },
+      {
+        "name": "Selected",
+        "description": "the selection of distribution center `d`",
+        "domain": "{d <in> DistributionCenters}",
+        "type": "binary"
+      },
+      {
+        "name": "Served",
+        "description": "the service of distribution center `d` to customer zone `z`",
+        "domain": "{d <in> DistributionCenters, z <in> CustomerZones}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "minimize the total cost of the distribution system",
+        "sense": "min",
+        "function": "<sum>_{c <in> Commodities, p <in> ProductPlants, d <in> DistributionCenters, z <in> CustomerZones} VariableCost_{c, p, d, z} * Shipped_{c, p, d, z} + <sum>_{d <in> DistributionCenters} (FixedThroughputCost_{d} * Selected_{d} + UnitThroughputCost_{d} * <sum>_{c <in> Commodities, z <in> CustomerZones} Demand_{c, z} * Served_{d, z})"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "SupplyConstraint",
+        "description": "the total amount of commodity `c` shipped from plant `p` cannot exceed its supply",
+        "domain": "{c <in> Commodities, p <in> ProductPlants}",
+        "function": "<sum>_{d <in> DistributionCenters, z <in> CustomerZones} Shipped_{c, p, d, z} <= Supply_{c, p}"
+      },
+      {
+        "name": "DemandConstraint",
+        "description": "ensuring demand can be satisfied",
+        "domain": "{c <in> Commodities, d <in> DistributionCenters, z <in> CustomerZones}",
+        "function": "<sum>_{p <in> ProductPlants} Shipped_{c, p, d, z} >= Demand_{c, z} * Served_{d, z}"
+      },
+      {
+        "name": "MinThroughputConstraint",
+        "description": "the throughput of distribution center `d` is no smaller than its minimum throughput",
+        "domain": "{d <in> DistributionCenters}",
+        "function": "<sum>_{c <in> Commodities, z <in> CustomerZones} Served_{d, z} * Demand_{c, z} >= Selected_{d} * MinThroughput_{d}"
+      },
+      {
+        "name": "DefThroughputConstraint",
+        "description": "the throughput of distribution center `d`",
+        "domain": "{d <in> DistributionCenters}",
+        "function": "<sum>_{c <in> Commodities, p <in> ProductPlants, z <in> CustomerZones} Shipped_{c, p, d, z} = <sum>_{c <in> Commodities, z <in> CustomerZones} Served_{d, z} * Demand_{c, z}"
+      },
+      {
+        "name": "MaxThroughputConstraint",
+        "description": "the throughput of distribution center `d` is no larger than its maximum throughput",
+        "domain": "{d <in> DistributionCenters}",
+        "function": "<sum>_{c <in> Commodities, z <in> CustomerZones} Served_{d, z} * Demand_{c, z} <= Selected_{d} * MaxThroughput_{d}"
+      },
+      {
+        "name": "AllocationConstraint",
+        "description": "Constraint ensuring allocation to one distribution center",
+        "domain": "{z <in> CustomerZones}",
+        "function": "<sum>_{d <in> DistributionCenters} Served_{d, z} = 1"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "facility_location_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "1557210",
+      "Remark": "nan"
+    }
+  ]
+}

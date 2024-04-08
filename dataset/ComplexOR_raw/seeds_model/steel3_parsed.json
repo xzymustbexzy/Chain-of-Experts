@@ -1,0 +1,89 @@
+{
+  "title": "Production Problem",
+  "description": "Consider a production problem. Given a set of products `Products`. Each product `p` is produced at a rate of `ProductionRate_{p}` tons per hour. There are `AvailableHours` hours available in a week. The profit per ton for each product `p` is `Profit_{p}`. There is a lower limit `MinSold_{p}` and an upper limit `MaxSold_{p}` on the tons of each product `p` sold in a week. The problem aims to maximize the total profit from selling all products. It is constrained that the total hours used by all products may not exceed the available hours. How to decide the tons of each product `p` to be produced?",
+  "category": [
+    "Manufacturing",
+    "Production Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Products",
+        "description": "a set of products"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "ProductionRate",
+        "description": "produced tons per hour of product `p`",
+        "domain": "{p <in> Products}"
+      },
+      {
+        "name": "AvailableHours",
+        "description": "hours available in a week"
+      },
+      {
+        "name": "Profit",
+        "description": "profit per ton of product `p`",
+        "domain": "{p <in> Products}"
+      },
+      {
+        "name": "MinSold",
+        "description": "lower limit on tons of product `p` sold in a week",
+        "domain": "{p <in> Products}"
+      },
+      {
+        "name": "MaxSold",
+        "description": "upper limit on tons of product `p` sold in a week",
+        "domain": "{p <in> Products}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Production",
+        "description": "tons of product `p` to be produced",
+        "domain": "{p <in> Products}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalProfit",
+        "description": "the total profit from selling all products",
+        "sense": "max",
+        "function": "<sum>_{p <in> Products} Profit_{p} * Production_{p}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "TimeConstraint",
+        "description": "the total hours used by all products may not exceed the available hours",
+        "domain": "",
+        "function": "<sum>_{p <in> Products} (1/ProductionRate_{p}) * Production_{p} <= AvailableHours"
+      },
+      {
+        "name": "MinimumProduction",
+        "description": "minimum production may not be smaller than the lower limit on tons of product `p` sold in a week",
+        "domain": "{p <in> Products}",
+        "function": "MinSold_{p} <= Production_{p}"
+      },
+      {
+        "name": "MaximumProduction",
+        "description": "maximum production may not be larger than the upper limit on tons of product `p` sold in a week",
+        "domain": "{p <in> Products}",
+        "function": "Production_{p} <= MaxSold_{p}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "steel3_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "Exception: The param rate has no param data."
+    }
+  ]
+}

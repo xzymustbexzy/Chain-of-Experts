@@ -1,0 +1,96 @@
+{
+  "title": "Capacitated Facility Location Problem",
+  "description": "Capacitated facility location problems deal with locating an undetermined number of facilities in order to serve customers, at minimum cost. The potential facility locations and the customer zones are considered fixed points in a network.",
+  "category": [
+    "Supply Chain Management",
+    "Warehouse location",
+    "Facility Location"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Facilities",
+        "description": "Set of potential facility locations."
+      },
+      {
+        "name": "Customers",
+        "description": "Set of customers."
+      }
+    ],
+    "parameter": [
+      {
+        "name": "FixedCost",
+        "description": "Fixed cost of maintaining/building facility `j`",
+        "domain": "{j <in> Facilities}"
+      },
+      {
+        "name": "TransportCost",
+        "description": "Cost of allocating all of the demand of customer `i` to facility `j`",
+        "domain": "{i <in> Customers, j <in> Facilities}"
+      },
+      {
+        "name": "Capacity",
+        "description": "Capacity of the facility `j`",
+        "domain": "{j <in> Facilities}"
+      },
+      {
+        "name": "Demand",
+        "description": "Demand of the customer `i`",
+        "domain": "{i <in> Customers}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "FacilityOpen",
+        "description": "Represents whether facility `j` is open. If open, equal to 1 otherwise 0",
+        "domain": "{j <in> Facilities}",
+        "type": "binary"
+      },
+      {
+        "name": "ShippedAmount",
+        "description": "Represents the amount shipped from facility `j` to customer `i`",
+        "domain": "{i <in> Customers, j <in> Facilities}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "DistributionCost",
+        "description": "The total distribution cost, consisting of the fixed costs of maintaining/building the facilities plus the variable transportation costs.",
+        "sense": "min",
+        "function": "<sum>_{j <in> Facilities} FixedCost_{j} * FacilityOpen_{j} + <sum>_{i <in> Customers, j <in> Facilities} TransportCost_{i,j} * ShippedAmount_{i,j} / Demand_{i}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "DemandConstraint",
+        "description": "Demand constraint: the demand of all customers should be met.",
+        "domain": "{i <in> Customers}",
+        "function": "<sum>_{j <in> Facilities} ShippedAmount_{i,j} = Demand_{i}"
+      },
+      {
+        "name": "ValidConstraint",
+        "description": "Valid constraint to strengthen the formulation. It is implied by constraint cC and the nature of the variables, i.e., y being binary and x being nonnegative",
+        "domain": "{i <in> Customers, j <in> Facilities}",
+        "function": "ShippedAmount_{i,j} <= Demand_{i} * FacilityOpen_{j}"
+      },
+      {
+        "name": "CapacityConstraint",
+        "description": "Capacity restrictions for the facilities.",
+        "domain": "{j <in> Facilities}",
+        "function": "<sum>_{i <in> Customers} ShippedAmount_{i,j} <= Capacity_{j} * FacilityOpen_{j}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "CFLP_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "120",
+      "Remark": "nan"
+    }
+  ]
+}

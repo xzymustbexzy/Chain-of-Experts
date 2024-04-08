@@ -1,0 +1,83 @@
+{
+  "title": "Aircraft Assignment Problem",
+  "description": "The Aircraft Assignment Problem aims to assign aircraft to routes in order to minimize the total cost while satisfying demand constraints with available aircraft. The problem involves a set of aircraft and a set of routes. Given the costs of assigning an aircraft to a route. The objective is to minimize the total cost of the assignment. There are limited available aircraft. It is constrained that the number of each aircraft allocated does not exceed its available number. Given the demand of each route and the capabilities (the largest number of people can be carried) of an aircraft for a route. The demand constraint ensures that the total allocation for each route satisfies the demand. The problem seeks to find the most cost-effective assignment of aircraft to routes.",
+  "category": [
+    "Airline Industry",
+    "Assignment Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Aircraft",
+        "description": "Set of aircraft"
+      },
+      {
+        "name": "Route",
+        "description": "Set of routes"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Availability",
+        "description": "availability of aircraft `a`",
+        "domain": "{a <in> Aircraft}"
+      },
+      {
+        "name": "Demand",
+        "description": "demand for route `r`",
+        "domain": "{r <in> Route}"
+      },
+      {
+        "name": "Capabilities",
+        "description": "capabilities of aircraft `a` for route `r`",
+        "domain": "{a <in> Aircraft, r <in> Route}"
+      },
+      {
+        "name": "Costs",
+        "description": "costs of assigning aircraft `a` to route `r`",
+        "domain": "{a <in> Aircraft, r <in> Route}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Allocation",
+        "description": "the allocation of aircraft `a` to route `r`",
+        "domain": "{a <in> Aircraft, r <in> Route}",
+        "type": "integer"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastTotalCost",
+        "description": "the total cost of the assignment",
+        "sense": "min",
+        "function": "<sum>_{a <in> Aircraft,r <in> Route} Costs_{a,r} * Allocation_{a,r}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Availability Constraint",
+        "description": "the allocation of aircraft `a` does not exceed its availability",
+        "domain": "{a <in> Aircraft}",
+        "function": "<sum>_{r <in> Route} Allocation_{a,r} <= Availability_{a}"
+      },
+      {
+        "name": "Demand Constraint",
+        "description": "the total allocation for each route meets the demand",
+        "domain": "{r <in> Route}",
+        "function": "<sum>_{a <in> Aircraft} Allocation_{a,r} * Capabilities_{a,r} = Demand_{r}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "AircraftAssignment_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

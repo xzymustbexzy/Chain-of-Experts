@@ -1,0 +1,127 @@
+{
+  "title": "Factory Planning Problem",
+  "description": "A factory makes several products using a range of machines such as, Four grinders, Two vertical drills and One borer. Each product has a defined profit contribution per unit sold (defined as the sales price per unit minus the cost of raw materials). In addition, the manufacturing of each product requires a certain amount of time on each machine (in hours). Machines are scheduled to be down for maintenance. We can store a limited number of products in the inventory for a certain cost per unit and month. There are limitations on how many of each product can be sold in a given month. We want to find the optimal production and inventory plan that maximize the profit.",
+  "category": ["Supply Chain Management", "Planning Problem"],
+  "model": {
+    "set": [
+      {
+        "name": "T",
+        "description": "Set of months from 0 to 5"
+      },
+      {
+        "name": "P",
+        "description": "Set of products"
+      },
+      {
+        "name": "M",
+        "description": "Set of machines"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "hoursM",
+        "description": "Time (in hours/month) available at any machine on a  monthly basis"
+      },
+      {
+        "name": "MaxInventory",
+        "description": "Maximum number of units of a single product type that can be stored in inventory at any given month"
+      },
+      {
+        "name": "HoldingCost",
+        "description": "Monthly cost (in USD/unit/month) of keeping in  inventory a unit of any product type"
+      },
+      {
+        "name": "StoreTarget",
+        "description": "Number of units of each product type to keep in  inventory at the end of the planning horizon"
+      },
+      {
+        "name": "profit",
+        "description": "Profit (in USD/unit) of product `p`",
+        "domain": "{p <in> P}"
+      },
+      {
+        "name": "installed",
+        "description": "Number of machines of type `m` installed in the factory",
+        "domain": "{m <in> M}"
+      },
+      {
+        "name": "down",
+        "description": "Number of machines of type `m` scheduled for maintenance at month `t`",
+        "domain": "{t <in> T, m <in> M}"
+      },
+      {
+        "name": "TimeReq",
+        "description": "Time (in hours/unit) needed on machine `m` to manufacture one unit of product `p`",
+        "domain": "{m <in> M, p <in> P}"
+      },
+      {
+        "name": "MaxSales",
+        "description": "Maximum number of units of product `p` that can  be sold at month `t`",
+        "domain": "{t <in> T, p <in> P}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "make",
+        "description": "Number of units of product `p` to manufacture at month `t`",
+        "domain": "{t <in> T, p <in> P}"
+      },
+      {
+        "name": "store",
+        "description": "Number of units of product `p` to store at month `t`",
+        "domain": "{t <in> T, p <in> P}"
+      },
+      {
+        "name": "sell",
+        "description": "Number of units of product `p` to sell at month `t`",
+        "domain": "{t <in> T, p <in> P}"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MaxProfit",
+        "description": "Maximize the total profit (in USD) of the planning horizon",
+        "sense": "max",
+        "function": "<sum>_{t <in> T, p <in> P} profit_{p} * sell_{t,p} - <sum>_{t <in> T, p <in> P} HoldingCost * store_{t,p}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "InitialBalance",
+        "description": "For each product, the number of units produced should be equal to the number of units sold plus the number stored (in units of product)",
+        "domain": "{p <in> P}",
+        "function": "make_{0,p} = sell_{0,p} + store_{0,p}"
+      },
+      {
+        "name": "Balance",
+        "description": "For each product, the number of units produced in month `t` and the ones previously stored should be equal to the number of units sold and stored in that month (in units of product)",
+        "domain": "t > 0, {t <in> T, p <in> P}",
+        "function": "store_{t-1,p} + make_{t,p} == sell_{t,p} + store_{t,p"
+      },
+      {
+        "name": "InventoryTarget",
+        "description": "The number of units of product `p` kept in inventory at the end of the planning horizon should hit the target (in units of product)",
+        "domain": "{p <in> P}",
+        "function": "store_{5,p} = StoreTarget"
+      },
+      {
+        "name": "MachineCapacity",
+        "description": "Total time used to manufacture any product at machine type `m` cannot exceed its monthly capacity (in hours)",
+        "domain": "{t <in> T, m <in> M}",
+        "function": "<sum>_{p <in> P} TimeReq_{m,p} * make_{t,p} <= hoursM * installed_{m} - hoursM * down_{t,m}"
+      },
+      {
+        "name": "VariableBounds",
+        "description": "Units stored can not exceed maximum inventory",
+        "domain": "{t <in> T, p <in> P}",
+        "function": "store_{t,p} <= MaxInventory"
+      },
+      {
+        "name": "VariableBounds",
+        "description": "Units sold can not exceed maximum sales",
+        "domain": "{t <in> T, p <in> P}",
+        "function": "sell_{t,p} <= MaxSales_{t,p}"
+      }
+    ]
+  }
+}

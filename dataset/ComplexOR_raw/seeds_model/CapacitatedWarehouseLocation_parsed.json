@@ -1,0 +1,128 @@
+{
+  "title": "Capacitated Warehouse Location Problem",
+  "description": "The capacitated warehouse location problem is the problem of locating a number of warehouses which have to service a set of customers, at minimum cost, where each customer has an associated demand and there are constraints on the total demand that can be met from a warehouse.",
+  "category": [
+    "Supply Chain Management",
+    "Facility Location Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Locations",
+        "description": "set of potential locations"
+      },
+      {
+        "name": "Customers",
+        "description": "set of customers"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Demand",
+        "description": "demand of customer `j`",
+        "domain": "{j <in> Customers}"
+      },
+      {
+        "name": "AllocationCost",
+        "description": "allocation cost of customer `j` to location `i`",
+        "domain": "{i <in> Locations, j <in> Customers}"
+      },
+      {
+        "name": "Capacity",
+        "description": "capacity of location `i`",
+        "domain": "{i <in> Locations}"
+      },
+      {
+        "name": "LowerLimitOnDemand",
+        "description": "lower limit on amount of satisfying demands at location `i`",
+        "domain": "{i <in> Locations}"
+      },
+      {
+        "name": "LowerLimitOfOpenWarehouses",
+        "description": "lower limit of opening warehouses"
+      },
+      {
+        "name": "UpperLimitOfOpenWarehouses",
+        "description": "upper limit of opening warehouses"
+      },
+      {
+        "name": "FixedCost",
+        "description": "fixed cost of opening location `i`",
+        "domain": "{i <in> Locations}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "DemandFractionSupplied",
+        "description": "demand fraction supplied from location `i` to customer `j`",
+        "domain": "{i <in> Locations, j <in> Customers}",
+        "type": "continuous",
+        "upper": "1",
+        "lower": "0"
+      },
+      {
+        "name": "Open",
+        "description": "binary decision of opening location `i`. If opening, equal to 1; otherwise 0",
+        "domain": "{i <in> Locations}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastCost",
+        "description": "summation of allocation costs and fix costs",
+        "sense": "min",
+        "function": "<sum>_{i <in> Locations, j <in> Customers} AllocationCost_{i,j} * DemandFractionSupplied_{i,j} + <sum>_{i <in> Locations} FixedCost_{i} * Open_{i}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "DemandSatisfaction",
+        "description": "constraints of satisfying demand",
+        "domain": "{j <in> Customers}",
+        "function": "<sum>_{i <in> Locations} DemandFractionSupplied_{i,j} >= 1"
+      },
+      {
+        "name": "WarehouseCapacity",
+        "description": "the total amount of supply can not exceed the capacity of warehouse in location `i`",
+        "domain": "{i <in> Locations}",
+        "function": "<sum>_{j <in> Customers} Demand_{j} * DemandFractionSupplied_{i,j} <= Capacity_{i} * Open_{i}"
+      },
+      {
+        "name": "MinimumSupplied",
+        "description": "Minimum amount of supply to locations",
+        "domain": "{i <in> Locations}",
+        "function": "<sum>_{j <in> Customers} Demand_{j} * DemandFractionSupplied_{i,j} >= LowerLimitOnDemand_{i} * Open_{i}"
+      },
+      {
+        "name": "MinimumWarehousesOpened",
+        "description": "Minimum Warehouses Opened",
+        "domain": "{i <in> Locations}",
+        "function": "<sum>_{i <in> Locations} Open_{i} >= LowerLimitOfOpenWarehouses"
+      },
+      {
+        "name": "MaximumWarehousesOpened",
+        "description": "Maximum Warehouses Opened",
+        "domain": "{i <in> Locations}",
+        "function": "<sum>_{i <in> Locations} Open_{i} <= UpperLimitOfOpenWarehouses"
+      },
+      {
+        "name": "EffectiveCapacity",
+        "description": "Effective Capacity",
+        "domain": "{i <in> Locations, j <in> Customers}",
+        "function": "DemandFractionSupplied_{i,j} * Demand_{j} <= Capacity_{i} * Open_{i}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "CapacitatedWarehouseLocation_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

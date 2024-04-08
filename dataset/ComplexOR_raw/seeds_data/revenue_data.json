@@ -1,0 +1,76 @@
+{
+  "status": "feasible",
+  "set": [
+    {
+      "name": "FlightLegs",
+      "dim": 1,
+      "data": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+        "name": "Packages",
+      "dim": 1,
+      "data": [
+        1,
+        2
+      ]
+    }
+  ],
+  "param": [
+    {
+      "name": "AvailableSeats",
+      "dim": 1,
+      "data": [
+        100,
+        200,
+        150,
+        300
+      ],
+      "domain": "FlightLegs"
+    },
+    {
+      "name": "Demand",
+      "dim": 1,
+      "data": [
+        50,
+        100
+      ],
+      "domain": "Packages"
+    },
+    {
+      "name": "Revenue",
+      "dim": 1,
+      "data": [
+        10,
+        20
+      ],
+      "domain": "Packages"
+    },
+    {
+      "name": "Delta",
+      "dim": 2,
+      "data": [
+        [
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "domain": [
+        "Packages",
+        "FlightLegs"
+      ]
+    }
+  ]
+}

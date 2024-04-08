@@ -1,0 +1,73 @@
+{
+  "title": "Car Selection Problem",
+  "category": [
+    "matching problem"
+  ],
+  "description": "The Car Selection Problem is a mixed integer programming model that aims to assign participants to cars in a way that maximizes the total number of assignments. The problem involves a set of participants and a set of cars, where each participant is interested in a subset of cars. The objective is to find the optimal assignment of participants to cars that satisfies certain constraints.",
+  "model": {
+    "set": [
+      {
+        "name": "Participants",
+        "description": "The set of all participants"
+      },
+      {
+        "name": "Cars",
+        "description": "The set of all cars"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "PossibleAssignments",
+        "description": "Participant `p` is interested in car `c`",
+        "domain": "{p <in> Participants, c <in> Cars}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Assignments",
+        "description": "Participant `p` is assigned to car `c`",
+        "domain": "{p <in> Participants, c <in> Cars}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCombinations",
+        "description": "The total number of assignments",
+        "sense": "max",
+        "function": "<sum>_{p <in> Participants, c <in> Cars} Assignments_{p,c}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Available Assignments",
+        "description": "Available Assignments",
+        "domain": "{p <in> Participants, c <in> Cars}",
+        "function": "Assignments_{p,c} <= PossibleAssignments_{p,c}"
+      },
+      {
+        "name": "One Car Per Participant",
+        "description": "Number of cars assigned to participant `p` is less than or equal to 1",
+        "domain": "{p <in> Participants}",
+        "function": "<sum>_{c <in> Cars} Assignments_{p,c} <= 1"
+      },
+      {
+        "name": "One Participant Per Car",
+        "description": "Number of participants assigned to car `c` is less than or equal to 1",
+        "domain": "{c <in> Cars}",
+        "function": "<sum>_{p <in> Participants} Assignments_{p,c} <= 1"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "CarSelection_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "25",
+      "Remark": "nan"
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "title": "Capacitated Lot Sizing Problem",
+  "category": [
+    "Manufacturing",
+    "Capacitated",
+    "Multi-level",
+    "Lot-sizing",
+    "Backlogging"
+  ],
+  "description": "We make the following assumptions in defining and formulating the Capacitated Multi-level Lot Sizing Problem (ML-CLSP). First, we assume that setup times and costs are non-sequence dependent, setup carryover between periods is not permitted, and all initial inventories are zero. Second, all production costs are assumed to be linear in production output and do not vary over time; hence, they can be dropped from the model for simplicity. Setup and holding costs are also assumed not to vary over time. Furthermore, end items are assumed to have no successors, and only end items have external demands and backlogging costs. Finally, we assume zero lead times and no lost sales. It is important to note that all these assumptions (except setup carryover) are made for ease of exposition only and without loss of generality, i.e., the theoretical results remain valid even when they are removed. See Ozturk and Ornek (2010) for the lot-sizing problem with setup carryover as well as with external demands for component items.",
+  "model": {
+    "set": [
+      {
+        "name": "Periods",
+        "description": "set of time periods in the planning horizon",
+        "range": "[1, P]"
+      },
+      {
+        "name": "Machines",
+        "description": "set of production resources or machines"
+      },
+      {
+        "name": "Items",
+        "description": "set of items (subassemblies and/or end items)"
+      },
+      {
+        "name": "EndItems",
+        "description": "set of end items"
+      },
+      {
+        "name": "Successors",
+        "description": "set of immediate successors of item `i`",
+        "domain": "{i <in> Items}"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "SetupCost",
+        "description": "setup cost for producing a lot of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "BackloggingCost",
+        "description": "backlogging cost for one unit of item `i` for one period",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "HoldingCost",
+        "description": "inventory holding cost for one unit of item `i` remaining at the end of a period",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "SetupTime",
+        "description": "setup time required for producing item `i` on machine `m`",
+        "domain": "{i <in> Items, m <in> Machines}"
+      },
+      {
+        "name": "ProductionTime",
+        "description": "production time required to produce one unit of item `i` on machine `m`",
+        "domain": "{i <in> Items, m <in> Machines}"
+      },
+      {
+        "name": "GrossDemand",
+        "description": "gross demand for item `i` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "UnitRequirement",
+        "description": "number of units of item `i` needed to produce one unit of item `j`, where item `j` is one of the successors of item `i`, but not necessarily an immediate successor",
+        "domain": "{i <in> Items, j <in> Items}"
+      },
+      {
+        "name": "Capacity",
+        "description": "available capacity of machine `m` in period `t`",
+        "domain": "{m <in> Machines, t <in> Periods}"
+      },
+      {
+        "name": "M",
+        "description": "a large number"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Quantity",
+        "description": "number of units of item `i` produced in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "integer"
+      },
+      {
+        "name": "Inventory",
+        "description": "inventory of item `i` at the end of period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "integer"
+      },
+      {
+        "name": "Backlogging",
+        "description": "backlogging level for item `i` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "integer"
+      },
+      {
+        "name": "Setup",
+        "description": "binary setup variables, equals to 1 if production is setup for item `i` in period `t` and 0 otherwise",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinCost",
+        "description": "total setup, backlogging, and holding costs over the planning horizon",
+        "sense": "min",
+        "function": "<sum>_{i <in> Items, t <in> Periods} (SetupCost_{i} * Setup_{i,t} + HoldingCost_{i} * Inventory_{i,t}) + <sum>_{i <in> EndItems, t <in> Periods} BackloggingCost_{i} * Backlogging_{i,t}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "InventoryBalance1",
+        "description": "inventory balance equations ensure demand satisfaction in all periods for end items",
+        "domain": "{i <in> EndItems, t <in> Periods}",
+        "function": "Quantity_{i,t} + Inventory_{i,t-1} + Backlogging_{i,t} - Backlogging_{i,t-1} = GrossDemand_{i,t} + Inventory_{i,t}"
+      },
+      {
+        "name": "InventoryBalance2",
+        "description": "inventory balance equations ensure demand satisfaction in all periods for non-end items",
+        "domain": "{i <in> Items - EndItems, t <in> Periods}",
+        "function": "Quantity_{i,t} + Inventory_{i,t-1} = GrossDemand_{i,t} + <sum>_{j <in> Successors_{i}} UnitRequirement_{i,j} * Quantity_{j,t} + Inventory_{i,t}"
+      },
+      {
+        "name": "CapacityConstraints",
+        "description": "enforce obeying capacity restrictions",
+        "domain": "{m <in> Machines, t <in> Periods}",
+        "function": "<sum>_{i <in> Items} ProductionTime_{i,m} * Quantity_{i,t} + <sum>_{i <in> Items} SetupTime_{i,m} * Setup_{i,t} <= Capacity_{m,t}"
+      },
+      {
+        "name": "SetupConstraints",
+        "description": "ensure that no production occurs for item `i` in period `t` unless the corresponding binary setup variable, `Setup_{i,t}` takes a value of 1",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "Quantity_{i,t} <= M * Setup_{i,t}"
+      },
+      {
+        "name": "InitialStatus",
+        "description": "initial value of inventory level",
+        "domain": "{i <in> Items}",
+        "function": "Inventory_{i,0} = 0"
+      },
+      {
+        "name": "EndStatus",
+        "description": "end period value of backlogging level",
+        "domain": "{i <in> Items}",
+        "function": "Backlogging_{i,P} = 0"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "CLSP_multi_level_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "SyntaxError: closing parenthesis '}' does not match opening parenthesis '('"
+    }
+  ]
+}

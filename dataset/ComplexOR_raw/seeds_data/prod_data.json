@@ -1,0 +1,39 @@
+{
+  "status": "feasible",
+    "set": [
+        {
+            "name": "P", 
+            "dim": 1, 
+            "data": ["bands", "coils"]
+        }
+    ],
+    "parameter": [
+        {
+            "name": "a", 
+            "dim": 1, 
+            "data": [200,140],
+            "domain": "P"
+        }, 
+        {
+            "name": "c", 
+            "dim": 1,
+            "data": [25,30],
+            "domain": "P"
+        }, 
+        {
+            "name": "u", 
+            "dim": 1,
+            "data": [6000, 4000],
+            "domain": "P"
+        },
+        {
+            "name": "b", 
+            "dim": 0,
+            "data": 40,
+            "domain": ""
+        }
+        
+    ]
+}
+
+

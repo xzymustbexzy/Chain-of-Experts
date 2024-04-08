@@ -1,0 +1,89 @@
+{
+  "title": "Project Assignment Problem",
+  "description": "Consider a project assignment problem. Given a set of people `People` and a set of projects `Projects`. Each person `i` has a certain number of available hours `Supply_{i}` and each project `j` requires a certain number of hours `Demand_{j}`. The cost per hour of work for person `i` on project `j` is `Cost_{i, j}`. Each person `i` can contribute to project `j` up to a maximum limit `Limit_{i, j}`. The problem aims to minimize the total cost of assigning people to projects. It is constrained that the total number of hours assigned from each person `i` equals its supply and the total number of hours assigned to each project `j` equals its demand. How to decide the number of hours to be assigned from each person `i` to each project `j`?",
+  "category": [
+    "Supply Chain Management",
+    "Assignment Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "People",
+        "description": "a set of people"
+      },
+      {
+        "name": "Projects",
+        "description": "a set of projects"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Supply",
+        "description": "hours each person `i` is available",
+        "domain": "{i <in> People}"
+      },
+      {
+        "name": "Demand",
+        "description": "hours each project `j` requires",
+        "domain": "{j <in> Projects}"
+      },
+      {
+        "name": "Cost",
+        "description": "cost per hour of work for person `i` on project `j`",
+        "domain": "{i <in> People, j <in> Projects}"
+      },
+      {
+        "name": "Limit",
+        "description": "maximum contributions to projects for person `i` on project `j`",
+        "domain": "{i <in> People, j <in> Projects}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Assign",
+        "description": "hours to be assigned from person `i` to project `j`",
+        "domain": "{i <in> People, j <in> Projects}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "the total cost of assigning people to projects",
+        "sense": "min",
+        "function": "<sum>_{i <in> People, j <in> Projects} Cost_{i,j} * Assign_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Supply",
+        "description": "the total number of hours assigned from person `i` equals its supply",
+        "domain": "{i <in> People}",
+        "function": "<sum>_{i <in> People, j <in> Projects} Assign_{i,j} = Supply_{i}"
+      },
+      {
+        "name": "Demand",
+        "description": "the total number of hours assigned to project `j` equals its demand",
+        "domain": "{j <in> Projects}",
+        "function": "<sum>_{i <in> People, j <in> Projects} Assign_{i,j} = Demand_{j}"
+      },
+      {
+        "name": "Capacity",
+        "description": "hours to be assigned from person `i` to project `j` can't exceed the capacity",
+        "domain": "{i <in> People, j <in> Projects}",
+        "function": "Assign_{i,j} <= Limit_{i,j}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "netasgn_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

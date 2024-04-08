@@ -1,0 +1,35 @@
+{
+  "set": [
+    {
+      "name": "Periods",
+      "dim": 1,
+      "data": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    }
+  ],
+  "parameter": [
+    {
+      "name": "Demand",
+      "dim": 1,
+      "data": [69, 29, 36, 61, 61, 26, 34, 67, 45, 67, 79, 56],
+      "domain": "Periods"
+    },
+    {
+      "name": "CostFixed",
+      "dim": 1,
+      "data": [15, 15, 15, 15, 20, 20, 20, 20, 20, 20, 15, 15],
+      "domain": "Periods"
+    },
+    {
+      "name": "CostUnitOrder",
+      "dim": 1,
+      "data": [3, 3, 3, 3, 2, 2, 2, 2, 3, 3, 3, 3],
+      "domain": "Periods"
+    },
+    {
+      "name": "CostUnitHold",
+      "dim": 1,
+      "data": [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2],
+      "domain": "Periods"
+    }
+  ]
+}

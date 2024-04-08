@@ -1,0 +1,79 @@
+{
+  "title": "Traveling Salesman Problem",
+  "description": "Given a list of cities and the distances between each pair of cities, we need to find the shortest possible route that visits each city exactly once and returns to the origin city.",
+  "category": [
+    "Logistics",
+    "Traveling Salesman Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Origins",
+        "description": "Origins"
+      },
+      {
+        "name": "Destinations",
+        "description": "Destinations"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Supply",
+        "description": "Amounts available at origins",
+        "domain": "{i <in> Origins}"
+      },
+      {
+        "name": "Demand",
+        "description": "Amounts required at destinations",
+        "domain": "{j <in> Destinations}"
+      },
+      {
+        "name": "Cost",
+        "description": "Shipment costs per unit",
+        "domain": "{i <in> Origins, j <in> Destinations}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Ship",
+        "description": "Units to be shipped",
+        "domain": "{i <in> Origins, j <in> Destinations}",
+        "type": "continuous",
+        "lower": 0
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "Total cost of shipment",
+        "sense": "min",
+        "function": "<sum>_{i <in> Origins, j <in> Destinations} Cost_{i,j} * Ship_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "SupplyConstraint",
+        "description": "Supply must meet the demand",
+        "domain": "{i <in> Origins}",
+        "function": "<sum>_{j <in> Destinations} Ship_{i,j} = Supply_{i}"
+      },
+      {
+        "name": "DemandConstraint",
+        "description": "Demand must be met by the supply",
+        "domain": "{j <in> Destinations}",
+        "function": "<sum>_{i <in> Origins} Ship_{i,j} = Demand_{j}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "TSP_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

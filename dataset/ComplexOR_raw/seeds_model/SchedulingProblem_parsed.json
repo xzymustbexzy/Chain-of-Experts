@@ -1,0 +1,113 @@
+{
+  "title": "Employee Assignment Problem",
+  "description": "The Employee Assignment Problem is a scheduling problem where the goal is to assign employees to shifts in different restaurants based on their skills and preferences, while satisfying the demand for skilled employees in each restaurant. The objective is to minimize the cost of the schedule, which includes the cost of unfulfilled positions and the cost of assigning employees to less preferred positions.",
+  "category": [
+    "Manufacturing",
+    "Staff Scheduling"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Restaurants",
+        "description": "Set of restaurants"
+      },
+      {
+        "name": "Employees",
+        "description": "Set of employees"
+      },
+      {
+        "name": "Shifts",
+        "description": "Set of shifts"
+      },
+      {
+        "name": "Skills",
+        "description": "Set of skills"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Demand",
+        "description": "The needed number of employees with skill `sk` in shift `sh` in restaurant `r`",
+        "domain": "{r <in> Restaurants, sh <in> Shifts, sk <in> Skills}"
+      },
+      {
+        "name": "EmployeeHasSkill",
+        "description": "Indicate if employee `e` has skill `sk`",
+        "domain": "{e <in> Employees, sk <in> Skills}"
+      },
+      {
+        "name": "EmployeeSkillPreference",
+        "description": "Job preferences of the employees (lower number means preferred position)",
+        "domain": "{e <in> Employees, sk <in> Skills}"
+      },
+      {
+        "name": "EmployeeDoesShift",
+        "description": "Availability of employee `e` for shift `sh`",
+        "domain": "{e <in> Employees, sh <in> Shifts}"
+      },
+      {
+        "name": "UnfulfilledWeightingFactor",
+        "description": "The cost factor of an unfulfilled position"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Assignment",
+        "description": "work schedule of employee `e`",
+        "domain": "{r <in> Restaurants, e <in> Employees, sh <in> Shifts, sk <in> Skills}",
+        "type": "binary"
+      },
+      {
+        "name": "Unfulfilled",
+        "description": "Unfulfilled positions",
+        "domain": "{r <in> Restaurants, sh <in> Shifts, sk <in> Skills}",
+        "type": "nonnegative"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "The sum of costs caused by unfulfilled positions and costs caused by assigning employees for less preferred positions",
+        "sense": "min",
+        "function": "<sum>_{r <in> Restaurants,sh <in> Shifts,sk <in> Skills} Unfulfilled_{r,sh,sk} * UnfulfilledWeightingFactor + <sum>_{r <in> Restaurants,e <in> Employees,sh <in> Shifts,sk <in> Skills} Assignment_{r,e,sh,sk} * EmployeeSkillPreference_{e,sk}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "SatisfyDemand",
+        "description": "The number of assigned employees has to be equal to the needed number of employees minus the unfulfilled positions",
+        "domain": "{r <in> Restaurants, sh <in> Shifts, sk <in> Skills}",
+        "function": "<sum>_{e <in> Employees} Assignment_{r,e,sh,sk} = Demand_{r,sh,sk} - Unfulfilled_{r,sh,sk}"
+      },
+      {
+        "name": "AssignmentSatisfiesShift",
+        "description": "If the employee is available for a shift, then he or she can be assigned, else not",
+        "domain": "{e <in> Employees, sh <in> Shifts}",
+        "function": "<sum>_{r <in> Restaurants,sk <in> Skills} Assignment_{r,e,sh,sk} <= EmployeeDoesShift_{e,sh}"
+      },
+      {
+        "name": "AssignmentSatisfiesSkills",
+        "description": "If the employee has the needed skill for a position, he or she can be assigned, else not",
+        "domain": "{r <in> Restaurants, e <in> Employees, sh <in> Shifts, sk <in> Skills}",
+        "function": "Assignment_{r <in> Restaurants, e <in> Employees, sh <in> Shifts, sk <in> Skills} <= EmployeeHasSkill_{e,sk}"
+      },
+      {
+        "name": "MaximumOfOneShift",
+        "description": "An employee cannot do more than one shift",
+        "domain": "{e <in> Employees}",
+        "function": "<sum>_{r <in> Restaurants, sh <in> Shifts, sk <in> Skills} Assignment_{r,e,sh,sk} <= 1"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "SchedulingProblem_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "nan",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "not enough values to unpack (expected 2, got 1)"
+    }
+  ]
+}

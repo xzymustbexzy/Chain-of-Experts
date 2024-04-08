@@ -1,0 +1,88 @@
+{
+  "title": "Cell Tower Problem",
+  "category": [
+    "Telecommunication",
+    "Facility Location Problem"
+  ],
+  "description": "A telecom company needs to build a set of cell towers to provide signal coverage for the inhabitants of a given city. A number of potential locations where the towers could be built have been identified. The towers have a fixed range, and due to budget constraints only a limited number of them can be built. Given these restrictions, the company wishes to provide coverage to the largest percentage of the population possible. To simplify the problem, the company has split the area it wishes to cover into a set of regions, each of which has a known population. The goal is then to choose which of the potential locations the company should build cell towers on in order to provide coverage to as many people as possible.",
+  "model": {
+    "set": [
+      {
+        "name": "Tower",
+        "description": "Set of potential sites to build a tower"
+      },
+      {
+        "name": "Region",
+        "description": "Set of regions"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Delta",
+        "description": "Binary parameter, 1 if potential site `i` covers the region `j`; 0, otherwise",
+        "domain": "{i <in> Tower, j <in> Region}"
+      },
+      {
+        "name": "Cost",
+        "description": "The cost of setting up a tower at site `i`",
+        "domain": "{i <in> Tower}"
+      },
+      {
+        "name": "Population",
+        "description": "The population at region `j`",
+        "domain": "{j <in> Region}"
+      },
+      {
+        "name": "Budget",
+        "description": "Total budget to build the towers"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Covered",
+        "description": "Binary variable, 1 if region`j` is covered; and 0 otherwise",
+        "domain": "{j <in> Region}",
+        "type": "binary"
+      },
+      {
+        "name": "Build",
+        "description": "Binary variable, 1 if tower at site `i` is built; and 0 otherwise",
+        "domain": "{i <in> Tower}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "totalPopulation",
+        "description": "maximize the total population covered by the towers",
+        "sense": "max",
+        "function": "<sum>_{j <in> Region} Population_{j} * Covered_{j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Coverage",
+        "description": "For each region `j` ensure that at least one tower that covers a region must be selected",
+        "domain": "{j <in> Region}",
+        "function": "<sum>_{i <in> Tower} Delta_{i,j} * Build_{i} >= Covered_{j}"
+      },
+      {
+        "name": "Budget",
+        "description": "the total cost of building towers do not exceed the allocated budget",
+        "domain": "{i <in> Tower}",
+        "function": "<sum>_{i <in> Tower} Cost_{i} * Build_{i} <= Budget"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "cell_tower_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "1800",
+      "Remark": "nan"
+    }
+  ]
+}

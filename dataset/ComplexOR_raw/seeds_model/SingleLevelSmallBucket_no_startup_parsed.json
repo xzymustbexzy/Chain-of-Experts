@@ -1,0 +1,126 @@
+{
+  "title": "Lot Sizing Problem with Single Level - Small Bucket No Startup",
+  "description": "Lot-sizing problems are production planning problems in which the periods are a priori, and production of an item in a given period implies some discrete event such as payment of a cost or the loss of a amount of production capacity, due to placement of an order, or the set-up, startup, or changeover of a machine.",
+  "category": [
+    ""
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Items",
+        "description": "Set of items"
+      },
+      {
+        "name": "Machines",
+        "description": "Set of machines"
+      },
+      {
+        "name": "Periods",
+        "description": "Set of periods",
+        "range": "[1, P]"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Demand",
+        "description": "Demand for item `i` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "SetUpCost",
+        "description": "Cost of setting up production"
+      },
+      {
+        "name": "StockCost",
+        "description": "Cost of stocking item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "BackloggingCost",
+        "description": "Cost of backlogging item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "Capacity",
+        "description": "Production capacity of machine `m`",
+        "domain": "{m <in> Machines}"
+      },
+      {
+        "name": "InitialStock",
+        "description": "Initial stock of item `i`",
+        "domain": "{i <in> Items}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "ItemStocked",
+        "description": "Item `i` stocked in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "ProductBacklogged",
+        "description": "End product `i` backlogged in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "NumberProduct",
+        "description": "Number of item `i` produced on machine `m` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods, m <in> Machines}",
+        "type": "continuous"
+      },
+      {
+        "name": "IsProduced",
+        "description": "Production variable: 1 if item `i` is produced on machine `m` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods, m <in> Machines}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastCost",
+        "description": "minimize total cost",
+        "sense": "min",
+        "function": "<sum>_{i <in> Items, t <in> Periods, m <in> Machines} SetUpCost * IsProduced_{i, t, m} + <sum>_{i <in> Items, t <in> Periods} (StockCost_{i} * ItemStocked_{i, t} + BackloggingCost_{i} * R_{i, t})"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "FlowConstraint0",
+        "description": "Flow constraint for the first period",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "InitialStock_{i} + <sum>_{m <in> Machines} NumberProduct_{i, 1, m} = Demand_{i, 1} + ItemStocked_{i, 1} - ProductBacklogged_{i, 1}"
+      },
+      {
+        "name": "FlowConstraint",
+        "description": "Flow constraint",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "ItemStocked_{i, t-1} - ProductBacklogged_{i, t-1} + <sum>_{m <in> Machines} NumberProduct_{i, t, m} = Demand_{i, t} + ItemStocked_{i, t} - ProductBacklogged_{i, t}"
+      },
+      {
+        "name": "CapacityConstraint",
+        "description": "Capacity constraint",
+        "domain": "{i <in> Items, t <in> Periods, m <in> Machines}",
+        "function": "NumberProduct_{i, t, m} <= Capacity_{m} * IsProduced_{i, t, m}"
+      },
+      {
+        "name": "MachineConstraint",
+        "description": "Machine constraint",
+        "domain": "{m <in> Machines, t <in> Periods}",
+        "function": "<sum>_{i <in> Items} IsProduced_{i, t, m} <= 1"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "SingleLevelSmallBucket_no_startup_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "title": "Transportation Problem",
+  "description": "The goal of this Transportation Problem is to select the quantities of an homogeneous good that has several canning plants and several markets as to minimize the transportation costs.",
+  "category": ["Transportation"],
+  "model": {
+    "set": [
+      {
+        "name": "I",
+        "description": "canning plants"
+      },
+      {
+        "name": "J",
+        "description": "markets"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "a",
+        "description": "capacity of plant `i` in cases",
+        "domain": "{i <in> I}"
+      },
+      {
+        "name": "b",
+        "description": "demand at market `j` in cases",
+        "domain": "{j <in> J}"
+      },
+      {
+        "name": "c",
+        "description": "transport cost in thousands of dollars per case",
+        "domain": "{i <in> I, j <in> J}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "x",
+        "description": "shipment quantities in cases",
+        "domain": "{i <in> I, j <in> J}"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinTotalCost",
+        "description": "Minimize the total cost of the shipments",
+        "sense": "min",
+        "function": "<sum>_{i <in> I, j <in> J} c_{i,j} * x_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "SupplyConstr",
+        "description": "Observe supply limit at plant `i`",
+        "domain": "{i <in> I}",
+        "function": "<sum>_{j<in> J} x_{i,j} <= a_{i}"
+      },
+      {
+        "name": "DemandConstr",
+        "description": "Satisfy demand at market",
+        "domain": "{j <in> J}",
+        "function": "<sum>_{i <in> I} x_{i,j} >= b_{j}"
+      }
+    ]
+  }
+}

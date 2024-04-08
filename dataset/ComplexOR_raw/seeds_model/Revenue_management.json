@@ -1,0 +1,69 @@
+{
+  "title": "Revenue Management Problem",
+  "description": "Given a) a set of limited resources, e.g., seats on airplane flights, hotel rooms, rental cars over several days, and b) different types of customers needing different combinations of our resources, and c) each customer type having an amount they are willing to pay for their needed combination, what volumes should we sell of each product bundle to each customer class? Application: We have a set of flight legs (one-way non-stop flight) with a limited passenger capacity. According to market research, we defined a set of flight itineraries sell as a package with a given price. For each package we have an estimated demand. How many unit of each package we should sell to maximize the revenue? We reserve the passenger seats according to the number of packages we want to sell.",
+  "category": ["Airline Industry", "Revenue Management Problem", "Resource Allocation"],
+  "model": {
+    "set": [
+      {
+        "name": "R",
+        "description": "Set of resources/flights leg"
+      },
+      {
+        "name": "P",
+        "description": "Set of packages"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "cap",
+        "description": "Number of available seats for flight `r`",
+        "domain": "{r <in> R}"
+      },
+      {
+        "name": "d",
+        "description": "Estimated demand of package `p`",
+        "domain": "{p <in> P}"
+      },
+      {
+        "name": "rev",
+        "description": "Revenue gained for selling a unit of package `p`",
+        "domain": "{p <in> P}"
+      },
+      {
+        "name": "delta",
+        "description": "Binary parameter, 1 if package `p` uses resource `r`",
+        "domain": "{p <in> P, r <in> R}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "x",
+        "description": "Integer variable that shows the number of package `p` to sell",
+        "domain": "{p <in> P}",
+        "type": "integer"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MaxRevenue",
+        "description": "maximize the revenue",
+        "sense": "max",
+        "function": "<sum>_{p <in> P} rev_{p} * x_{p}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "DemandConstraint",
+        "description": "Cannot sell more than demand",
+        "domain": "{p <in> P}",
+        "function": "x_{p} <= d_{p}"
+      },
+      {
+        "name": "Resource Constraint",
+        "description": "Cannot use more of a resource than available",
+        "domain": "{r <in> R}",
+        "function": "<sum>_{p <in> P} delta_{p,r} * x_{p} <= cap_{r}"
+      }
+    ]
+  }
+}

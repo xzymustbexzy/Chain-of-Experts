@@ -1,0 +1,75 @@
+{
+  "title": "Supply Chain Problem",
+  "description": "This problem aims to design a distribution network for a supply chain. We want to select the suppliers and warehouses locations, and decide on the amount of product transported between these locations to satisfy the customers demand. The problem elements are a) a set of nodes, ie, plants, warehouses/DCs, customers, and b) a set of links/arcs, listing pairs of nodes corresponding to allowed shipment options. Each node has a supply or demand amount and a fixed cost of including the node in the network. Each link or arc has cost/unit flow and capacity. We want to determine the facilities to use and the flow of each arc to minimize the flow cost and the fixed cost of nodes.",
+  "category": ["Supply Chain Problem", "Planning Problem"],
+  "model": {
+    "set": [
+      {
+        "name": "N",
+        "description": "Set of nodes"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "cap",
+        "description": "Capacity of the edge between `i` and `j`",
+        "domain": "{i <in> N, j <in> N}"
+      },
+      {
+        "name": "f",
+        "description": "Fix cost of using arc between `i` and `j`",
+        "domain": "{i <in> N, j <in> N}"
+      },
+      {
+        "name": "c",
+        "description": "Unit cost of transportation between `i` and `j`",
+        "domain": "{i <in> N, j <in> N}"
+      },
+      {
+        "name": "d",
+        "description": "Demand at location `i`, only customers have positive demand, 0 for others",
+        "domain": "{i <in> N}"
+      },
+      {
+        "name": "s",
+        "description": "Supply at location `j`, only plants have positive supply, 0 for others",
+        "domain": "{j <in> N}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "y",
+        "description": "Binary variable, 1 if we are between `i` and `j` is used",
+        "domain": "{i <in> N, j <in> N}",
+        "type": "binary"
+      },
+      {
+        "name": "x",
+        "description": "Continues variable, amount of product shipped from `i` to `j`",
+        "domain": "{i <in> N, j <in> N}"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinTotalCost",
+        "description": "minimize the total cost",
+        "sense": "min",
+        "function": "<sum>_{i <in> N, j <in> N} f_{i,j} * y_{i,j} + <sum>_{i <in> N, j <in> N} c_{i,j} * x_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "CapConstr",
+        "description": "Only use arc if it is selected and restrict the product flow on the arc to its capacity",
+        "domain": "{i <in> N, j <in> N}",
+        "function": "x_{i,j} <= cap_{i,j} * y_{i,j}"
+      },
+      {
+        "name": "FlowConservation",
+        "description": "Flow conservation, in flow - out flow = demand - supply",
+        "domain": "{i <in> N}",
+        "function": "<sum>_{j <in> N} x_{j,i} - <sum>_{j <in> N} x_{i,j} = d_{i} - s_{i}"
+      }
+    ]
+  }
+}

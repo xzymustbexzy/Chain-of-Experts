@@ -1,0 +1,68 @@
+{
+  "title": "Alloy Problem",
+  "description": "A company wishes to produce a lead-zinc-tin alloy at minimal cost by using other purchased alloys.",
+  "category": ["Alloy Problem", "Blending Problem"],
+  "model": {
+    "set": [
+      {
+        "name": "ALLOY",
+        "description": "Set of different types of available alloys"
+      },
+      {
+        "name": "ELEMENT",
+        "description": "Set of required elements (lead, zinc, tin)"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Ratio",
+        "description": "percentage of the element `j` in the alloy `i`",
+        "domain": "{i <in> ALLOY, j <in> ELEMENT}"
+      },
+      {
+        "name": "RequiredRatio",
+        "description": "required percentage of each element `j` in the alloy",
+        "domain": "{j <in> ELEMENT}"
+      },
+      {
+        "name": "UnitCost",
+        "description": "cost per pound of alloy `i`",
+        "domain": "{i <in> ALLOY}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "v",
+        "description": "amount (in pounds) of the alloy `i` to be used to produce the desired alloy",
+        "domain": "{i <in> ALLOY}"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastCost",
+        "description": "We want to produce the lead-zinc-tin alloy and minimize the cost",
+        "sense": "min",
+        "function": "<sum>_{i <in> ALLOY} UnitCost_{i} * v_{i}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "MaterialMatch",
+        "description": "We want to match the lead-zinc-tin alloy composition exactly",
+        "domain": "{j <in> ELEMENT}",
+        "function": "<sum>_{i <in> ALLOY} Ratio_{i,j} * v_{i} = RequiredRatio_{j}"
+      },
+      {
+        "name": "AmountAlloy",
+        "description": "We want the recipe for one pound of alloy",
+        "function": "<sum>_{i <in> ALLOY} v_{i} = 1"
+      },
+      {
+        "name": "PurchaseLimits",
+        "description": "Purchase limits for each type of alloy",
+        "domain": "{i <in> ALLOY}",
+        "function": "v_{i} <= 1"
+      }
+    ]
+  }
+}

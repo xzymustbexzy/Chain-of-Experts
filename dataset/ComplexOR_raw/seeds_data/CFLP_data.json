@@ -1,0 +1,78 @@
+{
+  "status": "feasible",
+  "set": [
+    {
+      "name": "Facilities",
+      "dim": 1,
+      "data": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "name": "Customers",
+      "dim": 1,
+      "data": [
+        1,
+        2
+      ]
+    }
+  ],
+  "param": [
+    {
+      "name": "FixedCost",
+      "dim": 1,
+      "data": [
+        100,
+        200,
+        150,
+        300
+      ],
+      "domain": "Facilities"
+    },
+    {
+      "name": "TransportCost",
+      "dim": 2,
+      "data": [
+        [
+          10,
+          20,
+          15,
+          25
+        ],
+        [
+          30,
+          40,
+          35,
+          45
+        ]
+      ],
+      "domain": [
+        "Customers",
+        "Facilities"
+      ]
+    },
+    {
+      "name": "Capacity",
+      "dim": 1,
+      "data": [
+        500,
+        400,
+        600,
+        300
+      ],
+      "domain": "Facilities"
+    },
+    {
+      "name": "Demand",
+      "dim": 1,
+      "data": [
+        200,
+        300
+      ],
+      "domain": "Customers"
+    }
+  ]
+}

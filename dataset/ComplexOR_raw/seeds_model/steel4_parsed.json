@@ -1,0 +1,94 @@
+{
+  "title": "Production Problem",
+  "description": "Consider a production problem. Given a set of products `Products` and a set of stages `Stages`. Each product `p` has a certain production rate `Rate_{p, s}` in each stage `s` and a certain profit `Profit_{p}` per ton. Each stage `s` has a certain number of hours `Available_{s}` available per week. There are also lower and upper limits on the tons of each product sold in a week, `Commit_{p}` and `Market_{p}` respectively. The problem aims to maximize the total profit from all products. It is constrained that the total number of hours used by all products in each stage `s` may not exceed the hours available. How to decide the number of tons to be produced for each product `p`?",
+  "category": [
+    "Manufacturing",
+    "Production Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Products",
+        "description": "a set of products"
+      },
+      {
+        "name": "Stages",
+        "description": "a set of stages"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Rate",
+        "description": "tons per hour in each stage `s` for product `p`",
+        "domain": "{p <in> Products, s <in> Stages}"
+      },
+      {
+        "name": "Available",
+        "description": "hours available per week in stage `s`",
+        "domain": "{s <in> Stages}"
+      },
+      {
+        "name": "Profit",
+        "description": "profit per ton for product `p`",
+        "domain": "{p <in> Products}"
+      },
+      {
+        "name": "Commit",
+        "description": "lower limit on tons sold in a week for product `p`",
+        "domain": "{p <in> Products}"
+      },
+      {
+        "name": "Market",
+        "description": "upper limit on tons sold in a week for product `p`",
+        "domain": "{p <in> Products}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Production",
+        "description": "tons to be produced for product `p`",
+        "domain": "{p <in> Products}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalProfit",
+        "description": "the total profit from all products",
+        "sense": "max",
+        "function": "<sum>_{p <in> Products} Profit_{p} * Production_{p}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Time",
+        "description": "In each stage `s`, the total number of hours used by all products may not exceed the hours available",
+        "domain": "{s <in> Stages}",
+        "function": "<sum>_{p <in> Products} (1/Rate_{p,s}) * Production_{p} <= Available_{s}"
+      },
+      {
+        "name": "CommitConstraint",
+        "description": "minimum production may not be smaller than the lower limit on tons of product `p` sold in a week",
+        "domain": "{p <in> Products}",
+        "function": "Commit_{p} <= Production_{p}"
+      },
+      {
+        "name": "MarketConstraint",
+        "description": "maximum production may not be larger than the upper limit on tons of product `p` sold in a week",
+        "domain": "{p <in> Products}",
+        "function": "Production_{p} <= Market_{p}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "steel4_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "Exception: The param rate has no param data."
+    }
+  ]
+}

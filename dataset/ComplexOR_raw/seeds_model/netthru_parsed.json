@@ -1,0 +1,95 @@
+{
+  "title": "Network Flow Problem",
+  "description": "Consider a network flow problem. Given a set of cities `Cities` and a set of links `Links` between the cities. Each city `i` has a certain supply of goods `Supply_{i}` and a certain demand for goods `Demand_{i}`. The cost of shipping one ton of goods over link `(i, j)` is `Cost_{i, j}`. Each city `i` has a maximum throughput `CityCapacity_{i}` and each link `(i, j)` has a maximum shipment `LinkCapacity_{i, j}`. The problem aims to minimize the total cost of shipping goods over the network. The shipment over each link `(i, j)` should not exceed its capacity and the flow through each city `i` should not exceed its capacity. How to decide the amount of goods to be shipped over each link `(i, j)` and through each city `i`?",
+  "category": [
+    "Transportation",
+    "network flow problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Cities",
+        "description": "a set of cities"
+      },
+      {
+        "name": "Links",
+        "description": "a set of links between the cities",
+        "domain": "{i <in> Cities, j <in> Cities}"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Supply",
+        "description": "amounts of goods available at city `i`",
+        "domain": "{i <in> Cities}"
+      },
+      {
+        "name": "Demand",
+        "description": "amounts of goods required at city `i`",
+        "domain": "{i <in> Cities}"
+      },
+      {
+        "name": "Cost",
+        "description": "shipment costs per ton over link `(i, j)`",
+        "domain": "{i <in> Links, j <in> Links}"
+      },
+      {
+        "name": "CityCapacity",
+        "description": "maximum throughput at city `i`",
+        "domain": "{i <in> Cities}"
+      },
+      {
+        "name": "LinkCapacity",
+        "description": "maximum shipment over link `(i, j)`",
+        "domain": "{i <in> Links, j <in> Links}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Shipping",
+        "description": "amount of goods to be shipped from city `i` to city `j`",
+        "domain": "{i <in> Links, j <in> Links}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "the total cost of shipping goods over the network",
+        "sense": "min",
+        "function": "<sum>_{i <in> Links, j <in> Links} Cost_{i, j} * Shipping_{i, j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "FlowBalance",
+        "description": "the balance flow constraints for city `k`",
+        "domain": "{k <in> Cities}",
+        "function": "Supply_{k} + <sum>_{i <in> Links, k <in> Links} Shipping_{i, k} = Demand_{k} + <sum>_{k <in> Links, j <in> Links} Shipping_{k, j}"
+      },
+      {
+        "name": "LinkCapacity",
+        "description": "the shipment over link `(i, j)` should not exceed its capacity",
+        "domain": "{i <in> Links, j <in> Links}",
+        "function": "Shipping_{i, j} <= LinkCapacity_{i, j}"
+      },
+      {
+        "name": "CityCapacity",
+        "description": "the flow through city `k` should not exceed its capacity",
+        "domain": "{k <in> Cities}",
+        "function": "Supply_{k} + <sum>_{i <in> Links, k <in> Links} Shipping_{i, k} <= CityCapacity_{k}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "netthru_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "AttributeError: 'AbstractModel' object has no attribute 'Ship'"
+    }
+  ]
+}

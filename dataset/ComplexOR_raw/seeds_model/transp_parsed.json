@@ -1,0 +1,78 @@
+{
+  "title": "Transportation Problem",
+  "description": "This is a transportation problem where there are multiple origins (Orig) and destinations (Dest). Each origin has a certain supply and each destination has a certain demand. The goal is to minimize the total cost of transportation. The cost of transporting from an origin to a destination is given. The problem is subject to the constraints that the total supply from each origin and the total demand at each destination must be met.",
+  "category": [
+    "Transportation"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Orig",
+        "description": "Origins"
+      },
+      {
+        "name": "Dest",
+        "description": "Destinations"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Supply",
+        "description": "Amounts available at origins",
+        "domain": "{i <in> Orig}"
+      },
+      {
+        "name": "Demand",
+        "description": "Amounts required at destinations",
+        "domain": "{j <in> Dest}"
+      },
+      {
+        "name": "Cost",
+        "description": "Shipment costs per unit",
+        "domain": "{i <in> Orig, j <in> Dest}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Transport",
+        "description": "Units to be shipped",
+        "domain": "{i <in> Orig, j <in> Dest}",
+        "type": "continuous",
+        "lower": 0
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "Total cost of shipment",
+        "sense": "min",
+        "function": "<sum>_{i <in> Orig, j <in> Dest} Cost_{i,j} * Transport_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "SupplyConstr",
+        "description": "Supply must meet the demand",
+        "domain": "{i <in> Orig}",
+        "function": "<sum>_{j <in> Dest} Transport_{i,j} = Supply_{i}"
+      },
+      {
+        "name": "DemandConstr",
+        "description": "Demand must be met by the supply",
+        "domain": "{j <in> Dest}",
+        "function": "<sum>_{i <in> Orig} Transport_{i,j} = Demand_{j}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "transp_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "ValueError: Lower 0 should be smaller than upper 0."
+    }
+  ]
+}

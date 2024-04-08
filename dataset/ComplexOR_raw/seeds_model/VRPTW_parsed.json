@@ -1,0 +1,135 @@
+{
+  "title": "Capacitated Vehicle Routing Problem with Time Windows",
+  "description": "The Vehicle Routing Problem with Time Windows (VRPTW) deals with the distribution of goods between depots and customers using vehicles. The vehicles have a limited capacity. Each customer has to be supplied within the time window associated with the customer.",
+  "category": [
+    "Logistics",
+    "Capacitated Vehicle Routing Problem with Time Windows"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Customers",
+        "description": "Set of customers",
+        "range": "[0, C]"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Demand",
+        "description": "Demand of customer `i`",
+        "domain": "{i <in> Customers}"
+      },
+      {
+        "name": "LowerTimeWindow",
+        "description": "Lower Bound of the Time Window of customer `i`",
+        "domain": "{i <in> Customers}"
+      },
+      {
+        "name": "UpperTimeWindow",
+        "description": "Upper Bound of the Time Window of customer `i`",
+        "domain": "{i <in> Customers}"
+      },
+      {
+        "name": "Distance",
+        "description": "Distance or cost between pair of customer `i` and customer `j`",
+        "domain": "{i <in> Customers, j <in> Customers}"
+      },
+      {
+        "name": "ServiceTime",
+        "description": "Service time at customer `i`",
+        "domain": "{i <in> Customers}"
+      },
+      {
+        "name": "VehicleCapacity",
+        "description": "Capacity of the vehicles"
+      },
+      {
+        "name": "M",
+        "description": "A large constant"
+      }
+    ],
+    "variable": [
+      {
+        "name": "ArcVisit",
+        "description": "Binary variable indicating that an arc from customer `i` to customer `j` is in the route",
+        "domain": "{i <in> Customers, j <in> Customers}",
+        "type": "binary"
+      },
+      {
+        "name": "DepartureTime",
+        "description": "Departure time at customer `i`",
+        "domain": "{i <in> Customers}",
+        "type": "continuous"
+      },
+      {
+        "name": "Load",
+        "description": "Load of the vehicle arriving at customer `i`",
+        "domain": "{i <in> Customers}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinTotalDistance",
+        "description": "Minimize the total distance or cost",
+        "sense": "min",
+        "function": "<sum>_{i <in> Customers, j <in> Customers} Distance_{i,j} * ArcVisit_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "CustomerSelection",
+        "description": "The vehicle visits customer `i` exactly once",
+        "domain": "i > 0, {i <in> Customers}",
+        "function": "<sum>_{j <in> Customers} ArcVisit_{i,j} = 1"
+      },
+      {
+        "name": "FlowBalance",
+        "description": "Flow balance constraint",
+        "domain": "i > 0, {i <in> Customers}",
+        "function": "<sum>_{j <in> Customers} ArcVisit_{i,j} - <sum>_{j <in> Customers} ArcVisit_{j,i} = 0"
+      },
+      {
+        "name": "ScheduleFeasibility",
+        "description": "Ensures feasibility of the schedule",
+        "domain": "i > 0 and j > 0 and i != j, {i <in> Customers, j <in> Customers}",
+        "function": "DepartureTime_{i} + Distance_{i,j} + ServiceTime_{i} - DepartureTime_{j} <= M * (1 - ArcVisit_{i,j})"
+      },
+      {
+        "name": "TimeWindowConstraint1",
+        "description": "Ensures that customer `i` has to be supplied within the time window",
+        "domain": "i > 0, {i <in> Customers}",
+        "function": "LowerTimeWindow_{i} <= DepartureTime_{i}"
+      },
+      {
+        "name": "TimeWindowConstraint2",
+        "description": "Ensures that customer `i` has to be supplied within the time window",
+        "domain": "i > 0, {i <in> Customers}",
+        "function": "DepartureTime_{i} <= UpperTimeWindow_{i}"
+      },
+      {
+        "name": "LoadsFeasibility1",
+        "description": "Ensures feasibility of the loads",
+        "domain": "i > 0 and i != j, {i <in> Customers, j <in> Customers}",
+        "function": "Load_{j} + Demand_{i} - Load_{i} <= M * (1 - ArcVisit_{i,j})"
+      },
+      {
+        "name": "LoadsFeasibility2",
+        "description": "Ensures feasibility of the loads",
+        "domain": "i > 0, {i <in> Customers}",
+        "function": "Load_{i} <= VehicleCapacity"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "VRPTW_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "status": "feasible",
+  "set": [
+    {
+      "name": "Items",
+      "dim": 1,
+      "data": [0, 1, 2, 3, 4, 5]
+    }
+  ],
+  "param": [
+    {
+      "name": "ItemValue",
+      "dim": 1,
+      "data": [10, 13, 18, 31, 7, 15],
+      "domain": "Items"
+    },
+    {
+      "name": "ItemWeight",
+      "dim": 1,
+      "data": [10, 13, 18, 31, 7, 15],
+      "domain": "Items"
+    },
+    {
+      "name": "MaxWeightKnapsack",
+      "dim": 0,
+      "data": 47,
+      "domain": ""
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "status": "feasible",
+  "set": [
+    {
+      "name": "Items",
+      "dim": 1,
+      "data": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "Periods",
+      "dim": 1,
+      "data": [
+        1,
+        2
+      ]
+    }
+  ],
+  "param": [
+    {
+      "name": "Demand",
+      "dim": 2,
+      "data": [
+        [
+          30,
+          40
+        ],
+        [
+          50,
+          60
+        ],
+        [
+          70,
+          80
+        ],
+        [
+          90,
+          100
+        ],
+        [
+          110,
+          120
+        ]
+      ],
+      "domain": [
+        "Items",
+        "Periods"
+      ]
+    },
+    {
+      "name": "TotalCapacity",
+      "dim": 1,
+      "data": [
+        200,
+        250
+      ],
+      "domain": "Periods"
+    },
+    {
+      "name": "Capacity",
+      "dim": 2,
+      "data": [
+        [
+          50,
+          60
+        ],
+        [
+          70,
+          80
+        ],
+        [
+          90,
+          100
+        ],
+        [
+          110,
+          120
+        ],
+        [
+          130,
+          140
+        ]
+      ],
+      "domain": [
+        "Items",
+        "Periods"
+      ]
+    },
+    {
+      "name": "CostH",
+      "dim": 1,
+      "data": [
+        5,
+        8,
+        6,
+        10,
+        9
+      ],
+      "domain": "Items"
+    },
+    {
+      "name": "CostB",
+      "dim": 1,
+      "data": [
+        10,
+        20,
+        15,
+        25,
+        30
+      ],
+      "domain": "Items"
+    },
+    {
+      "name": "CostF",
+      "dim": 1,
+      "data": [
+        100,
+        150,
+        120,
+        200,
+        180
+      ],
+      "domain": "Items"
+    },
+    {
+      "name": "InitialStock",
+      "dim": 1,
+      "data": [
+        50,
+        60,
+        70,
+        80,
+        90
+      ],
+      "domain": "Items"
+    }
+  ]
+}

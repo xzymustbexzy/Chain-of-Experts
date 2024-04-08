@@ -1,0 +1,85 @@
+{
+  "title": "The p-dispersion Model for Facility Dispersion Problem",
+  "description": "In some facility location problems, facilities need to be positioned so that the influence of one doesn’t overshadow or adversely affect the others. Suppose the distances (or some other dispersion metric) between two locations are computed in advance. The p-dispersion problem must define the location of p facilities among a set of discrete nodes to maximize the minimum distance between all pairs of selected nodes.",
+  "category": ["Facility Location Problem", "Facility Dispersion Problem"],
+  "model": {
+    "set": [
+      {
+        "name": "N",
+        "description": "Set of nodes"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "p",
+        "description": "the number of facilities to be selected"
+      },
+      {
+        "name": "d",
+        "description": " distance between node `i` and node `j`",
+        "domain": "{i <in> N, j <in> N}"
+      },
+      {
+        "name": "M",
+        "description": "a big number"
+      }
+    ],
+    "variable": [
+      {
+        "name": "x",
+        "description": "the value of 1 if a location `i` is selected and 0 otherwise",
+        "domain": "{i <in> N}",
+        "type": "binary"
+      },
+      {
+        "name": "D",
+        "description": "the minimum distance between all pairs of selected nodes"
+      },
+      {
+        "name": "z",
+        "description": "the binary variable that indicates both nodes `i` and `j` are selected",
+        "domain": "{i <in> N, j <in> N}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MaxMinimumDistance",
+        "description": "the minimum distance between all pairs of selected nodes",
+        "sense": "max",
+        "function": "D"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "p locations are selected",
+        "description": "p locations are selected",
+        "function": "<sum>_{i <in> N} x_{i} = p"
+      },
+      {
+        "name": "define the minimum distance between all pairs of selected nodes",
+        "description": "define the minimum distance between all pairs of selected nodes",
+        "domain": "{i <in> N, j <in> N}",
+        "function": "D <= d_{i,j} + M * (1 - z_{i,j})"
+      },
+      {
+        "name": "binary variables' relation",
+        "description": "binary variables' relation",
+        "domain": "{i <in> N, j <in> N}",
+        "function": "z_{i,j} <= x_{i}"
+      },
+      {
+        "name": "binary variables' relation",
+        "description": "binary variables' relation",
+        "domain": "{i <in> N, j <in> N}",
+        "function": "z_{i,j} <= x_{j}"
+      },
+      {
+        "name": "binary variables' relation",
+        "description": "binary variables' relation",
+        "domain": "{i <in> N, j <in> N}",
+        "function": "z_{i,j} >= x_{i} + x_{j} - 1"
+      }
+    ]
+  }
+}

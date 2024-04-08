@@ -1,0 +1,107 @@
+{
+  "title": "Job Shop Problem",
+  "description": "We have a set of tasks and a set of machines. Each task requires a sequence of operations on machines. We know the order of machines operation for each individual task. We also know the process time of each task on each machine. We want to find the sequence and start time of tasks on each machine to minimize the maximum processing time, i.e., minimize the latest completion time of all tasks.",
+  "category": [
+    "Manufacturing",
+    "Job Shop Scheduling",
+    "Scheduling"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Tasks",
+        "description": "Set of all tasks/jobs"
+      },
+      {
+        "name": "Machines",
+        "description": "Set of all machines"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "ProcessingTime",
+        "description": "Processing time of task `j` on machine `m`",
+        "domain": "{j <in> Tasks, m <in> Machines}"
+      },
+      {
+        "name": "Delta",
+        "description": "Binary parameter, 1 if task `i` should go directly from machine `m` to machine `n`",
+        "domain": "{i <in> Tasks, n <in> Machines, m <in> Machines}"
+      },
+      {
+        "name": "BigM",
+        "description": "A big number"
+      }
+    ],
+    "variable": [
+      {
+        "name": "StartTime",
+        "description": "start time of job `j` on machine `m`",
+        "domain": "{j <in> Tasks, m <in> Machines}",
+        "type": "continuous"
+      },
+      {
+        "name": "DoneBefore",
+        "description": "Binary variable, 1 if job `i` is done before job `j` on machine `m`",
+        "domain": "{i <in> Tasks, j <in> Tasks, m <in> Machines}",
+        "type": "binary"
+      },
+      {
+        "name": "FinishTimeOnMachine",
+        "description": "the finish time on machine `m`",
+        "domain": "{m <in> Machines}",
+        "type": "continuous"
+      },
+      {
+        "name": "MaxFinishTime",
+        "description": "the maximum finish time of all machines",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinMakespan",
+        "description": "minimize the completion time of all tasks",
+        "sense": "min",
+        "function": "MaxFinishTime"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "LatestFinishTime",
+        "description": "the latest finish time over machines",
+        "domain": "{m <in> Machines}",
+        "function": "FinishTimeOnMachine_{m} <= MaxFinishTime"
+      },
+      {
+        "name": "CompletionTime",
+        "description": "the completion time of the last task on each machine",
+        "domain": "{j <in> Tasks, m <in> Machines}",
+        "function": "StartTime_{j,m} + ProcessingTime_{j,m} <= FinishTimeOnMachine_{m}"
+      },
+      {
+        "name": "LogicalConstraint",
+        "description": "logical constraint on the start times for a task",
+        "domain": "{j <in> Tasks, m <in> Machines, n <in> Machines}",
+        "function": "StartTime_{j,m} + ProcessingTime_{j,m} <= - BigM * Delta_{j,n,m} + BigM + StartTime_{j,n}"
+      },
+      {
+        "name": "OverlapConstraint",
+        "description": "Avoid task overlap on each machine",
+        "domain": "{j <in> Tasks, i <in> Tasks, m <in> Machines}",
+        "function": "StartTime_{i,m} + ProcessingTime_{i,m} <= - BigM * DoneBefore_{i,j,m} + BigM + StartTime_{j,m}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "job_shop_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

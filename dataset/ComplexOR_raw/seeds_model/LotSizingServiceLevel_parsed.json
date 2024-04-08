@@ -1,0 +1,137 @@
+{
+  "title": "Lot-sizing With Service Level",
+  "description": "The lot-sizing with service level (LS-SL) problem is the problem of determining order lot sizes and inventory levels to meet customer demands with service-level backlogged demand while maintaining low costs. The demand can be delivered by the end of the planning horizon at a predetermined service level but unit penalty is incurred for the amount backlogged.",
+  "category": [
+    "Manufacturing",
+    "Capacitated Lot Sizing Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Periods",
+        "description": "Set of periods",
+        "range": "[1,P]"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Demand",
+        "description": "Demand in period `t`",
+        "domain": "{t <in> Periods}"
+      },
+      {
+        "name": "CostFixed",
+        "description": "Fixed ordering cost in period `t`",
+        "domain": "{t <in> Periods}"
+      },
+      {
+        "name": "CostUnitOrder",
+        "description": "Unit ordering cost in period `t`",
+        "domain": "{t <in> Periods}"
+      },
+      {
+        "name": "CostUnitHold",
+        "description": "Unit holding cost in period `t`",
+        "domain": "{t <in> Periods}"
+      },
+      {
+        "name": "Penalty",
+        "description": "Unit backlogging penalty in period `t`",
+        "domain": "{t <in> Periods}"
+      },
+      {
+        "name": "ServiceLevel",
+        "description": "Predetermined service level"
+      }
+    ],
+    "variable": [
+      {
+        "name": "OrderedAmount",
+        "description": "Ordered amount in period `t`",
+        "domain": "{t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "EndingInventory",
+        "description": "Ending inventory in period `t`",
+        "domain": "{t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "OrderIsPlaced",
+        "description": "Whether order is placed in period `t` or not, i.e. OrderIsPlaced_{t} = 1 if an order takes place in period `t` and OrderIsPlaced_{t} = 0 otherwise",
+        "domain": "{t <in> Periods}",
+        "type": "binary"
+      },
+      {
+        "name": "BackloggedAmount",
+        "description": "Backlogged amount in period `t`",
+        "domain": "{t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "BackorderIsPlaced",
+        "description": "Whether backorder is placed in period `t` or not, i.e. BackorderIsPlaced{t} = 1 if a backorder takes place in period t and BackorderIsPlaced{t} = 0 otherwise",
+        "domain": "{t <in> Periods}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "Minimize the total cost of all order lot size",
+        "sense": "min",
+        "function": "sum_{t <in> Periods} CostFixed_{t} * OrderIsPlaced_{t} + CostUnitOrder_{t} * OrderedAmount_{i} + CostUnitHold_{t} * EndingInventory_{t} + Penalty_{t} * BackloggedAmount_{t}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "FlowBalance",
+        "description": "Flow balance in period `t` is satisfied",
+        "domain": "{t <in> Periods}",
+        "function": "EndingInventory_{t-1} + OrderedAmount_{t} - BackloggedAmount_{t-1} - Demand_{t} + BackloggedAmount_{t} = EndingInventory_{t}"
+      },
+      {
+        "name": "OrderedUpperBound",
+        "description": "Upper bound of order amount in period `t`",
+        "domain": "{t <in> Periods}",
+        "function": "OrderedAmount_{t} <= OrderIsPlaced_{t} * sum_{i <in> Periods} Demand_{i}"
+      },
+      {
+        "name": "StockLossOfGenerality",
+        "description": "Without loss of generality, the starting and ending stocks are zero",
+        "domain": "t == 0 or t == P, {t <in> Periods}",
+        "function": "EndingInventory_{t} = 0"
+      },
+      {
+        "name": "BackloggingLossOfGenerality",
+        "description": "Without loss of generality for backlogging, the starting and ending backlogged amount are zero",
+        "domain": "t == 0 or t == P, {t <in> Periods}",
+        "function": "BackloggedAmount_{t} = 0"
+      },
+      {
+        "name": "BackloggingUpperBound",
+        "description": "Upper bound of backlogging amount in period `t`",
+        "domain": "{t <in> Periods}",
+        "function": " BackorderIsPlaced{t} * sum_{t <in> Periods} Demand_{t} >= BackloggedAmount_{t}"
+      },
+      {
+        "name": "MaxServesLevel",
+        "description": "Maximum number of backorders",
+        "domain": "{t <in> Periods}",
+        "function": "sum_{t <in> Periods} BackorderIsPlaced_{t} <= ServiceLevel"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "LotSizingServiceLevel_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "Exception: The param Demand has no param data."
+    }
+  ]
+}

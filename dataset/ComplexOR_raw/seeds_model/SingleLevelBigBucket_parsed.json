@@ -1,0 +1,129 @@
+{
+  "title": "Lot Sizing Problem with Single Level Big Bucket",
+  "description": "Lot-sizing problems are production planning problems in which the periods are a priori, and production of an item in a given period implies some discrete event such as payment of a cost or the loss of a amount of production capacity, due to placement of an order, or the set-up, startup, or changeover of a machine.",
+  "category": [
+    "Manufacturing",
+    "Lot Sizing Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Items",
+        "description": "Set of items"
+      },
+      {
+        "name": "Periods",
+        "description": "Set of periods",
+        "range": "[1,P]"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Demand",
+        "description": "Demand of item `i` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "TotalCapacity",
+        "description": "Total capacity in period `t`",
+        "domain": "{t <in> Periods}"
+      },
+      {
+        "name": "Capacity",
+        "description": "Capacity of producing item `i` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "HoldingCost",
+        "description": "Holding cost of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "BacklogCost",
+        "description": "Backlog cost of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "FixedCost",
+        "description": "Fixed cost of producing item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "InitialStock",
+        "description": "Initial stock of item `i`",
+        "domain": "{i <in> Items}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Production",
+        "description": "Number of item `i` produced in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "Stock",
+        "description": "Item `i` stocked in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "Backlog",
+        "description": "End product `i` backlogged in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "ProductionVariable",
+        "description": "Production variable: 1 if item `i` is produced in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastCost",
+        "description": "minimize total cost",
+        "sense": "min",
+        "function": "<sum>_{i <in> Items, t <in> Periods} HoldingCost_{i} * Stock_{i,t} + BacklogCost_{i} * Backlog_{i,t} + FixedCost_{i} * ProductionVariable_{i,t}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "FlowConstraint1",
+        "description": "Flow constraint 1",
+        "domain": "{i <in> Items}",
+        "function": "InitialStock_{i} + Production_{i, 1} = Demand_{i, 1} + Stock_{i, 1} - Backlog_{i, 1}"
+      },
+      {
+        "name": "FlowConstraint",
+        "description": "Flow constraint",
+        "domain": "t > 1, {i <in> Items, t <in> Periods}",
+        "function": "Stock_{i,t-1} - Backlog_{i,t-1} + Production_{i,t} = Demand_{i,t} + Stock_{i,t} - Backlog_{i,t}"
+      },
+      {
+        "name": "CapacityConstraint",
+        "description": "Capacity constraint",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "Production_{i,t} <= Capacity_{i,t} * ProductionVariable_{i,t}"
+      },
+      {
+        "name": "TotalCapacityConstraint",
+        "description": "Total capacity constraint",
+        "domain": "{t <in> Periods}",
+        "function": "<sum>_{i <in> Items} Production_{i,t} <= TotalCapacity_{t}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "SingleLevelBigBucket_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

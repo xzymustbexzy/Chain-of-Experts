@@ -1,0 +1,87 @@
+{
+  "title": "Diet Problem",
+  "description": "Consider a diet problem. Given a set of nutrients `Nutrients` and a set of foods `Foods`. Each food `j` has a cost `Cost_{j}` and a range of amount that can be bought `[MinAmount_{j}, MaxAmount_{j}]`. Each nutrient `i` has a range of amount that should be included in the diet `[MinNutrient_{i}, MaxNutrient_{i}]`. The amount of nutrient `i` in food `j` is `NutrientAmount_{i, j}`. The problem aims to minimize the total cost of buying foods. It is constrained that the total amount of each nutrient `i` in the bought foods should be within its range. How to decide the amount of each food `j` to buy?",
+  "category": [
+    "Health Care",
+    "Diet Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Nutrients",
+        "description": "a set of nutrients"
+      },
+      {
+        "name": "Foods",
+        "description": "a set of foods"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Cost",
+        "description": "cost of food `j`",
+        "domain": "{j <in> Foods}"
+      },
+      {
+        "name": "MinAmount",
+        "description": "minimum amount of food `j` that can be bought",
+        "domain": "{j <in> Foods}"
+      },
+      {
+        "name": "MaxAmount",
+        "description": "maximum amount of food `j` that can be bought",
+        "domain": "{j <in> Foods}"
+      },
+      {
+        "name": "MinNutrient",
+        "description": "minimum amount of nutrient `i` that should be included in the diet",
+        "domain": "{i <in> Nutrients}"
+      },
+      {
+        "name": "MaxNutrient",
+        "description": "maximum amount of nutrient `i` that should be included in the diet",
+        "domain": "{i <in> Nutrients}"
+      },
+      {
+        "name": "NutrientAmount",
+        "description": "amount of nutrient `i` in food `j`",
+        "domain": "{i <in> Nutrients, j <in> Foods}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Buy",
+        "description": "amount of food `j` to buy",
+        "domain": "{j <in> Foods}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "the total cost of buying foods",
+        "sense": "min",
+        "function": "<sum>_{j <in> Foods} Cost_{j} * Buy_{j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Diet",
+        "description": "the total amount of each nutrient `i` in the bought foods should be within its range",
+        "domain": "{i <in> Nutrients}",
+        "function": "MinNutrient_{i} <= <sum>_{j <in> Foods} NutrientAmount_{i,j} * Buy_{j} <= MaxNutrient_{i}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "diet_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "nan",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "too many values to unpack (expected 2)"
+    }
+  ]
+}

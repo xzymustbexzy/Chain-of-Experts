@@ -1,0 +1,174 @@
+{
+  "title": "Lot Sizing Problem with Single Level Small Bucket Two Items",
+  "description": "Lot-sizing problems are production planning problems in which the periods are a priori, and production of an item in a given period implies some discrete event such as payment of a cost or the loss of a amount of production capacity, due to placement of an order, or the set-up, startup, or changeover of a machine.",
+  "category": [
+    "Manufacturing",
+    "Lot Sizing Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Items",
+        "description": "Set of items"
+      },
+      {
+        "name": "Machines",
+        "description": "Set of machines"
+      },
+      {
+        "name": "Periods",
+        "description": "Set of periods"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "InitialStock",
+        "description": "Initial stock of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "MinStock",
+        "description": "Minimum stock of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "MaxStock",
+        "description": "Maximum stock of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "ProductionRate",
+        "description": "Production rate of item `i` on machine `m`",
+        "domain": "{i <in> Items, m <in> Machines}"
+      },
+      {
+        "name": "MachineStartUpTime",
+        "description": "Start-up time for machine `m`",
+        "domain": "{m <in> Machines}"
+      },
+      {
+        "name": "StartUpTime",
+        "description": "Start-up time for item `i` on machine `m`",
+        "domain": "{i <in> Items, m <in> Machines}"
+      },
+      {
+        "name": "Demand",
+        "description": "Demand for item `i` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "FractionProduced",
+        "description": "Fraction produced of item `i` on machine `m` in period `t`",
+        "domain": "{i <in> Items, m <in> Machines, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "IsProduced",
+        "description": "Production variable: 1 if item `i` is produced on machine `m` in period `t`",
+        "domain": "{i <in> Items, m <in> Machines, t <in> Periods}",
+        "type": "binary"
+      },
+      {
+        "name": "ItemStock",
+        "description": "Stock of item `i` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "IsStartup",
+        "description": "Startup variable: 1 if production of item `i` is started on machine `m` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods, m <in> Machines}",
+        "type": "binary"
+      },
+      {
+        "name": "ExcessStock",
+        "description": "Excess over upper bound on stock for item `i`",
+        "domain": "{i <in> Items}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastTime",
+        "description": "Minimize the total time loss",
+        "sense": "min",
+        "function": "<sum>_{i <in> Items, m <in> Machines, t <in> Periods} StartUpTime_{i,m} * IsStartup_{i, t, m} + <sum>_{i <in> Items} 10 * ExcessStock_{i}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "FlowConstraint",
+        "description": "Flow constraint",
+        "domain": "t > 1, {i <in> Items, t <in> Periods}",
+        "function": "ItemStock_{i, t-1} + <sum>_{m <in> Machines} ProductionRate_{i, m} * FractionProduced_{i, m, t} = Demand_{i, t} + ItemStock_{i, t}"
+      },
+      {
+        "name": "FlowConstraintBis",
+        "description": "Flow constraint",
+        "domain": "{i <in> Items}",
+        "function": "InitialStock_{i} + <sum>_{m <in> Machines} ProductionRate_{i, m} * FractionProduced_{i, m, 1} = Demand_{i, 1} + ItemStock_{i, 1}"
+      },
+      {
+        "name": "StartUpContraint",
+        "description": "Start-up constraint",
+        "domain": "{i <in> Items, m <in> Machines, t <in> Periods}",
+        "function": "FractionProduced_{i, m, t} + StartUpTime_{i, m} * IsStartup_{i, t, m} <= IsProduced_{i, m, t}"
+      },
+      {
+        "name": "StartUpConstraint1",
+        "description": "Start-up constraint",
+        "domain": "{i <in> Items, m <in> Machines, t <in> Periods}",
+        "function": "IsStartup_{i, t, m} >= IsProduced_{i, m, t} - IsProduced_{i, m, t-1}"
+      },
+      {
+        "name": "StartUpConstraint2",
+        "description": "Start-up constraint",
+        "domain": "{i <in> Items, t <in> Periods, m <in> Machines}",
+        "function": "IsStartup_{i, t, m} + IsStartup_{i, t-1, m} <= IsProduced_{i, m, t}"
+      },
+      {
+        "name": "StartUpConstraint3",
+        "description": "Start-up constraint",
+        "domain": "{m <in> Machines, t <in> Periods}",
+        "function": "<sum>_{i <in> Items} IsProduced_{i, m, t} - IsStartup_{i, t, m} <= 1"
+      },
+      {
+        "name": "UniqueStartUpConstraint",
+        "description": "Unique start-up constraint",
+        "domain": "{m <in> Machines, t <in> Periods}",
+        "function": "<sum>_{i <in> Items} IsStartup_{i, t, m} <= 1"
+      },
+      {
+        "name": "StartUpTimeConstraint",
+        "description": "Start-up time constraint",
+        "domain": "{m <in> Machines, t <in> Periods}",
+        "function": "<sum>_{i <in> Items} FractionProduced_{i, m, t} + <sum>_{i <in> Items} StartUpTime_{i, m} * IsStartup_{i, t, m} <= 1"
+      },
+      {
+        "name": "MaxStockConstraint",
+        "description": "Maximum stock constraint",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "ItemStock_{i, t} <= MaxStock_{i} + ExcessStock_{i}"
+      },
+      {
+        "name": "MinStockConstraint",
+        "description": "Minimum stock constraint",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "ItemStock_{i, t} >= MinStock_{i}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "SingleLevelSmallBucketTwoItems_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

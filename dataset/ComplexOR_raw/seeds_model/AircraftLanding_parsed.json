@@ -1,0 +1,131 @@
+{
+  "title": "Aircraft Landing Problem",
+  "description": "The Aircraft Landing Problem (ALP) is the problem of deciding a landing time on an appropriate runway for each aircraft in a given set of aircraft such that each aircraft lands within a predetermined time window; and separation criteria between the landing of an aircraft, and the landing of all successive aircraft, are respected. We are given the earliest landing time, latest landing time, target landing time, and penalties for landing before or after the target landing time for each aircraft. There is also a separation time that represents the minimum time required between the landing of two aircraft. The objective of the problem is to minimize the total penalties of landing before or after the target time for each aircraft. The problem includes several constraints. The order constraint ensures that the aircrafts land in a specific order. The separation constraint ensures that there is enough separation time between the landing of aircraft. The lower and upper time window constraints ensure that each aircraft lands within its respective earliest and latest time windows.",
+  "category": [
+    "Airline Industry",
+    "Scheduling"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Aircrafts",
+        "description": "Set of aircrafts"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "EarliestLanding",
+        "description": "Earliest landing time for aircraft `i`",
+        "domain": "{i <in> Aircrafts}"
+      },
+      {
+        "name": "LatestLanding",
+        "description": "Latest landing time for aircraft `i`",
+        "domain": "{i <in> Aircrafts}"
+      },
+      {
+        "name": "TargetLanding",
+        "description": "Target landing time for aircraft `i`",
+        "domain": "{i <in> Aircrafts}"
+      },
+      {
+        "name": "PenaltyAfterTarget",
+        "description": "Penalty after target landing time for aircraft `i`",
+        "domain": "{i <in> Aircrafts}"
+      },
+      {
+        "name": "PenaltyBeforeTarget",
+        "description": "Penalty before target landing time for aircraft `i`",
+        "domain": "{i <in> Aircrafts}"
+      },
+      {
+        "name": "SeparationTime",
+        "description": "Separation time between aircrafts `i` and `j`",
+        "domain": "{i <in> Aircrafts, j <in> Aircrafts}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Landing",
+        "description": "Landing time for aircraft `i`",
+        "domain": "{i <in> Aircrafts}",
+        "type": "continuous"
+      },
+      {
+        "name": "AircraftsOrder",
+        "description": "Landing order of aircrafts `i` and `j`",
+        "domain": "{i <in> Aircrafts, j <in> Aircrafts}",
+        "type": "binary"
+      },
+      {
+        "name": "Early",
+        "description": "Early landing time for aircraft `i`",
+        "domain": "{i <in> Aircrafts}",
+        "type": "continuous"
+      },
+      {
+        "name": "Late",
+        "description": "Late landing time for aircraft `i`",
+        "domain": "{i <in> Aircrafts}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastCost",
+        "description": "total cost of landing",
+        "sense": "min",
+        "function": "<sum>_{i <in> Aircrafts} PenaltyBeforeTarget_{i} * Early_{i} + PenaltyAfterTarget_{i} * Late_{i}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "OrderConstraint",
+        "description": "Order constraint for aircrafts landing",
+        "domain": "{i <in> Aircrafts, j <in> Aircrafts}",
+        "function": "AircraftsOrder_{i, j} + AircraftsOrder_{j, i} = 1"
+      },
+      {
+        "name": "SeparationConstraint",
+        "description": "Separation constraint between aircrafts landing",
+        "domain": "{i <in> Aircrafts, j <in> Aircrafts}",
+        "function": "Landing_{j} >= Landing_{i} + SeparationTime_{i, j} * AircraftsOrder_{i, j} - (LatestLanding_{i} - EarliestLanding_{j}) * AircraftsOrder_{j, i}"
+      },
+      {
+        "name": "LowerTimeWindowConstraint",
+        "description": "Constraint for landing within earliest time window",
+        "domain": "{i <in> Aircrafts}",
+        "function": "Landing_{i} >= EarliestLanding_{i}"
+      },
+      {
+        "name": "UpperTimeWindowConstraint",
+        "description": "Constraint for landing within latest time window",
+        "domain": "{i <in> Aircrafts}",
+        "function": "Landing_{i} <= LatestLanding_{i}"
+      },
+      {
+        "name": "EarlyContraint",
+        "description": "Early landing time of aircraft `i`",
+        "domain": "{i <in> Aircrafts}",
+        "function": "Early_{i} >= TargetLanding_{i} - Landing_{i}"
+      },
+      {
+        "name": "LateContraint",
+        "description": "Late landing time of aircraft `i`",
+        "domain": "{i <in> Aircrafts}",
+        "function": "Late_{i} >= Landing_{i} - TargetLanding_{i}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "AircraftLanding_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

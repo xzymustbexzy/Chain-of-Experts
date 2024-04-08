@@ -1,0 +1,144 @@
+{
+  "title": "Multi-level Capacitated Lot-Sizing Problem with Lead Time",
+  "category": [
+    "Manufacturing",
+    "production",
+    "lot-sizing",
+    "scheduling",
+    "synchronization",
+    "lead time",
+    "multi-level"
+  ],
+  "description": "We assume a production planning problem with a set of items (including finished goods, subassemblies, and raw materials), over time periods `Periods` and a set of machines and the underlying Bill of Materials (BOM). Each item has a manufacturing lead time and deterministic demand in each time period. The problem is to find production quantities in each time period that obey BOM requirements, demand requirements, limited capacity resources, and simultaneously minimizing the production and holding costs.",
+  "model": {
+    "set": [
+      {
+        "name": "Items",
+        "description": "Set of items"
+      },
+      {
+        "name": "Periods",
+        "description": "Set of periods"
+      },
+      {
+        "name": "Machines",
+        "description": "Set of machines"
+      },
+      {
+        "name": "Successors",
+        "description": "set of immediate successors of item `i` based on BOM",
+        "domain": "{i <in> Items}"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "RequiredQuantity",
+        "description": "quantity of item `i` required to produce one unit of item `j`",
+        "domain": "{i <in> Items, j <in> Items}"
+      },
+      {
+        "name": "ProductionTime",
+        "description": "time for producing one unit of item `i` on machine `m`",
+        "domain": "{m <in> Machines, i <in> Items}"
+      },
+      {
+        "name": "SetupCost",
+        "description": "setup cost of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "Demand",
+        "description": "demand of item `i` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}"
+      },
+      {
+        "name": "LargeNumber",
+        "description": "a large number"
+      },
+      {
+        "name": "InitialInventory",
+        "description": "initial inventory level of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "HoldingCost",
+        "description": "holding cost of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "MachineCapacity",
+        "description": "available capacity (time) of machine `m` in period `t`",
+        "domain": "{m <in> Machines, t <in> Periods}"
+      },
+      {
+        "name": "LeadTime",
+        "description": "lead time of item `i`",
+        "domain": "{i <in> Items}"
+      },
+      {
+        "name": "SetupTime",
+        "description": "time for setting up machine `m` for the production of item `i`",
+        "domain": "{m <in> Machines, i <in> Items}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Inventory",
+        "description": "inventory level of item `i` at the end of period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "ProductionAmount",
+        "description": "production amount of item `i` in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "Produced",
+        "description": "if item `i` is produced in period `t`",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "sum of the fixed setup cost and the underlying holding cost",
+        "sense": "min",
+        "function": "<sum>_{i <in> Items, t <in> Periods} SetupCost_{i} * Produced_{i,t} + HoldingCost_{i} * Inventory_{i,t}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "InventoryBalance",
+        "description": "the standard lot-sizing inventory balance capturing BOM and lead times",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "Inventory_{i,t} = Inventory_{i, t-1} + ProductionAmount_{i, t - LeadTime_{i}} - <sum>_{j <in> Successors_{i}} RequiredQuantity_{i,j} * ProductionAmount_{j,t} - Demand_{i,t}"
+      },
+      {
+        "name": "CapacityConstraint",
+        "description": "Limited machine capacity",
+        "domain": "{m <in> Machines, t <in> Periods}",
+        "function": "<sum>_{i <in> Items} (ProductionTime_{m,i} * ProductionAmount_{i,t} + SetupTime_{m,i} * Produced_{i,t}) <= MachineCapacity_{m,t}"
+      },
+      {
+        "name": "SetupDefinition",
+        "description": "the definition of setup variables",
+        "domain": "{i <in> Items, t <in> Periods}",
+        "function": "ProductionAmount_{i,t} <= LargeNumber * Produced_{i,t}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "CLSP_lead_time_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "nan",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "type ProductionAmount_{i,t-LeadTime_{i}} not supported."
+    }
+  ]
+}

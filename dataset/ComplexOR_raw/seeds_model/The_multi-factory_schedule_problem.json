@@ -1,0 +1,86 @@
+{
+  "title": "Multi-Factory Schedule Problem",
+  "description": "The Multi-Factory Schedule Problem assumes we are optimizing the production of a good from a set of factories over the course of a set of months. If a factory runs during a month, a fixed cost is incurred, the factory must produce an amount of units that is within some minimum and maximum production levels, respectively, and each unit of production incurs a variable cost. Otherwise, the factory can be shut for the month with zero production and no fixed-cost is incurred. The factory must produce enough units to satisfy demand of each month.",
+  "category": ["Manufacturing", "Production Planning Problem"],
+  "model": {
+    "set": [
+      {
+        "name": "F",
+        "description": "Set of factories"
+      },
+      {
+        "name": "M",
+        "description": "Set of months"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "a",
+        "description": "fixed cost of running a factory `f` during a month",
+        "domain": "{f <in> F}"
+      },
+      {
+        "name": "l",
+        "description": "minimum production level of factory `f`",
+        "domain": "{f <in> F}"
+      },
+      {
+        "name": "u",
+        "description": "maximum production level of factory `f`",
+        "domain": "{f <in> F}"
+      },
+      {
+        "name": "c",
+        "description": "unit of production cost of factory `f`",
+        "domain": "{f <in> F}"
+      },
+      {
+        "name": "d",
+        "description": "demand of month `m`",
+        "domain": "{m <in> M}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "z",
+        "description": " the run/not-run decision of factory `f` in month `m`",
+        "domain": "{m <in> M, f <in> F}",
+        "type": "binary"
+      },
+      {
+        "name": "x",
+        "description": "the units produced in factory `f` in month `m`",
+        "domain": "{m <in> M, f <in> F}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastTotalCost",
+        "description": "the total cost of the fixed cost and variable cost",
+        "sense": "min",
+        "function": "<sum>_{m <in> M, f <in> F} a_{f} * z_{m,f} + c_{f} * x_{m,f}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "minimum production levels",
+        "description": "units produced can not be smaller than the minimum production levels",
+        "domain": "{m <in> M, f <in> F}",
+        "function": "x_{m,f} <= u_{f} * z_{m,f}"
+      },
+      {
+        "name": "maximum production levels",
+        "description": "units produced can not be larger than the maximum production levels",
+        "domain": "{m <in> M, f <in> F}",
+        "function": "x_{m,f} >= l_{f} * z_{m,f}"
+      },
+      {
+        "name": "demand satisfaction",
+        "description": "total units produced should satisfy demand for each month",
+        "domain": "{m <in> M}",
+        "function": "<sum>_{f <in> F} x_{m,f} >= d_{m}"
+      }
+    ]
+  }
+}

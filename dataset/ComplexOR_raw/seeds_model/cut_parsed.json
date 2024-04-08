@@ -1,0 +1,76 @@
+{
+  "title": "Cutting Stock Problem",
+  "description": "This is a cutting stock problem. Given a roll of width `RollWidth` and a set of widths `Width` to be cut. Each width `i` has a certain number of Orders `Orders_{i}`. There are `NumPatterns` patterns and each pattern `j` has a certain number of rolls of each width `i` `NumRollsWidth_{i, j}`. The problem aims to minimize the total number of raw rolls cut. It is constrained that for each width `i`, the total number of rolls cut meets the total Orders. How to decide the number of rolls cut using each pattern `j`?",
+  "category": [
+    "Cutting Stock Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Width",
+        "description": "a set of widths to be cut"
+      },
+      {
+        "name": "Patterns",
+        "description": "a set of patterns"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "RollWidth",
+        "description": "width of raw rolls"
+      },
+      {
+        "name": "Orders",
+        "description": "number of each width to be cut",
+        "domain": "{i <in> Width}"
+      },
+      {
+        "name": "NumRollsWidth",
+        "description": "number of rolls of width `i` in pattern `j`",
+        "domain": "{i <in> Width, j <in> Patterns}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Cut",
+        "description": "rolls cut using each pattern `j`",
+        "domain": "{j <in> Patterns}",
+        "type": "integer"
+      }
+    ],
+    "objective": [
+      {
+        "name": "Number",
+        "description": "the total number of raw rolls cut",
+        "sense": "minimize",
+        "function": "<sum>_{j <in> Patterns} Cut_{j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Fill",
+        "description": "for each width `i`, the total number of rolls cut meets the total orders",
+        "domain": "{i <in> Width}",
+        "function": "<sum>_{j <in> Patterns} NumRollsWidth_{i,j} * Cut_{j} >= Orders_{i}"
+      },
+      {
+        "name": "Check",
+        "description": "the total width of rolls in each pattern `j` does not exceed the width of raw rolls",
+        "domain": "{j <in> Patterns}",
+        "function": "<sum>_{i <in> Width} i * NumRollsWidth_{i,j} <= RollWidth"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "cut_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "AttributeError: 'AbstractModel' object has no attribute 'i'"
+    }
+  ]
+}

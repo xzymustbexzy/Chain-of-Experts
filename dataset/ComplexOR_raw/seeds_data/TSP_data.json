@@ -1,0 +1,62 @@
+{
+  "set": [
+    {
+      "name": "origin",
+      "dim": 1,
+      "data": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "destination",
+      "dim": 1,
+      "data": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "param": [
+    {
+      "name": "supply",
+      "dim": 1,
+      "data": [
+        100,
+        200
+      ],
+      "domain": "origin"
+    },
+    {
+      "name": "demand",
+      "dim": 1,
+      "data": [
+        150,
+        100,
+        250
+      ],
+      "domain": "destination"
+    },
+    {
+      "name": "cost",
+      "dim": 2,
+      "data": [
+        [
+          10,
+          20,
+          30
+        ],
+        [
+          40,
+          50,
+          60
+        ]
+      ],
+      "domain": [
+        "origin",
+        "destination"
+      ]
+    }
+  ]
+}

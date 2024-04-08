@@ -1,0 +1,98 @@
+{
+  "set": [
+    {
+      "name": "GeneratorTypes",
+      "dim": 1,
+      "data": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "TimePeriods",
+      "dim": 1,
+      "data": [
+        1,
+        2
+      ]
+    }
+  ],
+  "param": [
+    {
+      "name": "Generators",
+      "dim": 1,
+      "data": [
+        2,
+        3,
+        1
+      ],
+      "domain": "GeneratorTypes"
+    },
+    {
+      "name": "Demand",
+      "dim": 1,
+      "data": [
+        200,
+        300
+      ],
+      "domain": "TimePeriods"
+    },
+    {
+      "name": "ONStart",
+      "dim": 0,
+      "data": 2,
+      "domain": ""
+    },
+    {
+      "name": "Minoutput",
+      "dim": 1,
+      "data": [
+        50,
+        100,
+        75
+      ],
+      "domain": "GeneratorTypes"
+    },
+    {
+      "name": "Maxoutput",
+      "dim": 1,
+      "data": [
+        100,
+        200,
+        150
+      ],
+      "domain": "GeneratorTypes"
+    },
+    {
+      "name": "BaseCost",
+      "dim": 1,
+      "data": [
+        10,
+        15,
+        20
+      ],
+      "domain": "GeneratorTypes"
+    },
+    {
+      "name": "PerMWCost",
+      "dim": 1,
+      "data": [
+        5,
+        8,
+        6
+      ],
+      "domain": "GeneratorTypes"
+    },
+    {
+      "name": "StartCost",
+      "dim": 1,
+      "data": [
+        50,
+        75,
+        100
+      ],
+      "domain": "GeneratorTypes"
+    }
+  ]
+}

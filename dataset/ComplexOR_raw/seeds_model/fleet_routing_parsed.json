@@ -1,0 +1,124 @@
+{
+  "title": "Fleet Routing Problem",
+  "description": "Given a number of flights, each with a number of passengers to carry, and a set of vehicle types, each with a capacity, how should planes be assigned to flights, and planes be routed to carry the passengers at minimum cost.",
+  "category": [
+    "Transportation",
+    "Airline Industry",
+    "Resource Allocation"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Locations",
+        "description": "Set of locations/cities"
+      },
+      {
+        "name": "Planes",
+        "description": "Set of vehicles/planes types"
+      },
+      {
+        "name": "Periods",
+        "description": "Set of all periods",
+        "range": "[1, T]"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Capacity",
+        "description": "Capacity of planes of type `v`",
+        "domain": "{v <in> Planes}"
+      },
+      {
+        "name": "Cost",
+        "description": "Cost of using planes of type `v`",
+        "domain": "{v <in> Planes}"
+      },
+      {
+        "name": "AvailablePlanes",
+        "description": "Available number of planes of type `v`",
+        "domain": "{v <in> Planes}"
+      },
+      {
+        "name": "Delta",
+        "description": "Binary parameter; 1, if there is flight depart from `i` in period `t` and arrive at `j` in period `h`; 0 otherwise",
+        "domain": "{i <in> Locations, t <in> Periods, j <in> Locations, h <in> Periods}"
+      },
+      {
+        "name": "NumberOfPassengers",
+        "description": "Number of passengers for flight `(i, t, j, h)`",
+        "domain": "{i <in> Locations, t <in> Periods, j <in> Locations, h <in> Periods}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "NumPlanes",
+        "description": "Number of planes of type `v` departing from location `i` in period `t` and arriving at location `j` in period `h`",
+        "domain": "{v <in> Planes, i <in> Locations, t <in> Periods, j <in> Locations, h <in> Periods}",
+        "type": "integer"
+      },
+      {
+        "name": "NumIdlePlanes",
+        "description": "Number of planes of type `v` idle on ground at `i` just after period/event `t`",
+        "domain": "{v <in> Planes, i <in> Locations, t <in> Periods}",
+        "type": "integer"
+      },
+      {
+        "name": "NumIdlePlanesInit",
+        "description": "Number of planes of type `v` idle on ground at `i` just before the 1st period/event",
+        "domain": "{v <in> Planes, i <in> Locations}",
+        "type": "integer"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "The total cost of using the planes",
+        "sense": "min",
+        "function": "<sum>_{v <in> Planes, i <in> Locations, t <in> Periods, j <in> Locations, h <in> Periods} Cost_{v} * NumPlanes_{v, i, t, j, h}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "FlowBalance1",
+        "description": "Flow balance for number of planes for each location and period",
+        "domain": "{v <in> Planes, i <in> Locations}",
+        "function": "NumIdlePlanesInit_{v, i} = NumIdlePlanes_{v, i, 1} + <sum>_{j <in> Locations, h <in> Periods} NumPlanes_{v, i, 1, j, h}"
+      },
+      {
+        "name": "FlowBalance2",
+        "description": "Flow balance for number of planes for each location and period",
+        "domain": "t > 1, {v <in> Planes, i <in> Locations, t <in> Periods}",
+        "function": "NumIdlePlanes_{v, i, t} = NumIdlePlanes_{v, i, t-1} + <sum>_{j <in> Locations, p <in> Periods} NumPlanes_{v, j, p, i, t} - <sum>_{j <in> Locations, h <in> Periods} NumPlanes_{v, i, t, j, h}"
+      },
+      {
+        "name": "PlanesAvailability",
+        "description": "Cannot use more planes than what we have in fleet",
+        "domain": "{v <in> Planes}",
+        "function": "<sum>_{i <in> Locations} NumIdlePlanesInit_{v, i} <= AvailablePlanes_{v}"
+      },
+      {
+        "name": "DemandSatisfaction",
+        "description": "Capacity on flight `(i, t, j, h)` must cover its demand",
+        "domain": "{i <in> Locations, t <in> Periods, j <in> Locations, h <in> Periods}",
+        "function": "<sum>_{v <in> Planes} Capacity_{v} * NumPlanes_{v, i, t, j, h} >= NumberOfPassengers_{i, t, j, h}"
+      },
+      {
+        "name": "RouteRestriction",
+        "description": "Restrict the NumPlanes variables on routes with no scheduled flights",
+        "domain": "{v <in> Planes, i <in> Locations, t <in> Periods, j <in> Locations, h <in> Periods}",
+        "function": "NumPlanes_{v, i, t, j, h} <= AvailablePlanes_{v} * Delta_{i, t, j, h}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "fleet_routing_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

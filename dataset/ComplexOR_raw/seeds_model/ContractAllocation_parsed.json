@@ -1,0 +1,105 @@
+{
+  "title": "Contract Allocation Problem",
+  "description": "The contract allocation problem is the problem of determining which of the producers will take care of which contract, at minimum cost, where every contract represents an amount of commodity that has to be supplied.",
+  "category": [
+    "Supply Chain Management"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Producers",
+        "description": "Set of all producers"
+      },
+      {
+        "name": "Contracts",
+        "description": "Set of all contracts"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "AvailableCapacity",
+        "description": "Available capacity for producer `p`",
+        "domain": "{p <in> Producers}"
+      },
+      {
+        "name": "ProductionCost",
+        "description": "Unit cost for delivery by producer `p` for contract `c`",
+        "domain": "{p <in> Producers, c <in> Contracts}"
+      },
+      {
+        "name": "MinimalDelivery",
+        "description": "Minimal delivery size for producer `p`",
+        "domain": "{p <in> Producers}"
+      },
+      {
+        "name": "ContractSize",
+        "description": "Size of contract `c`",
+        "domain": "{c <in> Contracts}"
+      },
+      {
+        "name": "MinimalNumberofContributors",
+        "description": "Minimal number of producers that delivery to contract `c`",
+        "domain": "{c <in> Contracts}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Generation",
+        "description": "Amount of commodity delivered by producers `p` for contract `c`",
+        "domain": "{p <in> Producers, c <in> Contracts}",
+        "type": "continuous"
+      },
+      {
+        "name": "GenerationIncidence",
+        "description": "Producers `p` produce for contract `c`",
+        "domain": "{p <in> Producers, c <in> Contracts}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "Minimize the total cost of all deliveries",
+        "sense": "min",
+        "function": "<sum>_{p <in> Producers, c <in> Contracts} ProductionCost_{p,c} * Generation_{p,c}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Capacity",
+        "description": "Production capacity for producer `p`",
+        "domain": "{p <in> Producers}",
+        "function": "<sum>_{c <in> Contracts} Generation_{p,c} <= AvailableCapacity_{p}"
+      },
+      {
+        "name": "ContractFullfillment",
+        "description": "The demand for contract `c` is met",
+        "domain": "{c <in> Contracts}",
+        "function": "<sum>_{p <in> Producers} Generation_{p,c} >= ContractSize_{c}"
+      },
+      {
+        "name": "ContractContribution",
+        "description": "Minimal number of contributors to contract `c`",
+        "domain": "{c <in> Contracts}",
+        "function": "<sum>_{p <in> Producers} GenerationIncidence_{p,c} >= MinimalNumberofContributors_{c}"
+      },
+      {
+        "name": "GenerationIncidenceDetermination",
+        "description": "Determine if producer `p` delivers to contract `c`",
+        "domain": "{p <in> Producers, c <in> Contracts}",
+        "function": "Generation_{p,c} >= MinimalDelivery_{p} * GenerationIncidence_{p,c}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "ContractAllocation_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "Exception: The param AvailableCapacity has no param data."
+    }
+  ]
+}

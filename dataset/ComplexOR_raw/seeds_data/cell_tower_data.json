@@ -1,0 +1,44 @@
+{
+    "set": [
+      {
+        "name": "T",
+        "dim": 1,
+        "data": [1, 2, 3]
+      },
+      {
+        "name": "J",
+        "dim": 1,
+        "data": [1, 2, 3]
+      }
+    ],
+    "param": [
+      {
+        "name": "delta",
+        "dim": 2,
+        "data":[
+      [1, 0, 1],
+      [0, 1, 1],
+      [1, 1, 0]
+    ],
+        "domain": ["T", "J"]
+      },
+      {
+        "name": "c",
+        "dim": 1,
+        "data":[100, 200, 150],
+        "domain": "T"
+      },
+      {
+        "name": "p",
+        "dim": 1,
+        "data":[500, 700, 600],
+        "domain": "J"
+      },
+      {
+        "name": "budget",
+        "dim": 0,
+        "data": 1000,
+        "domain": ""
+      }
+    ]
+}

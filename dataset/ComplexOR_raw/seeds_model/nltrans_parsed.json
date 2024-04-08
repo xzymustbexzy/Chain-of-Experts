@@ -1,0 +1,88 @@
+{
+  "title": "Transportation Problem",
+  "description": "Consider a transportation problem. Given a set of origins `Origins` and a set of destinations `Destinations`. Each origin `i` has a certain supply of goods `Supply_{i}` and each destination `j` has a certain demand for goods `Demand_{j}`. The cost of shipping one unit of goods from origin `i` to destination `j` is `Rate_{i, j}`. However, the number of units shipped can't exceed the limit `Limit_{i, j}`. The problem aims to minimize the total cost of shipping goods from the origins to the destinations. How to decide the number of units to be shipped from each origin `i` to each destination `j`?",
+  "category": [
+    "Transportation"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Origins",
+        "description": "a set of origins"
+      },
+      {
+        "name": "Destinations",
+        "description": "a set of destinations"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Supply",
+        "description": "amounts of goods available at origin `i`",
+        "domain": "{i <in> Origins}"
+      },
+      {
+        "name": "Demand",
+        "description": "amounts of goods required at destination `j`",
+        "domain": "{j <in> Destinations}"
+      },
+      {
+        "name": "Rate",
+        "description": "shipment costs per unit from origin `i` to destination `j`",
+        "domain": "{i <in> Origins, j <in> Destinations}"
+      },
+      {
+        "name": "Limit",
+        "description": "limit on units shipped from origin `i` to destination `j`",
+        "domain": "{i <in> Origins, j <in> Destinations}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "Shipping",
+        "description": "units to be shipped from origin `i` to destination `j`",
+        "domain": "{i <in> Origins, j <in> Destinations}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "TotalCost",
+        "description": "the total cost of shipping goods from the origins to the destinations",
+        "sense": "min",
+        "function": "<sum>_{i <in> Origins, j <in> Destinations} Rate_{i,j} * Shipping_{i,j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "SupplyConstraint",
+        "description": "the total amount of goods shipped from origin `i` equals its supply",
+        "domain": "{i <in> Origins}",
+        "function": "<sum>_{j <in> Destinations} Shipping_{i,j} = Supply_{i}"
+      },
+      {
+        "name": "DemandConstraint",
+        "description": "the total amount of goods shipped to destination `j` equals its demand",
+        "domain": "{j <in> Destinations}",
+        "function": "<sum>_{i <in> Origins} Shipping_{i,j} = Demand_{j}"
+      },
+      {
+        "name": "LimitConstraint",
+        "description": "the number of units shipped can't exceed the limit",
+        "domain": "{i <in> Origins, j <in> Destinations}",
+        "function": "Shipping_{i,j} <= Limit_{i,j}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "nltrans_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "infeasible",
+      "Remark": "nan"
+    }
+  ]
+}

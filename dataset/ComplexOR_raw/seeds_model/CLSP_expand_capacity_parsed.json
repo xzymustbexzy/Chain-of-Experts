@@ -1,0 +1,121 @@
+{
+  "title": "Capacitated lot-sizing problem",
+  "category": [
+    "manufacturing",
+    "production",
+    "lot-sizing",
+    "scheduling",
+    "synchronization",
+    "extendable capacity"
+  ],
+  "description": "We assume a production planning problem with a set of items (including finished goods, subassemblies, and raw materials), over time periods `T`. In order to ensure feasibility, the CLSP is extended by soft-capacity constraints.",
+  "model": {
+    "set": [
+      {
+        "name": "Products",
+        "description": "Set of products"
+      },
+      {
+        "name": "Periods",
+        "description": "Set of periods"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "ProductionCapacity",
+        "description": "production capacity in period `t`",
+        "domain": "{t <in> Periods}"
+      },
+      {
+        "name": "ExpectedDemand",
+        "description": "expected demand of product `j` in period `t`",
+        "domain": "{j <in> Products, t <in> Periods}"
+      },
+      {
+        "name": "HoldingCosts",
+        "description": "inventory holding costs per period for product `j`",
+        "domain": "{j <in> Products}"
+      },
+      {
+        "name": "ProductionCoefficient",
+        "description": "production coefficient of product `j`",
+        "domain": "{j <in> Products}"
+      },
+      {
+        "name": "AdditionalUnitCost",
+        "description": "costs for an additional capacity unit in period `t`",
+        "domain": "{t <in> Periods}"
+      },
+      {
+        "name": "SetupCost",
+        "description": "setup costs of product `j`",
+        "domain": "{t <in> Periods}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "AdditionalCapacityUnits",
+        "description": "additional capacity units in period `t`",
+        "domain": "{t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "InventoryLevel",
+        "description": "inventory level of product `j` at the end of period `t`",
+        "domain": "{j <in> Products, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "ProductionAmount",
+        "description": "production amount of product `j` in period `t`",
+        "domain": "{j <in> Products, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "Allocation",
+        "description": "binary variable equal to 1 if a setup for product `j` takes place in period `t`, otherwise 0",
+        "domain": "{j <in> Products, t <in> Periods}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastTotalCost",
+        "description": "The setup and inventory holding costs as well as costs for additional capacity units under the assumption of deterministic demands",
+        "sense": "min",
+        "function": "<sum>_{j <in> Products, t <in> Periods} (HoldingCosts_{j} * InventoryLevel_{j,t} + SetupCost_{j} * Allocation_{j,t}) + <sum>_{t <in> Periods} AdditionalUnitCost_{t} * AdditionalCapacityUnits_{t}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "InventoryBalance",
+        "description": "balance the inventory levels and lot sizes while ensuring demand fulfilment for every product `j` and period `t`",
+        "domain": "{j <in> Products, t <in> Periods}",
+        "function": "InventoryLevel_{j,t-1} + ProductionAmount_{j,t} - InventoryLevel_{j,t} = ExpectedDemand_{j,t}"
+      },
+      {
+        "name": "CapacityConstraint",
+        "description": "Restrict the cumulated production times in each period to the available capacities and the additional capacity units",
+        "domain": "{t <in> Periods}",
+        "function": "<sum>_{j <in> Products} ProductionCoefficient_{j} * ProductionAmount_{j,t} <= ProductionCapacity_{t} + AdditionalCapacityUnits_{t}"
+      },
+      {
+        "name": "SetupMachine",
+        "description": "Ensure that the machine is set up if a production run is scheduled for product `j` in period `t`",
+        "domain": "{j <in> Products, t <in> Periods}",
+        "function": "ProductionAmount_{j,t} - SetupCost * Allocation_{j, t} <= 0"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "CLSP_expand_capacity_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "AttributeError: 'AbstractModel' object has no attribute 'M'"
+    }
+  ]
+}

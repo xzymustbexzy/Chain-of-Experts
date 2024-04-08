@@ -1,0 +1,167 @@
+{
+  "title": "Capacitated Lot Sizing Problem with Overtime",
+  "category": [
+    "Manufacturing",
+    "Capacitated",
+    "Multi-level",
+    "Lot-sizing",
+    "Overtime"
+  ],
+  "description": "We consider a general multi-level product structure with several end products. The external demand `Demand_{k,t}` for product `k` in period `t` is given and must be satisfied without backorders. For each product `k`, an initial inventory `InitialInventory_{k}` is given. Each product is produced on a single resource `j` with limited capacity `Capacity_{j,t}` per period, that can be extended by using overtime `Overtime_{j,t}`.",
+  "model": {
+    "set": [
+      {
+        "name": "Periods",
+        "description": "set of time periods",
+        "range": "[1, P]"
+      },
+      {
+        "name": "Resources",
+        "description": "set of resources"
+      },
+      {
+        "name": "Products",
+        "description": "set of products"
+      },
+      {
+        "name": "ProductsPerResource",
+        "description": "Set of products produced by resource `j`",
+        "domain": "{j <in> Resources}"
+      },
+      {
+        "name": "Successors",
+        "description": "Set of immediate successors of product `k`",
+        "domain": "{k <in> Products}"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "RequiredUnits",
+        "description": "Number of units of product `k` required to produce one unit of product `i`",
+        "domain": "{k <in> Products, i <in> Products}"
+      },
+      {
+        "name": "Capacity",
+        "description": "Available capacity of resource `j` in period `t`",
+        "domain": "{j <in> Resources, t <in> Periods}"
+      },
+      {
+        "name": "BigNumber",
+        "description": "a big number"
+      },
+      {
+        "name": "OvertimeCost",
+        "description": "Overtime cost per unit of overtime at resource `j`",
+        "domain": "{j <in> Resources}"
+      },
+      {
+        "name": "HoldingCost",
+        "description": "Holding cost of product `k` per unit and period",
+        "domain": "{k <in> Products}"
+      },
+      {
+        "name": "SetupCost",
+        "description": "Setup cost of product `k`",
+        "domain": "{k <in> Products}"
+      },
+      {
+        "name": "ProductionTimePerUnit",
+        "description": "Production time per unit of product `k`",
+        "domain": "{k <in> Products}"
+      },
+      {
+        "name": "SetupTime",
+        "description": "Setup time of product `k`",
+        "domain": "{k <in> Products}"
+      },
+      {
+        "name": "InitialInventory",
+        "description": "Physical initial inventory for product `k`",
+        "domain": "{k <in> Products}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "ProductionQuantity",
+        "description": "Production quantity (lot size) of product `k` in period `t`",
+        "domain": "{k <in> Products, t <in> Periods}",
+        "type": "integer"
+      },
+      {
+        "name": "Inventory",
+        "description": "Inventory of item `k` at the end of period `t`",
+        "domain": "{k <in> Products, t <in> Periods}",
+        "type": "integer"
+      },
+      {
+        "name": "Overtime",
+        "description": "Overtime at resource `j` in period `t`",
+        "domain": "{j <in> Resources, t <in> Periods}",
+        "type": "continuous"
+      },
+      {
+        "name": "SetupState",
+        "description": "Binary setup state variable of product `k` in period `t`",
+        "domain": "{k <in> Products, t <in> Periods}",
+        "type": "binary"
+      }
+    ],
+    "objective": [
+      {
+        "name": "LeastCost",
+        "description": "The sum of the setup, holding, and overtime costs.",
+        "sense": "min",
+        "function": "<sum>_{k <in> Products, t <in> Periods} (SetupCost_{k} * SetupState_{k,t} + HoldingCost_{k} * Inventory_{k,t}) + <sum>_{j <in> Resources, t <in> Periods} OvertimeCost_{j} * Overtime_{j,t}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "InventoryBalance1",
+        "description": "The inventory balance equations for period 2 to T-1",
+        "domain": "t > 1, {k <in> Products, t <in> Periods}",
+        "function": "Inventory_{k,t-1} + ProductionQuantity_{k,t} - <sum>_{i <in> Successors_{k}} RequiredUnits_{k,i} * ProductionQuantity_{i,t} - Inventory_{k,t} = Demand_{k,t}"
+      },
+      {
+        "name": "InventoryBalance2",
+        "description": "The inventory balance equations for period 1",
+        "domain": "{k <in> Products}",
+        "function": "InitialInventory_{k} - <sum>_{i <in> Successors_{k}} RequiredUnits_{k,i} * ProductionQuantity_{i,1} - Inventory_{k,1} = 0"
+      },
+      {
+        "name": "CapacityConstraints",
+        "description": "The production quantities and setup times meet the capacity constraints for all resources",
+        "domain": "{j <in> Resources, t <in> Periods}",
+        "function": "<sum>_{k <in> ProductsPerResource_{j}} (ProductionTimePerUnit_{k} * ProductionQuantity_{k,t} + SetupTime_{k} * SetupState_{k,t}) <= Capacity_{j,t} + Overtime_{j,t}"
+      },
+      {
+        "name": "SetupConstraints",
+        "description": "A product can only be produced in a period if its associated resource is in the correct setup state",
+        "domain": "{k <in> Products, t <in> Periods}",
+        "function": "ProductionQuantity_{k,t} <= BigNumber * SetupState_{k,t}"
+      },
+      {
+        "name": "InitialInventoryStatus",
+        "description": "Initial value of inventory level",
+        "domain": "{i <in> I}",
+        "function": "SetupCost_{i,0} = 0"
+      },
+      {
+        "name": "EndInventoryStatus",
+        "description": "End period value of backlogging level",
+        "domain": "{i <in> I}",
+        "function": "Capacity_{i,P} = 0"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "CLSP_overtime_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "nan",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": "type ProductionQuantity_{k,t}+SetupTime_{k} not supported."
+    }
+  ]
+}

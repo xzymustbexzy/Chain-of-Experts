@@ -1,0 +1,77 @@
+{
+  "title": "profit maximization problem",
+  "description": "Consider a problem where we have a set `P`. For each element `j` in `P`, we have a parameter `a[j]`, a parameter `c[j]`, and a parameter `u[j]`. We also have a global parameter `b`. We have a variable `X[j]` for each `j` in `P`. The goal is to maximize the total profit, which is the sum of `c[j] * X[j]` for all `j` in `P`. The constraints are that the sum of `(1/a[j]) * X[j]` for all `j` in `P` should be less than or equal to `b`, and `X[j]` should be between 0 and `u[j]` for all `j` in `P`.",
+  "category": [
+    "Profit Maximization Problem"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "P",
+        "description": "a set"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "a",
+        "description": "a parameter for each element in set `P`",
+        "domain": "{j <in> P}"
+      },
+      {
+        "name": "b",
+        "description": "a global parameter"
+      },
+      {
+        "name": "c",
+        "description": "a parameter for each element in set `P`",
+        "domain": "{j <in> P}"
+      },
+      {
+        "name": "u",
+        "description": "a parameter for each element in set `P`",
+        "domain": "{j <in> P}"
+      }
+    ],
+    "variable": [
+      {
+        "name": "X",
+        "description": "a variable for each element in set `P`",
+        "domain": "{j <in> P}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "Total_Profit",
+        "description": "the total profit",
+        "sense": "maximize",
+        "function": "<sum>_{j <in> P} c_{j} * X_{j}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "Time",
+        "description": "the sum of `(1/a[j]) * X[j]` for all `j` in `P` should be less than or equal to `b`",
+        "domain": "",
+        "function": "<sum>_{j <in> P} (1/a_{j}) * X_{j} <= b"
+      },
+      {
+        "name": "Limit",
+        "description": "X[j] should be between 0 and `u[j]` for all `j` in `P`",
+        "domain": "{j <in> P}",
+        "function": "0 <= X_{j} <= u_{j}"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "prod_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "nan",
+      "toMPS": "nan",
+      "Feasible": "nan",
+      "Remark": " too many values to unpack (expected 2)"
+    }
+  ]
+}

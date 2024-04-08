@@ -1,0 +1,1 @@
+{"set": [{"name": "ORIG", "dim": 1, "data": []}, {"name": "DEST", "dim": 1, "data": []}], "param": [{"name": "supply", "dim": 1, "data": [], "domain": "ORIG"}, {"name": "demand", "dim": 1, "data": [], "domain": "DEST"}, {"name": "cost", "dim": 2, "data": [], "domain": ["ORIG", "DEST"]}]}

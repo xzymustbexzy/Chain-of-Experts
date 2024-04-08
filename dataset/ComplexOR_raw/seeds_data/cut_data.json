@@ -1,0 +1,40 @@
+{
+    "set": [
+        {
+            "name": "WIDTHS", 
+            "dim": 1, 
+            "data": [20, 45, 50, 55, 75]
+        }, 
+        {
+            "name": "PATTERNS",
+            "dim": 1, 
+            "data": [1,2,3]
+        }
+    ],
+    "parameter": [
+        {
+            "name": "roll_width", 
+            "dim": 0, 
+            "data": 110,
+            "domain": ""
+        }, 
+        {
+            "name": "orders", 
+            "dim": 1,
+            "data": [48, 35, 24, 10, 8],
+            "domain": "WIDTHS"
+        }, 
+        {
+            "name": "nPAT", 
+            "dim": 0,
+            "data": 3,
+            "domain": ""
+        }, 
+        {
+            "name": "nbr", 
+            "dim": 2, 
+            "data": [[10,20,30],[11,21,31],[12,22,32],[13,23,33],[14,24,34]],
+            "domain": ["WIDTHS", "PATTERNS"]
+        }
+    ]
+}

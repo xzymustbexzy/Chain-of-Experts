@@ -1,0 +1,82 @@
+{
+  "title": "Diet Problem",
+  "description": "The goal of the Diet Problem is to select foods that satisfy daily nutritional requirements at minimum cost. This problem can be formulated as a linear program, for which constraints limit the number of calories and the amount of vitamins, minerals, fats, sodium, and cholesterol in the diet.",
+  "category": ["Resource Allocation", "Assignment Problem", "营养平衡", "最小成本", "均衡搭配"],
+  "model": {
+    "set": [
+      {
+        "name": "F",
+        "description": "Set of foods"
+      },
+      {
+        "name": "N",
+        "description": "Set of nutrients"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "cost",
+        "description": "cost per serving `i`",
+        "domain": "{i <in> F}"
+      },
+      {
+        "name": "a",
+        "description": "amount of nutrient `j` in food `i`",
+        "domain": "{i <in> F, j <in> N}"
+      },
+      {
+        "name": "Nmin",
+        "description": "minimum level of nutrient `j`",
+        "domain": "{j <in> N}"
+      },
+      {
+        "name": "Nmax",
+        "description": "minimum level of nutrient `j`",
+        "domain": "{j <in> N}"
+      },
+      {
+        "name": "v",
+        "description": "the volume per serving of food `i`",
+        "domain": "{i <in> F}"
+      },
+      {
+        "name": "m",
+        "description": "maximum volume of food consumed"
+      }
+    ],
+    "variable": [
+      {
+        "name": "x",
+        "description": "number of servings of food `i` to consume",
+        "domain": "{i <in> F}"
+      }
+    ],
+    "objective": [
+      {
+        "name": "MinCost",
+        "description": "minimize the total cost of the food",
+        "sense": "min",
+        "function": "<sum>_{i <in> F} cost_{i} * x_{i}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "NutrientLimit",
+        "description": "Limit nutrient consumption for each nutrient",
+        "domain": "{j <in> N}",
+        "function": "Nmin_{j} <= <sum>_{i <in> F} a_{i,j} * x_{i} <= Nmax_{j}"
+      },
+      {
+        "name": "VolumeLimit",
+        "description": "Limit the volume of food consumed",
+        "function": "<sum>_{i <in> F} v_{i} * x_{i} <= m"
+      },
+      {
+        "name": "NonnegativeVariable",
+        "description": "Consumption lower bound",
+        "domain": "{i <in> F}",
+        "function": "x_{i} >= 0"
+      }
+    ]
+  }
+}

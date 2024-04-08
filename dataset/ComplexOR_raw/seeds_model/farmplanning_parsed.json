@@ -1,0 +1,185 @@
+{
+  "title": "Farm Planning",
+  "description": "The Farm Planning model aims to optimize the planning of crops and resources on a farm in order to maximize earnings. The model takes into account various factors such as crop yield, crop price, land availability, labor requirements, water availability, and costs associated with labor and water. The objective is to determine the optimal amount of each crop to plant in order to maximize farm earnings.",
+  "category": [
+    "Agriculture",
+    "Farm Planning"
+  ],
+  "model": {
+    "set": [
+      {
+        "name": "Crops",
+        "description": "Set of crops available for planting"
+      },
+      {
+        "name": "Months",
+        "description": "Set of months in a year"
+      },
+      {
+        "name": "ConsumptionBundles",
+        "description": "Set of consumption bundles"
+      }
+    ],
+    "parameter": [
+      {
+        "name": "Yield",
+        "description": "Crop `c` yield in tons per hectare",
+        "domain": "{c <in> Crops}"
+      },
+      {
+        "name": "Price",
+        "description": "Crop `c` price in dollars per ton",
+        "domain": "{c <in> Crops}"
+      },
+      {
+        "name": "AmountInBundle",
+        "description": "Amount of crop `c` in consumption bundle `b` in tons",
+        "domain": "{c <in> Crops, b <in> ConsumptionBundles}"
+      },
+      {
+        "name": "LandAvailable",
+        "description": "Total land available for planting in hectares"
+      },
+      {
+        "name": "BP_land",
+        "description": "Binary parameter indicating whether a crop is planted or not",
+        "domain": "{c <in> Crops}"
+      },
+      {
+        "name": "FractionOccupiesLand",
+        "description": "Fraction of land occupied by crop `c` in month `t`",
+        "domain": "{t <in> Months, c <in> Crops}"
+      },
+      {
+        "name": "LaborRequired",
+        "description": "Labor required per hectare for each crop in each month",
+        "domain": "{t <in> Months, c <in> Crops}"
+      },
+      {
+        "name": "AnnualWageRateFamilyLabor",
+        "description": "Annual wage rate for family labor in dollars per man"
+      },
+      {
+        "name": "AnnualWageRatePermanentLabor",
+        "description": "Annual wage rate for permanent labor in dollars per man"
+      },
+      {
+        "name": "HourlyWageRateTemporaryLabor",
+        "description": "Hourly wage rate for temporary labor in dollars per hour"
+      },
+      {
+        "name": "WorkingHours",
+        "description": "Number of working hours available per month per man",
+        "domain": "{t <in> Months}"
+      },
+      {
+        "name": "FamilyLaborAvailable",
+        "description": "Number of family laborers available"
+      },
+      {
+        "name": "AnnualAmountOfWaterAvailable",
+        "description": "Annual amount of water available in cubic kilometers"
+      },
+      {
+        "name": "WaterLimit",
+        "description": "Maximum amount of water available per month in cubic kilometers",
+        "domain": "{t <in> Months}"
+      },
+      {
+        "name": "WaterRequirement",
+        "description": "Water requirement per hectare for each crop in each month in cubic kilometers",
+        "domain": "{t <in> Months, c <in> Crops}"
+      },
+      {
+        "name": "PriceOfWater",
+        "description": "Price of water in dollars per cubic kilometer"
+      }
+    ],
+    "variable": [
+      {
+        "name": "AmountPlanted",
+        "description": "Amount of crop `c` planted in hectares",
+        "domain": "{c <in> Crops}",
+        "type": "continuous"
+      },
+      {
+        "name": "PermanentLaborHired",
+        "description": "Number of permanent laborers hired",
+        "type": "continuous"
+      },
+      {
+        "name": "TemporaryLaborHired",
+        "description": "Number of temporary laborers hired per month",
+        "domain": "{t <in> Months}",
+        "type": "continuous"
+      },
+      {
+        "name": "Sales",
+        "description": "Amount of each crop sold in tons",
+        "domain": "{c <in> Crops}",
+        "type": "continuous"
+      },
+      {
+        "name": "FractionConsumed",
+        "description": "Fraction of each consumption bundle consumed",
+        "domain": "{b <in> ConsumptionBundles}",
+        "type": "continuous"
+      }
+    ],
+    "objective": [
+      {
+        "name": "ObjectiveFunction",
+        "description": "maximize farm earnings",
+        "sense": "max",
+        "function": "<sum>_{c <in> Crops} Price_{c} * Sales_{c} - AnnualWageRateFamilyLabor * FamilyLaborAvailable - AnnualWageRatePermanentLabor * PermanentLaborHired - HourlyWageRateTemporaryLabor * <sum>_{t <in> Months} TemporaryLaborHired_{t} - PriceOfWater * <sum>_{t <in> Months, c <in> Crops} WaterRequirement_{t,c} * AmountPlanted_{c}"
+      }
+    ],
+    "constraint": [
+      {
+        "name": "LandLimitations",
+        "description": "Constraint on land limitations",
+        "domain": "{t <in> Months}",
+        "function": "<sum>_{c <in> Crops} FractionOccupiesLand_{t,c} * AmountPlanted_{c} <= LandAvailable"
+      },
+      {
+        "name": "LaborRequirements",
+        "description": "Constraint on labor requirements",
+        "domain": "{t <in> Months}",
+        "function": "<sum>_{c <in> Crops} LaborRequired_{t,c} * AmountPlanted_{c} <= WorkingHours_{t} * (FamilyLaborAvailable + PermanentLaborHired) + TemporaryLaborHired_{t}"
+      },
+      {
+        "name": "WaterRequirements1",
+        "description": "Constraint on water requirements 1",
+        "domain": "{t <in> Months}",
+        "function": "<sum>_{c <in> Crops} WaterRequirement_{t,c} * AmountPlanted_{c} <= WaterLimit_{t}"
+      },
+      {
+        "name": "WaterRequirements2",
+        "description": "Constraint on water requirements 2",
+        "function": "<sum>_{t <in> Months, c <in> Crops} WaterRequirement_{t,c} * AmountPlanted_{c} <= AnnualAmountOfWaterAvailable"
+      },
+      {
+        "name": "FamilyConsumption1",
+        "description": "Constraint on family consumption 1",
+        "domain": "{c <in> Crops}",
+        "function": "Yield_{c} * AmountPlanted_{c} = <sum>_{b <in> ConsumptionBundles} AmountInBundle_{c,b} * FractionConsumed_{b} + Sales_{c}"
+      },
+      {
+        "name": "FamilyConsumption2",
+        "description": "Constraint on family consumption 2",
+        "function": "<sum>_{b <in> ConsumptionBundles} FractionConsumed_{b} = 1"
+      }
+    ]
+  },
+  "note_1": [
+    {
+      "Version": "Seed50",
+      "ModelName": "farmplanning_parsed.json",
+      "haveInstance": "1",
+      "toOPTVOM": "1.0",
+      "toMPS": "1.0",
+      "Feasible": "0",
+      "Remark": "nan"
+    }
+  ]
+}
