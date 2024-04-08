@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "fertilizer": 50.0,
+            "seeds": 25.0
+        },
+        "output": [
+            62.5
+        ]
+    }
+]

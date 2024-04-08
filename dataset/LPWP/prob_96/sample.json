@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "milk_chocolate_bars": 0,
+            "dark_chocolate_bars": 0
+        },
+        "output": [
+            0
+        ]
+    }
+]

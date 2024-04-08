@@ -1,0 +1,24 @@
+[
+    {
+        "input": {
+            "vars": {
+                "heap leaching": 3,
+                "vat leaching": 5
+            },
+            "constraints": {
+                "available": {
+                    "heap leaching": 10,
+                    "vat leaching": 20
+                },
+                "at most": {
+                    "heap leaching": 8,
+                    "vat leaching": 17
+                },
+                "sum": 100
+            }
+        },
+        "output": [
+            30.0
+        ]
+    }
+]

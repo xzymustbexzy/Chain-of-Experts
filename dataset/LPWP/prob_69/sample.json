@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "brownies": 0,
+            "lemon_squares": 0
+        },
+        "output": [
+            0
+        ]
+    }
+]

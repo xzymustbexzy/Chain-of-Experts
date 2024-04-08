@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "basketballs": 250,
+            "footballs": 83
+        },
+        "output": [
+            333.0
+        ]
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "DogCapability": 100,
+            "TruckCapability": 300,
+            "DogCost": 50,
+            "TruckCost": 100,
+            "MaxBudget": 1000
+        },
+        "output": [
+            1300
+        ]
+    }
+]

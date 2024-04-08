@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "regular": 20,
+            "special": 0,
+            "constraint1": 40,
+            "constraint2": 60
+        },
+        "output": [
+            60
+        ]
+    }
+]

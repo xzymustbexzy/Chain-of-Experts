@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "painkillers": 50.0,
+            "sleeping_pills": 117.0
+        },
+        "output": [
+            735.0
+        ]
+    }
+]

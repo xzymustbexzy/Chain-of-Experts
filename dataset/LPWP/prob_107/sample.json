@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "fish": 8,
+            "chicken": 4
+        },
+        "output": [
+            96
+        ]
+    }
+]

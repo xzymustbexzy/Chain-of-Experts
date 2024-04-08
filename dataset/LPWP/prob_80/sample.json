@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "regular": 15,
+            "emergency_fire": 25
+        },
+        "output": [
+            40.0
+        ]
+    }
+]

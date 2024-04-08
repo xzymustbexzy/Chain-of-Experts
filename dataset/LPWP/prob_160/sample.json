@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_bouquets": 47.0,
+            "large_bouquets": 23.0
+        },
+        "output": [
+            465.0
+        ]
+    }
+]

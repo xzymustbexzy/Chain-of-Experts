@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "net": 0,
+            "fishing_line": 0,
+            "sum_in_a": 250,
+            "linear_available": 800,
+            "linear_at_most": 350
+        },
+        "output": [
+            0
+        ]
+    }
+]

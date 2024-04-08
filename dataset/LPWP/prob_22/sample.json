@@ -1,0 +1,15 @@
+[
+    {
+        "input": {
+            "regular_glass_pane": 3,
+            "tempered_glass_pane": 5,
+            "regular_glass_cooling_time": 5,
+            "tempered_glass_cooling_time": 8,
+            "regular_glass_profit": 8,
+            "tempered_glass_profit": 10
+        },
+        "output": [
+            136.0
+        ]
+    }
+]

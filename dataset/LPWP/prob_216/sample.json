@@ -1,0 +1,12 @@
+[
+    {
+        "input": {
+            "crepe_cakes": 14,
+            "sponge_cakes": 0,
+            "birthday_cakes": 32
+        },
+        "output": [
+            648.0
+        ]
+    }
+]

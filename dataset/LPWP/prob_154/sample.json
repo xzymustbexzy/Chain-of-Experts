@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_teams": 40,
+            "large_teams": 6
+        },
+        "output": [
+            2480
+        ]
+    }
+]

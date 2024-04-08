@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "new_one": 50,
+            "old_one": 70,
+            "new_one_": 30,
+            "old_one_": 40
+        },
+        "output": [
+            580.0
+        ]
+    }
+]

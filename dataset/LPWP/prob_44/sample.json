@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "scooters": 2000,
+            "bikes": 0,
+            "constraint1": 4000,
+            "constraint2": 6000
+        },
+        "output": [
+            400000
+        ]
+    }
+]

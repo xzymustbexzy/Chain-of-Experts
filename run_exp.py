@@ -36,7 +36,8 @@ def main():
     parser.add_argument('--enable_reflection', action='store_true', help='Enable reflection option')
     parser.add_argument('--log_dir', type=str, default='log', help='The directory of log')
     parser.add_argument('--model', type=str, default='gpt-3.5-turbo', help='Base large language model')
-    parser.add_argument('--max_collaborate_nums', type=int, default=2, help='Number of max collaborations')
+    parser.add_argument('--max_collaborate_nums', type=int, default=3, help='Number of max collaborations')
+    parser.add_argument('--max_trials', type=int, default=3, help='Maximum number of forward-backward trials')
     args = parser.parse_args()
     args.algorithm = args.algorithm.lower()
 
@@ -64,7 +65,12 @@ def main():
         problem_data = read_problem(args.dataset, problem)
         with get_openai_callback() as cb:
             if args.algorithm == 'chain_of_experts' or args.algorithm == 'coe':
-                answer = chain_of_experts(problem_data, args.max_collaborate_nums, model_name=args.model)
+                answer = chain_of_experts(
+                    problem_data, 
+                    args.max_collaborate_nums, 
+                    model_name=args.model, 
+                    enable_reflection=args.enable_reflection,
+                    max_trials=args.max_trials)
                 time.sleep(10)
             else:
                 algorithm = algorithms[args.algorithm]

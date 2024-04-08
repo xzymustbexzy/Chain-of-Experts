@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "regular_brand": 0,
+            "premium_brand": 2
+        },
+        "output": [
+            70
+        ]
+    }
+]

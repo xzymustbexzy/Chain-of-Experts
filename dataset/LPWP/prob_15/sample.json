@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "senior_citizens": 0,
+            "young_adults": 0
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

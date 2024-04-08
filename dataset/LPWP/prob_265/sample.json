@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "golf_carts": 17,
+            "pull_carts": 12
+        },
+        "output": [
+            29.0
+        ]
+    }
+]

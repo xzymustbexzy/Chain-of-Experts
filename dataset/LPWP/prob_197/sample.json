@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_canoes": 67.0,
+            "smaller_diesel_boats": 22.0
+        },
+        "output": [
+            89.0
+        ]
+    }
+]

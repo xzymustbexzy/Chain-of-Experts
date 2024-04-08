@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "original_meal": 0,
+            "experimental_meal": 0
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

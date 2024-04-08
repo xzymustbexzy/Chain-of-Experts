@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "var_4wheeler": 6,
+            "var_3wheeler": 16
+        },
+        "output": [
+            22.0
+        ]
+    }
+]

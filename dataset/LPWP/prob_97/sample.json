@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "premium_model": 7,
+            "regular_model": 0
+        },
+        "output": [
+            7.0
+        ]
+    }
+]

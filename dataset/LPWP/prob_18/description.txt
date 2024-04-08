@@ -1,0 +1,1 @@
+A farmer wants to mix his animal feeds, Feed A and Feed B, in such a way that the mixture will contain a minimum of 30 units of protein and 50 units of fat. Feed A costs $100 per kilogram and contains 10 units of protein and 8 units of fat. Feed B costs $80 per kilogram and contains 7 units of protein and 15 units of fat. Determine the minimum cost of the mixture.

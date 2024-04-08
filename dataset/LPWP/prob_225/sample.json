@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "wide_pipes": 25,
+            "narrow_pipes": 15
+        },
+        "output": [
+            52
+        ]
+    }
+]

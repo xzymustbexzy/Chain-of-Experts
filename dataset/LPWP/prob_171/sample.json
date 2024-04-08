@@ -1,0 +1,18 @@
+[
+    {
+        "input": {
+            "regular_boats": 20,
+            "speed_boats": 20,
+            "regular_boat_capacity": 20,
+            "regular_boat_gas": 10,
+            "speed_boat_capacity": 30,
+            "speed_boat_gas": 20,
+            "max_regular_boat_trips": 20,
+            "min_speed_boat_trips_percentage": 50,
+            "mail_to_be_delivered": 1000
+        },
+        "output": [
+            600.0
+        ]
+    }
+]

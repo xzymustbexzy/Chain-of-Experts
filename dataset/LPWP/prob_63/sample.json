@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "counter_top_sized": 0,
+            "fridge_sized_one": 7
+        },
+        "output": [
+            7
+        ]
+    }
+]

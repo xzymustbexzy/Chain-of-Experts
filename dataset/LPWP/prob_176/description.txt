@@ -1,0 +1,1 @@
+A jam company sends its product out in small and large jars. A small jar can hold 50 ml of jam while a large jar can hold 200 ml of jam. Most store prefer the smaller size and so the number of large jars cannot exceed the number of small jars. If the company wants to ship at least 100000 ml of jam, find the minimum number of jars that can be used.

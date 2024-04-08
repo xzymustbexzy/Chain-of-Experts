@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "experiment_alpha": 40.0,
+            "experiment_beta": 136.0
+        },
+        "output": [
+            1680.0
+        ]
+    }
+]

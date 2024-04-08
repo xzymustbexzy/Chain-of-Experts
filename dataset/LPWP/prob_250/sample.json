@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "cans": 3900.0,
+            "glass_bottles": 100.0,
+            "required_capacity": 1000000,
+            "constraint2": 3,
+            "constraint3": 100
+        },
+        "output": [
+            null
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "with_a_catalyst": 3.0,
+            "without_a_catalyst": 18.0
+        },
+        "output": [
+            369.0
+        ]
+    }
+]

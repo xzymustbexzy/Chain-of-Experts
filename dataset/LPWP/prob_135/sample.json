@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "sulfate": 100.0,
+            "ginger": 50.0,
+            "constraint1": 0.5,
+            "constraint2": 0.75,
+            "constraint3": "twice"
+        },
+        "output": [
+            87.5
+        ]
+    }
+]

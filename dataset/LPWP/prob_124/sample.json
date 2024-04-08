@@ -1,0 +1,16 @@
+[
+    {
+        "input": {
+            "gummies": 40,
+            "pills": 40,
+            "constraint1": 3,
+            "constraint2": 4,
+            "constraint3": 2,
+            "constraint4": 5,
+            "constraint5": 3
+        },
+        "output": [
+            360
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "regular_tacos": 30.0,
+            "deluxe_tacos": 40.0
+        },
+        "output": [
+            217.0
+        ]
+    }
+]

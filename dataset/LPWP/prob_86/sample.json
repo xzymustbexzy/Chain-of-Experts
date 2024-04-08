@@ -1,0 +1,18 @@
+[
+    {
+        "input": {
+            "mocha_coffee_powder": 3,
+            "mocha_milk": 6,
+            "regular_coffee_powder": 6,
+            "regular_milk": 2,
+            "mocha_time": 5,
+            "regular_time": 3,
+            "mocha_regular_ratio": 3,
+            "coffee_powder_limit": 400,
+            "milk_limit": 500
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

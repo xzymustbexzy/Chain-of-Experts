@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "peach_flavored_candy": 0,
+            "cherry_flavored_candy": 0
+        },
+        "output": [
+            0
+        ]
+    }
+]

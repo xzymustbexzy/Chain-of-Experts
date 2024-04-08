@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "desks": 1,
+            "drawers": 132,
+            "assembly_constraint": 0,
+            "sanding_constraint": -2160
+        },
+        "output": [
+            11980
+        ]
+    }
+]

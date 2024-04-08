@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "chemical_A": 375.0,
+            "chemical_B": 1125.0
+        },
+        "output": [
+            61875.0
+        ]
+    }
+]

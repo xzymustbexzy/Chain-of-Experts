@@ -1,0 +1,1 @@
+A car manufacturer ships their cars on large and small planes. A large plane can carry 30 cars while a small plane can carry 10 cars. Since large planes cause more pollution, the number of large planes must be less than the number of small planes. If the manufacturer wants to deliver at least 300 cars, find the minimum number of planes that can be used.

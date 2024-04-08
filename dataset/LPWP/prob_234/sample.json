@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "ultrasound_technicians": 47.619048,
+            "graduate_researchers": 23.809524
+        },
+        "output": [
+            16666.6668
+        ]
+    }
+]

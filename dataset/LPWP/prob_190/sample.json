@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_crates": 45,
+            "large_crates": 15
+        },
+        "output": [
+            16500
+        ]
+    }
+]

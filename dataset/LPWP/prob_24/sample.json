@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "large": 5,
+            "small_art_pieces": 22
+        },
+        "output": [
+            480
+        ]
+    }
+]

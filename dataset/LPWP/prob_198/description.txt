@@ -1,0 +1,1 @@
+A volunteer organization transports voters to the polls on Election Day either by vans or cars. They have vans which can carry 6 people and cars which can carry 3 people.  They need to transport at least 200 voters to the polls. In addition, at most 30% of the vehicles can be vans. How many of each vehicle should be used to minimize the total number of cars used?

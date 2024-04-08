@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "elephants": 0.0,
+            "tigers": 125.0
+        },
+        "output": [
+            500.0
+        ]
+    }
+]

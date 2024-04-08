@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "banana_haters_package": 0,
+            "combo_package": 2
+        },
+        "output": [
+            14
+        ]
+    }
+]

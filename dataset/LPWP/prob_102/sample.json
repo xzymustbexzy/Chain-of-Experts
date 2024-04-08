@@ -1,0 +1,17 @@
+[
+    {
+        "input": {
+            "beaker_1": 4,
+            "beaker_2": 6,
+            "constraint1": 5,
+            "constraint2": 6,
+            "constraint3": 3,
+            "constraint4": 3,
+            "constraint5": 4,
+            "constraint6": 2
+        },
+        "output": [
+            45.0
+        ]
+    }
+]

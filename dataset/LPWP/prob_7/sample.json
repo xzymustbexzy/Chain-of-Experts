@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "wired_headphones": 100.0,
+            "wireless_headphones": 50.0
+        },
+        "output": [
+            6000.0
+        ]
+    }
+]

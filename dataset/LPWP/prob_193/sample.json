@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "car": 55,
+            "bus": 4,
+            "constraint1": 300,
+            "constraint2": 4
+        },
+        "output": [
+            670
+        ]
+    }
+]

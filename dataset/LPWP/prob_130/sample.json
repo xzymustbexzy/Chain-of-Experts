@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "pain_killer_1": 26.0,
+            "pain_killer_2": 0.0
+        },
+        "output": [
+            20.8
+        ]
+    }
+]

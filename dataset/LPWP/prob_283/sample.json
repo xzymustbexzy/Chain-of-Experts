@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "full_time_staff": 16,
+            "part_time_staff": 24
+        },
+        "output": [
+            40
+        ]
+    }
+]

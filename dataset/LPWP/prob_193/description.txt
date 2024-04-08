@@ -1,0 +1,1 @@
+Employees have the option of car-pooling to work or taking the company bus. A car can take 4 employees and produces 10 units of pollution, while a bus can take 20 employees and produces 30 units of pollution. At least 300 employees need to be transported and at most 4 buses can be used. How many of each type of transport should be taken to minimize the total pollution produced.

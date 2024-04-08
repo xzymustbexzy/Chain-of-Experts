@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "hot_air_balloon": 1.0,
+            "gondola_lift": 11.0
+        },
+        "output": [
+            175.0
+        ]
+    }
+]

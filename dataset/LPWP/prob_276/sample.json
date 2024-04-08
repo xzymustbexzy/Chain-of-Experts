@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "spinach": 100,
+            "soybeans": 5
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

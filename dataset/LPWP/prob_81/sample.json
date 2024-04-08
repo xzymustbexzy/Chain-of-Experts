@@ -1,0 +1,18 @@
+[
+    {
+        "input": {
+            "motion_activated": 13.0,
+            "manual": 5.0,
+            "motion_activated_drops": 50,
+            "motion_activated_power": 30,
+            "manual_drops": 75,
+            "manual_power": 20,
+            "manual_limit": 0.4,
+            "capacity": 1000,
+            "power_limit": 500
+        },
+        "output": [
+            18.0
+        ]
+    }
+]

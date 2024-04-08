@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "bananas": 32,
+            "mangoes": 15
+        },
+        "output": [
+            440.0
+        ]
+    }
+]

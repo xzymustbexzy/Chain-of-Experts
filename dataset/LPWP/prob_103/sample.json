@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "small_bone": 30,
+            "large_bone": 30,
+            "medication_constraint": 2000,
+            "small_bone_percentage_constraint": 50,
+            "minimum_large_bone_constraint": 30
+        },
+        "output": [
+            810.0
+        ]
+    }
+]

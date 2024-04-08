@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "spit_tests": 40,
+            "swabs": 20
+        },
+        "output": [
+            null
+        ]
+    }
+]

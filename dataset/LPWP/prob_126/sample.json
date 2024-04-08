@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "machine_1": 15,
+            "machine_2": 18,
+            "constraint1": 570,
+            "constraint2": 1260,
+            "constraint3": 1440
+        },
+        "output": [
+            0
+        ]
+    }
+]

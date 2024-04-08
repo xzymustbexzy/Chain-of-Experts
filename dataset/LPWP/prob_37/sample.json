@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "mangos": 150,
+            "guavas": 50,
+            "mango_cost": 5,
+            "guava_cost": 3
+        },
+        "output": [
+            650.0
+        ]
+    }
+]

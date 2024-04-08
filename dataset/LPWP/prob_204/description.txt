@@ -1,0 +1,1 @@
+A young boy is trying to grow taller by drinking milk and eating vegetables. He wants to get a minimum of 100 units of calcium and 50 units of iron per day. A glass of milk costs $1 and contains 40 units of calcium and 25 units of iron. A plate of vegetables costs $2 and contains 15 units of calcium and 30 units of iron. How many of each should he consume to minimize his cost?

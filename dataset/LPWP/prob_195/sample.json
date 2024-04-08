@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "carrier_pigeons": 158.0,
+            "owls": 105.0
+        },
+        "output": [
+            841.0
+        ]
+    }
+]

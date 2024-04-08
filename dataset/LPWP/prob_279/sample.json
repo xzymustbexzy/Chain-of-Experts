@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "matcha_ice_cream": 0,
+            "orange_sorbet": 0
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

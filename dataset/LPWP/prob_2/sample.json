@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "senior_accountants": 25.0,
+            "junior_accountants": 75.0
+        },
+        "output": [
+            150000.0
+        ]
+    }
+]

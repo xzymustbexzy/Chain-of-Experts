@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "palladium_heavy_catalyst": 6,
+            "platinum_heavy_catalyst": 17
+        },
+        "output": [
+            98
+        ]
+    }
+]

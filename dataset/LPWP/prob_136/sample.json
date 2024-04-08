@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "lab_1": 3000.0,
+            "lab_2": -1500.0,
+            "constraint1": 1500,
+            "constraint2": 20000,
+            "constraint3": 30000
+        },
+        "output": [
+            1500.0
+        ]
+    }
+]

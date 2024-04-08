@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "pill_A": 10,
+            "pill_B": 2,
+            "sleep_inducing_constraint": 42,
+            "anti_inflammatory_constraint": 52
+        },
+        "output": [
+            50
+        ]
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "input": {
+            "old": 300,
+            "new_farm": 2,
+            "constraint1": 2,
+            "constraint2": 4,
+            "constraint3": 200,
+            "constraint4": 4,
+            "constraint5": 1,
+            "constraint6": 2
+        },
+        "output": [
+            1366.6666559999999
+        ]
+    }
+]

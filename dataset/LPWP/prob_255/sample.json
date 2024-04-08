@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "automatic_electric_one": 0,
+            "gas_powered_one": 0
+        },
+        "output": [
+            0
+        ]
+    }
+]

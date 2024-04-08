@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "laminate_planks": 40000,
+            "carpets": 20000
+        },
+        "output": [
+            150000.0
+        ]
+    }
+]

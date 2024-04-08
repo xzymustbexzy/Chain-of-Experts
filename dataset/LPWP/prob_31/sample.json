@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "premium_desktops": 100,
+            "regular_desktops": 100
+        },
+        "output": [
+            80000
+        ]
+    }
+]

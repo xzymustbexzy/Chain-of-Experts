@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "cargo_planes": 11,
+            "ultrawide_trucks": 15
+        },
+        "output": [
+            26.0
+        ]
+    }
+]

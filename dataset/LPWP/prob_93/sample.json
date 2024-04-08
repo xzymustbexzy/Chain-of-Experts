@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "generator_A": 40,
+            "generator_B": 30
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

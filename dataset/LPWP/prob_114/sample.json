@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "apple_flavored_baby": 45,
+            "carrot_flavored_baby": 2
+        },
+        "output": [
+            98.0
+        ]
+    }
+]

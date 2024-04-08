@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "large_pill": 100,
+            "small_pill": 150
+        },
+        "output": [
+            350
+        ]
+    }
+]

@@ -1,4 +1,4 @@
-from commet import Comment
+from comment import Comment
 
 
 class CommentPool(object):

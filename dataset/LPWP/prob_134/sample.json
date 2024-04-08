@@ -1,0 +1,17 @@
+[
+    {
+        "input": {
+            "cheesecake": 40,
+            "caramel_cake": 8,
+            "cheesecake_calories": 200,
+            "cheesecake_sugar": 40,
+            "caramel_cake_calories": 250,
+            "caramel_cake_sugar": 50,
+            "min_caramel_cake_slices": 3,
+            "max_calories": 10000
+        },
+        "output": [
+            2000
+        ]
+    }
+]

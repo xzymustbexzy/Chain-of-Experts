@@ -1,0 +1,39 @@
+[
+    {
+        "input": {
+            "vars": {
+                "cart": 7.0,
+                "hand": 3.0
+            },
+            "constraints": [
+                {
+                    "type": "ratio",
+                    "direction": "at least",
+                    "limit": 0.7,
+                    "var": "cart",
+                    "operator": "GREATER_OR_EQUAL"
+                },
+                {
+                    "type": "lowerbound",
+                    "direction": "at least",
+                    "limit": 3,
+                    "var": "hand",
+                    "operator": "GREATER_OR_EQUAL"
+                },
+                {
+                    "type": "linear",
+                    "direction": "have",
+                    "limit": 4000,
+                    "terms": {
+                        "cart": 70,
+                        "hand": 85
+                    },
+                    "operator": "LESS_OR_EQUAL"
+                }
+            ]
+        },
+        "output": [
+            95.0
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "taxis": 78,
+            "company_cars": 115
+        },
+        "output": [
+            78
+        ]
+    }
+]

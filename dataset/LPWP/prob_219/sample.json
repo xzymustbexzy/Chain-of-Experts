@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "math_workbooks": 140.0,
+            "english_workbooks": 170.0
+        },
+        "output": [
+            4990.0
+        ]
+    }
+]

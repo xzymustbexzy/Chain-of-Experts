@@ -1,0 +1,17 @@
+[
+    {
+        "input": {
+            "liquid": 20.0,
+            "foam_hand_sanitizer": 20.0,
+            "water": 40,
+            "alcohol": 50,
+            "available_water": 2000,
+            "available_alcohol": 2100,
+            "liquid_constraint": 30,
+            "foam_constraint": 20
+        },
+        "output": [
+            1000.0
+        ]
+    }
+]

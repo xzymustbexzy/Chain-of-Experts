@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "gas": 3,
+            "electric": 3
+        },
+        "output": [
+            6
+        ]
+    }
+]

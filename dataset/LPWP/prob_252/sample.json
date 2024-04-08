@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "large_mobile_production_units": 15.0,
+            "small_mobile_production_units": 5.0
+        },
+        "output": [
+            35.0
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "scooter": 75,
+            "rickshaw": 50
+        },
+        "output": [
+            75
+        ]
+    }
+]

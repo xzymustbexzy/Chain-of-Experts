@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "chlorine": 166,
+            "water_softener": 333
+        },
+        "output": [
+            833.3333299999999
+        ]
+    }
+]

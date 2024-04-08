@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "personal_license": 138.0,
+            "commercial_license": 162.0
+        },
+        "output": [
+            256500.0
+        ]
+    }
+]

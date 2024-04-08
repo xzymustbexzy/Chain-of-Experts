@@ -1,0 +1,15 @@
+[
+    {
+        "input": {
+            "apples": 16,
+            "pears": 33,
+            "constraint1": 50,
+            "constraint2": 5,
+            "constraint3": 10,
+            "constraint4": true
+        },
+        "output": [
+            166
+        ]
+    }
+]

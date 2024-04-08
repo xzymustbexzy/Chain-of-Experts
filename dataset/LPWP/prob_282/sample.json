@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "salinity_test": 167,
+            "PH_test": 250
+        },
+        "output": [
+            1001.0
+        ]
+    }
+]

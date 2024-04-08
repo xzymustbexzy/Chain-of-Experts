@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "method_A": 0.0,
+            "method_B": 40.0,
+            "required_fabric": 1400,
+            "required_plastic": 1000,
+            "available_special_element": 3500
+        },
+        "output": [
+            null
+        ]
+    }
+]
