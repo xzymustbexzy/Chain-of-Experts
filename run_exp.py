@@ -11,8 +11,6 @@ from result import Result
 import baseline.standard as standard
 import baseline.chain_of_thought as cot
 import baseline.progressive_hint as php
-import baseline.solo_performance_prompting as ssp
-import baseline.reflexion as reflexion
 from main import chain_of_experts
 
 
@@ -22,9 +20,9 @@ algorithms = {
     'cot': cot,
     'progressive_hint': php,
     'php': php,
-    'solo_performance_prompting': ssp,
-    'ssp': ssp,
-    'reflexion': reflexion,
+    # 'solo_performance_prompting': ssp,
+    # 'ssp': ssp,
+    # 'reflexion': reflexion,
 }
 
 
