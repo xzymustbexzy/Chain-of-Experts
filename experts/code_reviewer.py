@@ -11,7 +11,7 @@ class CodeReviewer(BaseExpert):
 You will identify possible errors, inefficiencies, or areas for improvement in the code, ensuring that it adheres to best practices and delivers optimal results. Now, here is the problem: 
 {problem_description}. 
 
-You are supposed to refer to the comments given by your colleagues from other aspects: {comments}'''
+You are supposed to refer to the comments given by your colleagues from other aspects: {comments_text}'''
 
     BACKWARD_TASK = '''When you are solving a problem, you get a feedback from the external environment. You need to judge whether this is a problem caused by you or by other experts (other experts have given some results before you). If it is your problem, you need to give Come up with solutions and refined code.
 

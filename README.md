@@ -13,6 +13,14 @@ pip install -r requirements.txt
 ```
 
 ## Run the experiments
+Firstly, set the environment variable `OPENAI_API_KEY`
+
+```bash
+export OPENAI_API_KEY=[Your API key here]
+```
+
+Run the experimental script
+
 ```bash
 python run_exp.py --dataset LPWP --problem "prob_.*" --algorithm coe
 ```
