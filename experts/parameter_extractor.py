@@ -23,7 +23,7 @@ The original problem is as follow:
 {problem_description}
 
 The code you give previously is as follow:
-{previous_code}
+{previous_answer}
     
 The feedback is as follow:
 {feedback}
