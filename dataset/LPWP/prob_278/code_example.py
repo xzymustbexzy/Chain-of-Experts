@@ -1,5 +1,5 @@
 
-def prob_1(sedans, buses):
+def prob_278(sedans, buses):
     """
     Args:
         sedans: an integer representing the number of sedans.
