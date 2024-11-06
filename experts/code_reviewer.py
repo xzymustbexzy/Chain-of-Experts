@@ -28,7 +28,7 @@ The output format is a JSON structure followed by refined code:
 {{
     'is_caused_by_you': false,
     'reason': 'leave empty string if the problem is not caused by you',
-    'refined_code': 'Your refined answer...'
+    'refined_result': 'Your refined answer...'
 }}
 '''
 
