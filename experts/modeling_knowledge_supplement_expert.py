@@ -6,7 +6,7 @@ from langchain.chat_models import ChatOpenAI
 
 class ModelingKnowledgeSupplementExpert(BaseExpert):
 
-    ROLE_DESCRIPTION = 'You are an experts that offers supplementary knowledge related to modeling techniques and best prac- tices.'
+    ROLE_DESCRIPTION = 'You are an experts that offers supplementary knowledge related to modeling techniques and best practices.'
     FORWARD_TASK = '''You are given a specific problem. You aim to develop an efficient Python program that addresses the given problem.
 Now the origin problem is as follow:
 {problem_description}
