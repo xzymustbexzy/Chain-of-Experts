@@ -68,6 +68,6 @@ The output format is a JSON structure followed by refined code:
             raise NotImplementedError('Please call foward first!')
         output = self.backward_chain.predict(
             problem_description=self.problem['description'], 
-            previous_code=self.previous_code,
+            previous_answer=self.previous_code,
             feedback=feedback_pool.get_current_comment_text())
         return output

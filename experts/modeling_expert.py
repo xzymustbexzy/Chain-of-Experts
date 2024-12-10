@@ -32,7 +32,7 @@ The feedback is as follow:
 {feedback}
 
 The modeling you give previously is as follow:
-{previous_modeling}
+{previous_answer}
 
 The output format is a JSON structure followed by refined code:
 {{
