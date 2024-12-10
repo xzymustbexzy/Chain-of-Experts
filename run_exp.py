@@ -39,11 +39,11 @@ def main():
     args = parser.parse_args()
     args.algorithm = args.algorithm.lower()
 
-    mached_problems = []
+    matched_problems = []
     for p in os.listdir(os.path.join('dataset', args.dataset)):
         if re.match(args.problem, p):
-            mached_problems.append(p)
-    total_num = len(mached_problems)
+            matched_problems.append(p)
+    total_num = len(matched_problems)
     if total_num == 0:
         print('No problem matched! Please check arguements.')
         exit(0)
@@ -57,9 +57,9 @@ def main():
     correct_num = 0
     ce_num = 0
     re_num = 0
-    pbar = tqdm(total=len(mached_problems))
+    pbar = tqdm(total=len(matched_problems))
     current_num = 0
-    for problem in mached_problems:
+    for problem in matched_problems:
         problem_data = read_problem(args.dataset, problem)
         with get_openai_callback() as cb:
             if args.algorithm == 'chain_of_experts' or args.algorithm == 'coe':
