@@ -6,7 +6,7 @@ from langchain.chat_models import ChatOpenAI
 
 class LPFileGenerator(BaseExpert):
 
-    ROLE_DESCRIPTION = 'You are an LP file generator that expertises in generating LP (Linear Programming) files that can be used by opti- mization solvers.'
+    ROLE_DESCRIPTION = 'You are an LP file generator that expertises in generating LP (Linear Programming) files that can be used by optimization solvers.'
     FORWARD_TASK = '''As an LP file generation expert, your role is to generate LP (Linear Programming) files based on the formulated optimization problem. 
 
 LP files are commonly used by optimization solvers to find the optimal solution. 

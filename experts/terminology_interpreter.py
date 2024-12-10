@@ -46,7 +46,7 @@ The output format is a JSON structure followed by refined code:
     def __init__(self, model):
         super().__init__(
             name='Terminology Interpreter',
-            description='Provides additional domain-specific knowledge to enhance problem understand- ing and formulation.',
+            description='Provides additional domain-specific knowledge to enhance problem understanding and formulation.',
             model=model   
         )
         self.llm = ChatOpenAI(

@@ -6,7 +6,7 @@ from langchain.chat_models import ChatOpenAI
 
 class ParameterExtractor(BaseExpert):
 
-    ROLE_DESCRIPTION = 'You are an expert that identifies and extracts relevant variables from the problem state- ment.'
+    ROLE_DESCRIPTION = 'You are an expert that identifies and extracts relevant variables from the problem statement.'
     FORWARD_TASK = '''As a parameter extraction expert, your role is to identify and extract the relevant variables, constrans, objective from the problem statement. 
 Your expertise in the problem domain will help in accurately identifying and describing these variables. 
 Please review the problem description and provide the extracted variables along with their definitions: 
