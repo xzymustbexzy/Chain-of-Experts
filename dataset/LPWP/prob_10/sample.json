@@ -1,8 +1,8 @@
 [
     {
         "input": {
-            "var1": 12,
-            "var2": 6,
+            "A": 12,
+            "B": 6,
             "constraint1": 219,
             "constraint2": 159,
             "constraint3": 117

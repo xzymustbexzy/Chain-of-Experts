@@ -2,7 +2,7 @@
     {
         "input": {
             "low_power": 11,
-            "high_power_model": 7
+            "high_power": 7
         },
         "output": [
             18

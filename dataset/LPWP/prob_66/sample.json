@@ -1,8 +1,8 @@
 [
     {
         "input": {
-            "almond": 0,
-            "pistachio": 0,
+            "almond_croissants": 0,
+            "pistachio_croissants": 0,
             "butter_units": 0,
             "flour_units": 0,
             "production_time": 0

@@ -1,8 +1,8 @@
 [
     {
         "input": {
-            "high_pressure_tube": -17,
-            "liquefied_hydrogen_tankers": 62
+            "var1": -17,
+            "var2": 62
         },
         "output": [
             45
