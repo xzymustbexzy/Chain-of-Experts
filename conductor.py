@@ -49,7 +49,7 @@ You should output the name of expert directly. The next expert is:'''
             commented_experts=commented_experts,
             remaining_experts=remaining_experts,
             max_collaborate_nums=max_collaborate_nums,
-            remaining_collaborate_nums=max_collaborate_nums-len(commented_experts),
+            remaining_collaborate_nums=max_collaborate_nums-len(commented_experts_name),
         )
         expert_name_to_obj = { e.name: e for e in all_experts }
         for name, expert in expert_name_to_obj.items():
