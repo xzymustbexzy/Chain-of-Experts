@@ -80,7 +80,7 @@ The output format is a JSON structure followed by refined code:
 
     def backward(self, feedback_pool):
         if not hasattr(self, 'problem'):
-            raise NotImplementedError('Please call foward first!')
+            raise NotImplementedError('Please call forward first!')
         output = self.backward_chain.predict(
             problem_description=self.problem['description'], 
             previous_code=self.previous_code,
