@@ -1,0 +1,32 @@
+Aircrafts: Set of aircrafts
+
+EarliestLanding: Earliest landing time for aircraft `i` \forall i \in Aircrafts.
+LatestLanding: Latest landing time for aircraft `i` \forall i \in Aircrafts.
+TargetLanding: Target landing time for aircraft `i` \forall i \in Aircrafts.
+PenaltyAfterTarget: Penalty after target landing time for aircraft `i` \forall i \in Aircrafts.
+PenaltyBeforeTarget: Penalty before target landing time for aircraft `i` \forall i \in Aircrafts.
+SeparationTime: Separation time between aircrafts `i` and `j` \forall i \in Aircrafts, j \in Aircrafts.
+
+Decision variable:
+Landing: Landing time for aircraft `i` \forall i \in Aircrafts.
+AircraftsOrder: Landing order of aircrafts `i` and `j` \forall i \in Aircrafts, j \in Aircrafts.
+Early: Early landing time for aircraft `i` \forall i \in Aircrafts.
+Late: Late landing time for aircraft `i` \forall i \in Aircrafts.
+
+Objective:
+total cost of landing
+min: \sum_{i \in Aircrafts} PenaltyBeforeTarget_{i} * Early_{i} + PenaltyAfterTarget_{i} * Late_{i}
+
+Constraint:
+1. Order constraint for aircrafts landing
+AircraftsOrder_{i, j} + AircraftsOrder_{j, i} = 1, \forall i \in Aircrafts, j \in Aircrafts.
+2. Separation constraint between aircrafts landing
+Landing_{j} >= Landing_{i} + SeparationTime_{i, j} * AircraftsOrder_{i, j} - (LatestLanding_{i} - EarliestLanding_{j}) * AircraftsOrder_{j, i}, \forall i \in Aircrafts, j \in Aircrafts.
+3. Constraint for landing within earliest time window
+Landing_{i} >= EarliestLanding_{i}, \forall i \in Aircrafts.
+4. Constraint for landing within latest time window
+Landing_{i} <= LatestLanding_{i}, \forall i \in Aircrafts.
+5. Early landing time of aircraft `i`
+Early_{i} >= TargetLanding_{i} - Landing_{i}, \forall i \in Aircrafts.
+6. Late landing time of aircraft `i`
+Late_{i} >= Landing_{i} - TargetLanding_{i}, \forall i \in Aircrafts.

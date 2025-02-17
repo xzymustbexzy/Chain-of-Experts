@@ -1,0 +1,20 @@
+FlightLegs: Set of flight legs (one-way non-stop flight)
+Packages: Set of packages
+
+AvailableSeats: Number of available seats for flight `r` \forall r \in FlightLegs.
+Demand: Estimated demand of package `p` \forall p \in Packages.
+Revenue: Revenue gained for selling a unit of package `p` \forall p \in Packages.
+Delta: Binary parameter, 1 if package `p` uses resource `r` \forall p \in Packages, r \in FlightLegs.
+
+Decision variable:
+Sell: Number of package `p` to sell \forall p \in Packages.
+
+Objective:
+Maximize the revenue
+max: \sum_{p \in Packages} Revenue_{p} * Sell_{p}
+
+Constraint:
+1. Cannot sell more than the demand
+Sell_{p} <= Demand_{p}, \forall p \in Packages.
+2. Cannot use more of a resource than available
+\sum_{p \in Packages} Delta_{p,r} * Sell_{p} <= AvailableSeats_{r}, \forall r \in FlightLegs.

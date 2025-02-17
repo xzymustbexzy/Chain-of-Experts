@@ -1,0 +1,24 @@
+Cities: a set of cities
+Links: a set of links between the cities
+Products: a set of products
+
+Supply: amounts of each product `p` available at city `i` \forall i \in Cities, p \in Products.
+Demand: amounts of each product `p` required at city `i` \forall i \in Cities, p \in Products.
+ShipmentCost: shipment costs per package of product `p` from city `i` to city `j` \forall i \in Links, j \in Links, p \in Products.
+Capacity: maximum number of packages of product `p` that can be shipped from city `i` to city `j` \forall i \in Links, j \in Links, p \in Products.
+JointCapacity: maximum total number of packages that can be shipped on link `(i, j)` \forall i \in Links, j \in Links.
+
+Decision variable:
+Ship: number of packages of product `p` to be shipped from city `i` to city `j` \forall i \in Links, j \in Links, p \in Products.
+
+Objective:
+the total cost of shipping products from the cities to the cities
+min: \sum_{i \in Links, j \in Links, p \in Products} ShipmentCost_{i, j, p} * Ship_{i, j, p}
+
+Constraint:
+1. the net flow constraint for each product `p` to each city `k`
+Supply_{k, p} + \sum_{i \in Links, k \in Links} Ship_{i, k, p} = Demand_{k, p} + \sum_{k \in Links, j \in Links} Ship_{k, j, p}, \forall k \in Cities, p \in Products.
+2. the total number of packages to be shipped on each link `(i, j)` should not exceed its joint capacity
+\sum_{p \in Products} Ship_{i, j, p} <= JointCapacity_{i, j}, \forall i \in Links, j \in Links.
+3. number of packages of product `p` that can be shipped from city `i` to city `j` can't exceed the capacity
+Ship_{i,j,p} <= Capacity_{i,j,p}, \forall i \in Links, j \in Links, p \in Products.

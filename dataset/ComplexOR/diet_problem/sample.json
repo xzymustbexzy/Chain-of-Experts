@@ -1,0 +1,20 @@
+[
+    {
+        "input": {
+            "food_set": ["Apple", "Banana"],
+            "nutrient_set": ["VitaminC", "Fiber"],
+            "food_cost": [2.0, 1.5],
+            "min_food_amount": [0, 0],
+            "max_food_amount": [10, 10],
+            "min_nutrient_amount": [50, 30],
+            "max_nutrient_amount": [100, 60],
+            "nutrient_amount": [
+                [10, 5],
+                [5, 10]
+            ]
+        },
+        "output": [
+            10.333333333452588
+        ]
+    }
+]

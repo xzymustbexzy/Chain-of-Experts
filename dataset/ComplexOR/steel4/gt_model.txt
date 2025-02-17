@@ -1,0 +1,23 @@
+Products: a set of products
+Stages: a set of stages
+
+Rate: tons per hour in each stage `s` for product `p` \forall p \in Products, s \in Stages.
+Available: hours available per week in stage `s` \forall s \in Stages.
+Profit: profit per ton for product `p` \forall p \in Products.
+Commit: lower limit on tons sold in a week for product `p` \forall p \in Products.
+Market: upper limit on tons sold in a week for product `p` \forall p \in Products.
+
+Decision variable:
+Production: tons to be produced for product `p` \forall p \in Products.
+
+Objective:
+the total profit from all products
+max: \sum_{p \in Products} Profit_{p} * Production_{p}
+
+Constraint:
+1. In each stage `s`, the total number of hours used by all products may not exceed the hours available
+\sum_{p \in Products} (1/Rate_{p,s}) * Production_{p} <= Available_{s}, \forall s \in Stages.
+2. minimum production may not be smaller than the lower limit on tons of product `p` sold in a week
+Commit_{p} <= Production_{p}, \forall p \in Products.
+3. maximum production may not be larger than the upper limit on tons of product `p` sold in a week
+Production_{p} <= Market_{p}, \forall p \in Products.

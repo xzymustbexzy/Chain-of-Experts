@@ -1,0 +1,23 @@
+Origins: a set of origins
+Destinations: a set of destinations
+Products: a set of products
+
+Supply: amounts of each product `p` available at origin `i` \forall i \in Origins, p \in Products.
+Demand: amounts of each product `p` required at destination `j` \forall j \in Destinations, p \in Products.
+Limit: maximum total amount of all products that can be shipped from origin `i` to destination `j` \forall i \in Origins, j \in Destinations.
+ShippingCost: shipment costs per unit of product `p` from origin `i` to destination `j` \forall i \in Origins, j \in Destinations, p \in Products.
+
+Decision variable:
+Transport: units of each product `p` to be shipped from origin `i` to destination `j` \forall i \in Origins, j \in Destinations, p \in Products.
+
+Objective:
+the total cost of shipping all products from the origins to the destinations
+min: \sum_{i \in Origins, j \in Destinations, p \in Products} ShippingCost_{i,j,p} * Transport_{i,j,p}
+
+Constraint:
+1. the total amount of each product `p` shipped from origin `i` equals its supply
+\sum_{j \in Destinations} Transport_{i,j,p} = Supply_{i,p}, \forall i \in Origins, p \in Products.
+2. the total amount of each product `p` shipped to destination `j` equals its demand
+\sum_{i \in Origins} Transport_{i,j,p} = Demand_{j,p}, \forall j \in Destinations, p \in Products.
+3. the total amount of all products shipped from origin `i` to destination `j` does not exceed a certain limit
+\sum_{p \in Products} Transport_{i,j,p} <= Limit_{i,j}, \forall i \in Origins, j \in Destinations.

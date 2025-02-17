@@ -1,0 +1,23 @@
+Jobs: Set of all Jobs
+Schedules: Set of all schedules
+Machines: Set of all machines
+
+ProcesTime: Time required to process job `j` on machine `m` \forall j \in Jobs, m \in Machines.
+
+Decision variable:
+JobSchedule: Determining the schedule of the job: 1 if job `j` in schedule position `s`; otherwise 0 \forall j \in Jobs, s \in Schedules.
+StartTime: The time at which job in schedule position `s` commences processing on machine `m` \forall s \in Schedules, m \in Machines.
+
+Objective:
+Minimize the total time to process all jobs on all machines
+min: StartTime_{S,M} + \sum_{j \in Jobs} ProcesTime_{j,M} * JobSchedule_{j,S}
+
+Constraint:
+1. Only one job is related to schedule `s`
+\sum_{j \in Jobs} JobSchedule_{j,s} = 1, \forall s \in Schedules.
+2. Only one schedule is related to job `j`
+\sum_{s \in Schedules} JobSchedule_{j,s} = 1, \forall j \in Jobs.
+3. The commencement of schedule `s` on machine `m+1` is no earlier than its finish on machine `m`
+StartTime_{s,m + 1} >=  StartTime_{s,m} + \sum_{j \in Jobs} ProcesTime_{j,m} * JobSchedule_{j,s}, \forall  != M, {s \in Schedules, m \in Machines.
+4. The commencement of schedule `s + 1` on machine `m` is no earlier than the finish time of job in schedule position `s` on machine `m`
+StartTime_{s + 1,m} >=  StartTime_{s,m} + \sum_{j \in Jobs} ProcesTime_{j,m} * JobSchedule_{j,s}, \forall  != S, {s \in Schedules, m \in Machines.

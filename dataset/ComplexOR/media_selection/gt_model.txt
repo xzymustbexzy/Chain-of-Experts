@@ -1,0 +1,16 @@
+TargetAudiences: Set of target audiences
+AdvertisingMedia: Set of advertising media
+
+Incidence: Audience `t` is covered by media `m` \forall t \in TargetAudiences, m \in AdvertisingMedia.
+CostOfMedia: Cost of media parameter \forall m \in AdvertisingMedia.
+
+Decision variable:
+IsSelectedMIP: Binary variable indicating if media `m` is selected \forall m \in AdvertisingMedia.
+
+Objective:
+Total cost of selected media
+min: \sum_{m \in AdvertisingMedia} CostOfMedia_{m} * IsSelectedMIP_{m}
+
+Constraint:
+1. Constraint ensuring that each target audience is covered
+\sum_{m \in AdvertisingMedia} Incidence_{t,m} * IsSelectedMIP_{m} >=1, \forall t \in TargetAudiences.

@@ -1,0 +1,19 @@
+Participants: The set of all participants
+Cars: The set of all cars
+
+PossibleAssignments: Participant `p` is interested in car `c` \forall p \in Participants, c \in Cars.
+
+Decision variable:
+Assignments: Participant `p` is assigned to car `c` \forall p \in Participants, c \in Cars.
+
+Objective:
+The total number of assignments
+max: \sum_{p \in Participants, c \in Cars} Assignments_{p,c}
+
+Constraint:
+1. Available Assignments
+Assignments_{p,c} <= PossibleAssignments_{p,c}, \forall p \in Participants, c \in Cars.
+2. Number of cars assigned to participant `p` is less than or equal to 1
+\sum_{c \in Cars} Assignments_{p,c} <= 1, \forall p \in Participants.
+3. Number of participants assigned to car `c` is less than or equal to 1
+\sum_{p \in Participants} Assignments_{p,c} <= 1, \forall c \in Cars.

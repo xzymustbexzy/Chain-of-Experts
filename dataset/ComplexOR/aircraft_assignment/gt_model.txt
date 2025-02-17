@@ -1,0 +1,20 @@
+Aircraft: Set of aircraft
+Route: Set of routes
+
+Availability: availability of aircraft `a` \forall a \in Aircraft.
+Demand: demand for route `r` \forall r \in Route.
+Capabilities: capabilities of aircraft `a` for route `r` \forall a \in Aircraft, r \in Route.
+Costs: costs of assigning aircraft `a` to route `r` \forall a \in Aircraft, r \in Route.
+
+Decision variable:
+Allocation: the allocation of aircraft `a` to route `r` \forall a \in Aircraft, r \in Route.
+
+Objective:
+the total cost of the assignment
+min: \sum_{a \in Aircraft,r \in Route} Costs_{a,r} * Allocation_{a,r}
+
+Constraint:
+1. the allocation of aircraft `a` does not exceed its availability
+\sum_{r \in Route} Allocation_{a,r} <= Availability_{a}, \forall a \in Aircraft.
+2. the total allocation for each route meets the demand
+\sum_{a \in Aircraft} Allocation_{a,r} * Capabilities_{a,r} = Demand_{r}, \forall r \in Route.

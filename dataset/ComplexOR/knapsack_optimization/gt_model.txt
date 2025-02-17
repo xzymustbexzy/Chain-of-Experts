@@ -1,0 +1,16 @@
+Items: Set of items
+
+ItemValue: Value of item `i` \forall i \in Items.
+ItemWeight: Weight of item `i` \forall i \in Items.
+MaxWeightKnapsack: Maximum weight capacity of the knapsack
+
+Decision variable:
+KnapsackItems: Item `i` is placed in knapsack \forall i \in Items.
+
+Objective:
+maximize total value of the items in the knapsack
+max: \sum_{i \in Items} KnapsackItems_{i} * ItemValue_{i}
+
+Constraint:
+1. Constraint on the weight capacity of the knapsack
+\sum_{i \in Items} KnapsackItems_{i} * ItemWeight_{i} <= MaxWeightKnapsack
