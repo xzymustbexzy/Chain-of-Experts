@@ -46,7 +46,7 @@ The output format is a JSON structure followed by refined code:
     def __init__(self, model):
         super().__init__(
             name='Terminology Interpreter',
-            description='Provides additional domain-specific knowledge to enhance problem understand- ing and formulation.',
+            description='Provides additional domain-specific knowledge to enhance problem understanding and formulation.',
             model=model   
         )
         self.llm = ChatOpenAI(
@@ -88,7 +88,7 @@ The output format is a JSON structure followed by refined code:
 
     def backward(self, feedback_pool):
         if not hasattr(self, 'problem'):
-            raise NotImplementedError('Please call foward first!')
+            raise NotImplementedError('Please call forward first!')
         output = self.backward_chain.predict(
             problem_description=self.problem['description'], 
             previous_answer=self.previous_answer,

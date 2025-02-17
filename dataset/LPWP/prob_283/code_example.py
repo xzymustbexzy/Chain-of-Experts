@@ -1,5 +1,5 @@
 
-code = '''def prob_283(full_time_staff, part_time_staff):
+def prob_283(full_time_staff, part_time_staff):
     """
     Args:
         full_time_staff: an integer, representing the number of full-time staff
@@ -9,7 +9,4 @@ code = '''def prob_283(full_time_staff, part_time_staff):
     """
     obj = 1e9
     # To be implemented
-    return obj'''
-
-with open("code_example.py", "w") as f:
-    f.write(code)
+    return obj

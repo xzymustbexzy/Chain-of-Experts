@@ -32,7 +32,7 @@ The output format is a JSON structure followed by refined code:
 {{
     'is_caused_by_you': false,
     'reason': 'leave empty string if the problem is not caused by you',
-    'refined_code': 'Your refined code...'
+    'refined_result': 'Your refined code...'
 }}
 '''
 
@@ -63,7 +63,7 @@ The output format is a JSON structure followed by refined code:
 
     def backward(self, feedback_pool):
         if not hasattr(self, 'problem'):
-            raise NotImplementedError('Please call foward first!')
+            raise NotImplementedError('Please call forward first!')
         output = self.backward_chain.predict(
             problem_description=self.problem['description'], 
             previous_code=self.previous_code,

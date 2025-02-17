@@ -32,7 +32,7 @@ The feedback is as follow:
 {feedback}
 
 The modeling you give previously is as follow:
-{previous_modeling}
+{previous_answer}
 
 The output format is a JSON structure followed by refined code:
 {{
@@ -69,7 +69,7 @@ The output format is a JSON structure followed by refined code:
 
     def backward(self, feedback_pool):
         if not hasattr(self, 'problem'):
-            raise NotImplementedError('Please call foward first!')
+            raise NotImplementedError('Please call forward first!')
         output = self.backward_chain.predict(
             problem_description=self.problem['description'], 
             previous_answer=self.previous_answer,

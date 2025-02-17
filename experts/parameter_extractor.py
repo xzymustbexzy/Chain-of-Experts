@@ -6,7 +6,7 @@ from langchain.chat_models import ChatOpenAI
 
 class ParameterExtractor(BaseExpert):
 
-    ROLE_DESCRIPTION = 'You are an expert that identifies and extracts relevant variables from the problem state- ment.'
+    ROLE_DESCRIPTION = 'You are an expert that identifies and extracts relevant variables from the problem statement.'
     FORWARD_TASK = '''As a parameter extraction expert, your role is to identify and extract the relevant variables, constrans, objective from the problem statement. 
 Your expertise in the problem domain will help in accurately identifying and describing these variables. 
 Please review the problem description and provide the extracted variables along with their definitions: 
@@ -23,7 +23,7 @@ The original problem is as follow:
 {problem_description}
 
 The code you give previously is as follow:
-{previous_code}
+{previous_answer}
     
 The feedback is as follow:
 {feedback}
@@ -32,7 +32,7 @@ The output format is a JSON structure followed by refined code:
 {{
     'is_caused_by_you': false,
     'reason': 'leave empty string if the problem is not caused by you',
-    'refined_code': 'Your refined code...'
+    'refined_result': 'Your refined code...'
 }}
 '''
 
@@ -75,7 +75,7 @@ The output format is a JSON structure followed by refined code:
 
     def backward(self, feedback_pool):
         if not hasattr(self, 'problem'):
-            raise NotImplementedError('Please call foward first!')
+            raise NotImplementedError('Please call forward first!')
         output = self.backward_chain.predict(
             problem_description=self.problem['description'], 
             previous_answer=self.previous_answer,

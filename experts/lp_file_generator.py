@@ -6,7 +6,7 @@ from langchain.chat_models import ChatOpenAI
 
 class LPFileGenerator(BaseExpert):
 
-    ROLE_DESCRIPTION = 'You are an LP file generator that expertises in generating LP (Linear Programming) files that can be used by opti- mization solvers.'
+    ROLE_DESCRIPTION = 'You are an LP file generator that expertises in generating LP (Linear Programming) files that can be used by optimization solvers.'
     FORWARD_TASK = '''As an LP file generation expert, your role is to generate LP (Linear Programming) files based on the formulated optimization problem. 
 
 LP files are commonly used by optimization solvers to find the optimal solution. 
@@ -28,7 +28,7 @@ The feedback is as follow:
 {feedback}
 
 The modeling you give previously is as follow:
-{previous_modeling}
+{previous_answer}
 
 The output format is a JSON structure followed by refined code:
 {{
@@ -71,7 +71,7 @@ The output format is a JSON structure followed by refined code:
 
     def backward(self, feedback_pool):
         if not hasattr(self, 'problem'):
-            raise NotImplementedError('Please call foward first!')
+            raise NotImplementedError('Please call forward first!')
         output = self.backward_chain.predict(
             problem_description=self.problem['description'], 
             previous_answer=self.previous_answer,

@@ -1,7 +1,7 @@
 [
     {
         "input": {
-            "liquid": 20.0,
+            "liquid_hand_sanitizer": 20.0,
             "foam_hand_sanitizer": 20.0,
             "water": 40,
             "alcohol": 50,

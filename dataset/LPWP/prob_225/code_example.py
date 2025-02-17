@@ -1,4 +1,3 @@
- python
 def prob_225(wide_pipes, narrow_pipes):
     """
     Args:

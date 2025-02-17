@@ -6,7 +6,7 @@ from langchain.chat_models import ChatOpenAI
 
 class ModelingKnowledgeSupplementExpert(BaseExpert):
 
-    ROLE_DESCRIPTION = 'You are an experts that offers supplementary knowledge related to modeling techniques and best prac- tices.'
+    ROLE_DESCRIPTION = 'You are an experts that offers supplementary knowledge related to modeling techniques and best practices.'
     FORWARD_TASK = '''You are given a specific problem. You aim to develop an efficient Python program that addresses the given problem.
 Now the origin problem is as follow:
 {problem_description}
@@ -32,7 +32,7 @@ The output format is a JSON structure followed by refined code:
 {{
     'is_caused_by_you': false,
     'reason': 'leave empty string if the problem is not caused by you',
-    'refined_code': 'Your refined code...'
+    'refined_result': 'Your refined code...'
 }}
 '''
 
@@ -80,7 +80,7 @@ The output format is a JSON structure followed by refined code:
 
     def backward(self, feedback_pool):
         if not hasattr(self, 'problem'):
-            raise NotImplementedError('Please call foward first!')
+            raise NotImplementedError('Please call forward first!')
         output = self.backward_chain.predict(
             problem_description=self.problem['description'], 
             previous_code=self.previous_code,

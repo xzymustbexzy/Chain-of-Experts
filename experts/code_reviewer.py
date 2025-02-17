@@ -6,7 +6,7 @@ from langchain.chat_models import ChatOpenAI
 
 class CodeReviewer(BaseExpert):
 
-    ROLE_DESCRIPTION = 'You are a code reviewer that conducts thorough reviews of the implemented code to identify any errors, inef- ficiencies, or areas for improvement.'
+    ROLE_DESCRIPTION = 'You are a code reviewer that conducts thorough reviews of the implemented code to identify any errors, inefficiencies, or areas for improvement.'
     FORWARD_TASK = '''As a Code Reviewer, your responsibility is to conduct thorough reviews of implemented code related to optimization problems. 
 You will identify possible errors, inefficiencies, or areas for improvement in the code, ensuring that it adheres to best practices and delivers optimal results. Now, here is the problem: 
 {problem_description}. 
@@ -28,7 +28,7 @@ The output format is a JSON structure followed by refined code:
 {{
     'is_caused_by_you': false,
     'reason': 'leave empty string if the problem is not caused by you',
-    'refined_code': 'Your refined answer...'
+    'refined_result': 'Your refined answer...'
 }}
 '''
 
@@ -65,9 +65,9 @@ The output format is a JSON structure followed by refined code:
 
     def backward(self, feedback_pool):
         if not hasattr(self, 'problem'):
-            raise NotImplementedError('Please call foward first!')
+            raise NotImplementedError('Please call forward first!')
         output = self.backward_chain.predict(
             problem_description=self.problem['description'], 
-            previous_code=self.previous_code,
+            previous_answer=self.previous_code,
             feedback=feedback_pool.get_current_comment_text())
         return output
