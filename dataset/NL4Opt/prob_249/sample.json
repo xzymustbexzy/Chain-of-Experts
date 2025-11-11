@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "retail_store": 6,
+            "factory_outlet": 0
+        },
+        "output": [
+            6
+        ]
+    }
+]

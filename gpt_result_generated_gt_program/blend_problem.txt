@@ -1,0 +1,97 @@
+以下是针对所描述运筹学优化问题的Python代码，利用了`cvxpy`库来求解优化问题。这个库允许用户定义决策变量，并且通过构造目标与约束来形成优化模型，然后求解它来找到最优解。
+
+请先确保你已经安装了`cvxpy`和`numpy`库：
+
+```bash
+pip install cvxpy numpy
+```
+
+下面是补全的代码：
+
+```python
+import cvxpy as cp
+import numpy as np
+
+def blend_problem(alloys_on_market, required_elements, composition_data, desired_blend_percentage, alloy_price):
+    """
+    Solve the alloy blending problem to achieve the desired blend at minimum cost.
+
+    Args:
+        alloys_on_market: list of integers, IDs of available alloys on the market
+        required_elements: list of strings, IDs of required elements
+        composition_data: 2D list of floats, percentage of each required element in each alloy
+        desired_blend_percentage: list of floats, desired blend percentage for each element
+        alloy_price: list of floats, price of each alloy
+
+    Returns:
+        min_cost: a float, minimum total cost to achieve the desired blend
+        alloy_purchased: np.array, the amount of each alloy to purchase
+    """
+    # Number of alloys and required elements
+    num_alloys = len(alloys_on_market)
+    num_elements = len(required_elements)
+    
+    # Convert lists to numpy arrays for matrix operations
+    composition_data = np.array(composition_data)
+    desired_blend_percentage = np.array(desired_blend_percentage)
+    alloy_price = np.array(alloy_price)
+    
+    # Define the decision variable (amount of each alloy to purchase)
+    AlloyPurchased = cp.Variable(num_alloys)
+    
+    # The objective is to minimize the total cost of the purchased alloys
+    cost = alloy_price @ AlloyPurchased  # @ operator is used for matrix multiplication in numpy
+    objective = cp.Minimize(cost)
+    
+    # Constraints
+    constraints = []
+
+    # Constraint to ensure that the desired blend percentage of each required element is met
+    for e in range(num_elements):
+        constraints.append(composition_data[e, :] @ AlloyPurchased == desired_blend_percentage[e])
+    
+    # Constraint to ensure that the total amount of alloys purchased is equal to 1
+    constraints.append(cp.sum(AlloyPurchased) == 1)
+
+    # The AlloyPurchased should be non-negative
+    constraints += [AlloyPurchased >= 0]
+    
+    # Solve the problem
+    prob = cp.Problem(objective, constraints)
+    prob.solve()
+    
+    # Check if the problem is feasible and has an optimal solution
+    if prob.status not in ["infeasible", "unbounded"]:
+        # Optimal solution found
+        min_cost = prob.value
+        alloy_purchased = AlloyPurchased.value
+        print("The minimum cost is: ", min_cost)
+        print("Amount of each alloy to purchase: ", alloy_purchased)
+        return min_cost, alloy_purchased
+    else:
+        # Problem has no solution
+        print("No solution exists for the blending problem with the provided data.")
+        return None, None
+
+# Example usage
+alloys_on_market = [1, 2, 3]
+required_elements = ['C', 'Si', 'Mn']
+composition_data = [
+    [0.2, 0.3, 0.5],  # C composition in alloys
+    [0.05, 0.1, 0.15],  # Si composition in alloys
+    [0.6, 0.5, 0.4]   # Mn composition in alloys
+]
+desired_blend_percentage = [0.3, 0.1, 0.5]
+alloy_price = [2.5, 3.0, 4.0]
+
+min_cost, alloy_purchased = blend_problem(alloys_on_market, required_elements, composition_data, desired_blend_percentage, alloy_price)
+```
+
+在上述代码中，我们首先定义了决策变量`AlloyPurchased`，然后构建了目标函数以最小化成本，并对应地设置了两个约束：
+
+1. 保证期望合金混合百分比满足所需各元素的约束。
+2. 保证购买的合金总量等于1的约束。
+
+执行上述函数可能得到最小成本以及对应在每种合金上投资的金额。请注意，实际使用中需要向函数中传递实际参数。在这个代码段中，我也包括了一段示例用法代码。
+
+请确保您使用此代码时遵守您当地的软件使用和版权规定，此代码仅供学习和教育用途。

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "regular_handbags": 0,
+            "premium_handbags": 0
+        },
+        "output": [
+            85500.0
+        ]
+    }
+]

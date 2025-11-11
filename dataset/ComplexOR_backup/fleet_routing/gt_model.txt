@@ -1,0 +1,30 @@
+Locations: Set of locations/cities
+Planes: Set of vehicles/planes types
+Periods: Set of all periods
+
+Capacity: Capacity of planes of type `v` \forall v \in Planes.
+Cost: Cost of using planes of type `v` \forall v \in Planes.
+AvailablePlanes: Available number of planes of type `v` \forall v \in Planes.
+Delta: Binary parameter; 1, if there is flight depart from `i` in period `t` and arrive at `j` in period `h`; 0 otherwise \forall i \in Locations, t \in Periods, j \in Locations, h \in Periods.
+NumberOfPassengers: Number of passengers for flight `(i, t, j, h)` \forall i \in Locations, t \in Periods, j \in Locations, h \in Periods.
+
+Decision variable:
+NumPlanes: Number of planes of type `v` departing from location `i` in period `t` and arriving at location `j` in period `h` \forall v \in Planes, i \in Locations, t \in Periods, j \in Locations, h \in Periods.
+NumIdlePlanes: Number of planes of type `v` idle on ground at `i` just after period/event `t` \forall v \in Planes, i \in Locations, t \in Periods.
+NumIdlePlanesInit: Number of planes of type `v` idle on ground at `i` just before the 1st period/event \forall v \in Planes, i \in Locations.
+
+Objective:
+The total cost of using the planes
+min: \sum_{v \in Planes, i \in Locations, t \in Periods, j \in Locations, h \in Periods} Cost_{v} * NumPlanes_{v, i, t, j, h}
+
+Constraint:
+1. Flow balance for number of planes for each location and period
+NumIdlePlanesInit_{v, i} = NumIdlePlanes_{v, i, 1} + \sum_{j \in Locations, h \in Periods} NumPlanes_{v, i, 1, j, h}, \forall v \in Planes, i \in Locations.
+2. Flow balance for number of planes for each location and period
+NumIdlePlanes_{v, i, t} = NumIdlePlanes_{v, i, t-1} + \sum_{j \in Locations, p \in Periods} NumPlanes_{v, j, p, i, t} - \sum_{j \in Locations, h \in Periods} NumPlanes_{v, i, t, j, h}, \forall  > 1, {v \in Planes, i \in Locations, t \in Periods.
+3. Cannot use more planes than what we have in fleet
+\sum_{i \in Locations} NumIdlePlanesInit_{v, i} <= AvailablePlanes_{v}, \forall v \in Planes.
+4. Capacity on flight `(i, t, j, h)` must cover its demand
+\sum_{v \in Planes} Capacity_{v} * NumPlanes_{v, i, t, j, h} >= NumberOfPassengers_{i, t, j, h}, \forall i \in Locations, t \in Periods, j \in Locations, h \in Periods.
+5. Restrict the NumPlanes variables on routes with no scheduled flights
+NumPlanes_{v, i, t, j, h} <= AvailablePlanes_{v} * Delta_{i, t, j, h}, \forall v \in Planes, i \in Locations, t \in Periods, j \in Locations, h \in Periods.

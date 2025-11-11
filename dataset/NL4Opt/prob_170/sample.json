@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_suitcases": 47,
+            "large_suitcases": 23
+        },
+        "output": [
+            4190.0
+        ]
+    }
+]

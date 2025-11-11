@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "process_1": 0,
+            "process_2": 40
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

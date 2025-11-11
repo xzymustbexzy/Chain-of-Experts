@@ -1,0 +1,44 @@
+Items: Set of items
+Machines: Set of machines
+Periods: Set of periods
+
+InitialStock: Initial stock of item `i` \forall i \in Items.
+MinStock: Minimum stock of item `i` \forall i \in Items.
+MaxStock: Maximum stock of item `i` \forall i \in Items.
+ProductionRate: Production rate of item `i` on machine `m` \forall i \in Items, m \in Machines.
+MachineStartUpTime: Start-up time for machine `m` \forall m \in Machines.
+StartUpTime: Start-up time for item `i` on machine `m` \forall i \in Items, m \in Machines.
+Demand: Demand for item `i` in period `t` \forall i \in Items, t \in Periods.
+
+Decision variable:
+FractionProduced: Fraction produced of item `i` on machine `m` in period `t` \forall i \in Items, m \in Machines, t \in Periods.
+IsProduced: Production variable: 1 if item `i` is produced on machine `m` in period `t` \forall i \in Items, m \in Machines, t \in Periods.
+ItemStock: Stock of item `i` in period `t` \forall i \in Items, t \in Periods.
+IsStartup: Startup variable: 1 if production of item `i` is started on machine `m` in period `t` \forall i \in Items, t \in Periods, m \in Machines.
+ExcessStock: Excess over upper bound on stock for item `i` \forall i \in Items.
+
+Objective:
+Minimize the total time loss
+min: \sum_{i \in Items, m \in Machines, t \in Periods} StartUpTime_{i,m} * IsStartup_{i, t, m} + \sum_{i \in Items} 10 * ExcessStock_{i}
+
+Constraint:
+1. Flow constraint
+ItemStock_{i, t-1} + \sum_{m \in Machines} ProductionRate_{i, m} * FractionProduced_{i, m, t} = Demand_{i, t} + ItemStock_{i, t}, \forall  > 1, {i \in Items, t \in Periods.
+2. Flow constraint
+InitialStock_{i} + \sum_{m \in Machines} ProductionRate_{i, m} * FractionProduced_{i, m, 1} = Demand_{i, 1} + ItemStock_{i, 1}, \forall i \in Items.
+3. Start-up constraint
+FractionProduced_{i, m, t} + StartUpTime_{i, m} * IsStartup_{i, t, m} <= IsProduced_{i, m, t}, \forall i \in Items, m \in Machines, t \in Periods.
+4. Start-up constraint
+IsStartup_{i, t, m} >= IsProduced_{i, m, t} - IsProduced_{i, m, t-1}, \forall i \in Items, m \in Machines, t \in Periods.
+5. Start-up constraint
+IsStartup_{i, t, m} + IsStartup_{i, t-1, m} <= IsProduced_{i, m, t}, \forall i \in Items, t \in Periods, m \in Machines.
+6. Start-up constraint
+\sum_{i \in Items} IsProduced_{i, m, t} - IsStartup_{i, t, m} <= 1, \forall m \in Machines, t \in Periods.
+7. Unique start-up constraint
+\sum_{i \in Items} IsStartup_{i, t, m} <= 1, \forall m \in Machines, t \in Periods.
+8. Start-up time constraint
+\sum_{i \in Items} FractionProduced_{i, m, t} + \sum_{i \in Items} StartUpTime_{i, m} * IsStartup_{i, t, m} <= 1, \forall m \in Machines, t \in Periods.
+9. Maximum stock constraint
+ItemStock_{i, t} <= MaxStock_{i} + ExcessStock_{i}, \forall i \in Items, t \in Periods.
+10. Minimum stock constraint
+ItemStock_{i, t} >= MinStock_{i}, \forall i \in Items, t \in Periods.

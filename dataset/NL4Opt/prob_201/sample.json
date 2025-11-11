@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "refrigerators": 333,
+            "stoves": 0
+        },
+        "output": [
+            133200
+        ]
+    }
+]

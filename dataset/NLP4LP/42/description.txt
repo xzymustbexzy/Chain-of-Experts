@@ -1,0 +1,1 @@
+There are two processes, process A and process B, to plate a coin with gold. Process A requires 3 units of gold, 2 wires, and can plate 5 coins. Process B requires 5 units of gold, 3 wires, and can plate 7 coins. There are 500 units of gold and 300 wires available. How many processes of each type should be run to maximize the total number of coins that can be plated?

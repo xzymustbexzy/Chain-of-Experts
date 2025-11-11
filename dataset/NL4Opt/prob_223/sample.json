@@ -1,0 +1,12 @@
+[
+    {
+        "input": {
+            "Pi_TV": 2,
+            "Beta_Video": 4,
+            "Gamma_Live": 2
+        },
+        "output": [
+            42000
+        ]
+    }
+]

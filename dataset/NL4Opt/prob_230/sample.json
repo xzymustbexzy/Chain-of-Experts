@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "calcium_pills": 90,
+            "vitamin_d_pills": 40
+        },
+        "output": [
+            690.0
+        ]
+    }
+]

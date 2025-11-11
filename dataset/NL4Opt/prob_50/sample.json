@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "staff_teachers": 66.0,
+            "substitute_teachers": 202.0,
+            "requires_constraint": 1002.0,
+            "budget_constraint": 40000.0
+        },
+        "output": [
+            268.0
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "health_supplement_A": 0.0,
+            "health_supplement_B": 7.0
+        },
+        "output": [
+            175.0
+        ]
+    }
+]

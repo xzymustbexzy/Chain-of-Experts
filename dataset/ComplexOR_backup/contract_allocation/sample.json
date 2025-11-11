@@ -1,0 +1,19 @@
+[
+    {
+        "input": {
+            "producers": ["P1", "P2"],
+            "contracts": ["C1", "C2"],
+            "available_capacity": [100, 150],
+            "production_cost": [
+                [10, 15],
+                [20, 25]
+            ],
+            "minimal_delivery": [20, 30],
+            "contract_size": [80, 90],
+            "minimal_number_of_contributors": [1, 2]
+        },
+        "output": [
+            2050.0
+        ]
+    }
+]

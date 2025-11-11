@@ -1,0 +1,17 @@
+[
+    {
+      "input": {
+        "alloys_on_market": [0, 1],
+        "required_elements": ["A", "B"],
+        "composition_data": [
+          [0.5, 0.1],
+          [0.5, 0.9]
+        ],
+        "desired_blend_percentage": [0.5, 0.5],
+        "alloy_price": [10.0, 20.0]
+      },
+      "output": [
+        10
+      ]
+    }
+]

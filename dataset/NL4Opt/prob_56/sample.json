@@ -1,0 +1,18 @@
+[
+    {
+        "input": {
+            "wraps": 537.0,
+            "platters": 178.0,
+            "meat_wrap": 5,
+            "rice_wrap": 3,
+            "meat_platter": 7,
+            "rice_platter": 5,
+            "time_wrap": 10,
+            "time_platter": 8,
+            "wrap_to_platter_ratio": 3
+        },
+        "output": [
+            6794.0
+        ]
+    }
+]

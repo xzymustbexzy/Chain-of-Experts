@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "cash_based": 10,
+            "card_only": 10
+        },
+        "output": [
+            null
+        ]
+    }
+]

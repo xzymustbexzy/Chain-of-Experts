@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "strawberry_cookie": 20,
+            "sugar_cookie": 80
+        },
+        "output": [
+            1070.0
+        ]
+    }
+]

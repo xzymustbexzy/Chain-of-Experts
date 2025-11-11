@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "blueberries": 0,
+            "raspberries": 191,
+            "constraint1": 300,
+            "constraint2": 10000,
+            "constraint3": 575
+        },
+        "output": [
+            14325.0
+        ]
+    }
+]

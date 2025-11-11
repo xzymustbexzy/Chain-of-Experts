@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "production_rate": [5, 8, 6],
+            "profit": [10, 7, 5],
+            "min_sold": [100, 120, 80],
+            "max_sold": [300, 250, 200],
+            "available_hours": 100
+        },
+        "output": [
+            4650.0
+        ]
+    }
+]

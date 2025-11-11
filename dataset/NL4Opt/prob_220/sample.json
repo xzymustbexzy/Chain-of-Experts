@@ -1,0 +1,15 @@
+[
+    {
+        "input": {
+            "full_weighted": 0,
+            "semi_weighted": 0,
+            "constraint1": 20,
+            "constraint2": 15,
+            "constraint3": 1.2,
+            "constraint4": 1.2
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "helicopters": 8,
+            "trucks": 8
+        },
+        "output": [
+            120.0
+        ]
+    }
+]

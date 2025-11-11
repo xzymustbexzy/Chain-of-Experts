@@ -1,0 +1,47 @@
+{
+    "input": {
+        "products": ["product_1", "product_2"],
+        "periods": ["t1", "t2", "t3"],
+        "production_capacity": {
+            "t1": 100,
+            "t2": 100,
+            "t3": 100
+        },
+        "expected_demand": {
+            "(product_1, t1)": 20,
+            "(product_1, t2)": 40,
+            "(product_1, t3)": 30,
+            "(product_2, t1)": 10,
+            "(product_2, t2)": 20,
+            "(product_2, t3)": 10
+        },
+        "holding_costs": {
+            "product_1": 2,
+            "product_2": 1
+        },
+        "production_coefficient": {
+            "product_1": 1,
+            "product_2": 1
+        },
+        "additional_unit_cost": {
+            "t1": 10,
+            "t2": 10,
+            "t3": 10
+        },
+        "setup_cost": {
+            "product_1": {
+                "t1": 100,
+                "t2": 100,
+                "t3": 100
+            },
+            "product_2": {
+                "t1": 50,
+                "t2": 50,
+                "t3": 50
+            }
+        }
+    },
+    "output": [
+        5000
+    ]
+}

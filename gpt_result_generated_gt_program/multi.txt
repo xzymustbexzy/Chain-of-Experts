@@ -1,0 +1,76 @@
+要完成这个运筹优化问题的代码实现，我们可以使用线性规划。Python 中一个广泛应用于解决线性规划问题的库是 PuLP。以下是 PuLP 库的使用方法来实现多商品运输问题的完整代码。
+
+首先，确保你已经安装了 PuLP。如果还没安装，你可以使用 pip 来安装它：
+
+```bash
+pip install pulp
+```
+
+然后，使用以下代码来完成 `multi` 函数的编写：
+
+```python
+import pulp
+
+def multi(supply, demand, limit, cost):
+
+    # 定义问题
+    prob = pulp.LpProblem("Multi-Commodity_Transportation_Problem", pulp.LpMinimize)
+
+    # 定义索引集合
+    origins = range(len(supply))         # 源点集合
+    destinations = range(len(demand[0])) # 目的地集合
+    products = range(len(supply[0]))     # 产品集合
+
+    # 决策变量
+    transport = pulp.LpVariable.dicts("Transport", (origins, destinations, products), 0, None, pulp.LpInteger)
+
+    # 目标函数
+    prob += pulp.lpSum([cost[i][j][p] * transport[i][j][p] for i in origins for j in destinations for p in products]), "Total Shipment Costs"
+
+    # 约束条件
+    # 每个起点的每种产品的供应量等于运输量
+    for i in origins:
+        for p in products:
+            prob += pulp.lpSum([transport[i][j][p] for j in destinations]) == supply[i][p], f"Supply_Constraint_{i}_{p}"
+    
+    # 每个目的地的每种产品的需求量等于运输量
+    for j in destinations:
+        for p in products:
+            prob += pulp.lpSum([transport[i][j][p] for i in origins]) == demand[p][j], f"Demand_Constraint_{j}_{p}"
+    
+    # 从每个起点到每个目的地的所有产品的总运输量不超过极限
+    for i in origins:
+        for j in destinations:
+            prob += pulp.lpSum([transport[i][j][p] for p in products]) <= limit[i][j], f"Limit_Constraint_{i}_{j}"
+    
+    # 解决问题
+    prob.solve()
+    
+    # 输出结果
+    total_cost = pulp.value(prob.objective)
+
+    # 输出运输量的决策变量（如果需要的话）
+    transport_values = {}
+    for i in origins:
+        for j in destinations:
+            for p in products:
+                transport_values[i, j, p] = pulp.value(transport[i][j][p])
+
+    return total_cost, transport_values
+
+# 给出示例输入数据
+supply_example = [[20, 30], [40, 50]]  # 两个起点，每个起点有两种产品的供应量
+demand_example = [[30, 10], [10, 20], [20, 50]]  # 三个目的地，每个目的地有两种产品的需求量
+limit_example = [[50, 50, 50], [100, 100, 100]]  # 两个起点到三个目的地的物流限制
+cost_example = [[[2, 4], [6, 2], [3, 1]], [[1, 3], [3, 4], [2, 2]]]  # 运输成本矩阵
+
+# 调用函数
+total_cost_result, transport_values_result = multi(supply_example, demand_example, limit_example, cost_example)
+
+# 打印结果
+print(f"Total Cost: {total_cost_result}")
+for key, value in transport_values_result.items():
+    print(f"Transport[{key}]: {value}")
+```
+
+在这个代码中，我们首先定义问题类型是最小化问题。接着定义了决策变量 `Transport`，它表示各个产品从各个起点到各个目的地的运输量，其值不能小于0。之后我们定义目标函数，即运输总成本。然后定义了三种约束条件。第一种约束是确保每个起点的每种产品的供应量等于其运输量，第二种是每个目的地的每种产品的需求量等于其运输量，第三种是从每个起点到每个目的地的所有产品的总运输量不能超过预定极限。最后，使用 PuLP 的 `solve` 方法解决问题并返回最小化运输总成本以及各个产品的运输量分配结果。

@@ -1,0 +1,1 @@
+{"NumProcesses": 2, "NumProducts": 2, "ProductionRate": [[35, 12], [50, 30]], "PreliminaryMaterialRequired": [50, 60], "TotalPreliminaryMaterialAvailable": 2000, "MinProductRequired": [1200, 1200]}

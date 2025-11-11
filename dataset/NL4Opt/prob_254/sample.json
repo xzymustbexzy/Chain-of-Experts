@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "large_bags": 0,
+            "tiny_bags": 0
+        },
+        "output": [
+            620.0
+        ]
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "input": {
+            "roll_width": 10,
+            "widths": [2, 3, 5],
+            "orders": [4, 2, 2],
+            "num_patterns": 2,
+            "num_rolls_width": [
+                [1, 2, 0], 
+                [0, 0, 1]
+            ]
+        },
+        "output": [
+            6
+        ]
+    }
+]

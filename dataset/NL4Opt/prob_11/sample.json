@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "condos": 152000.0,
+            "detached_houses": 608000.0
+        },
+        "output": [
+            684000.0
+        ]
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "ferry": 6,
+            "light_rail": 26,
+            "constraint1": 20,
+            "constraint2": 15,
+            "constraint3": 4
+        },
+        "output": [
+            32
+        ]
+    }
+]

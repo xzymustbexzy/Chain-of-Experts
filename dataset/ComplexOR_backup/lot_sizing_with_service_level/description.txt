@@ -1,0 +1,1 @@
+The lot-sizing with service level (LS-SL) problem is the problem of determining order lot sizes and inventory levels to meet customer demands with service-level backlogged demand while maintaining low costs. The demand can be delivered by the end of the planning horizon at a predetermined service level but unit penalty is incurred for the amount backlogged.

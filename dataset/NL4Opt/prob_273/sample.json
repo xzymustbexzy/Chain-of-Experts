@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "camel_caravans": 8,
+            "desert_trucks": 8
+        },
+        "output": [
+            136
+        ]
+    }
+]

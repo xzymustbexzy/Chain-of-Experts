@@ -1,0 +1,39 @@
+根据你的问题描述和提供的数学建模，这看起来像一个经典的作业车间调度(Job Shop Scheduling)问题，可以使用混合整数规划(Mixed Integer Programming)来求解。其中涉及到的决策变量包括任务在各机器上的开始时间以及任务间的先后顺序。  
+
+下面我提供了一个使用Python的Optimization Library `PuLP`来构建和求解这个问题的基本代码框架。注意：因为本问题为了简化起见，目前的代码只处理了任务间的排斥关系（即每个任务在每台机器上都不能重叠），并没有处理任务间的依赖关系（即对于同一个任务，在一台机器上的作业必须在另一台机器上的作业之后，这对应于你模型中的Logical Constraint）。
+
+```python
+from pulp import *
+
+def job_shop_scheduling(tasks, machines, processing_time, big_m):
+    
+    problem = LpProblem("JobShopScheduling", LpMinimize)
+    
+    # Define the decision variables
+    start_time = LpVariable.dicts("start_time", [(t, m) for t in tasks for m in machines], 0, None)
+    done_before = LpVariable.dicts("done_before", [(i, j, m) for i in tasks for j in tasks if i != j for m in machines], 0, 1, LpBinary)
+    finish_time = LpVariable.dicts("finish_time", [m for m in machines], 0)
+    max_finish_time = LpVariable("max_finish_time", 0, None)
+
+    # Set the objective
+    problem += max_finish_time
+
+    # Add the constraints
+    for m in machines:
+        for j in tasks:
+            problem += start_time[j, m] + processing_time[j][m] <= finish_time[m]
+
+        for i, j in permutations(tasks, 2):
+            problem += start_time[i, m] + (processing_time[i][m] - start_time[j, m]) <= big_m * (1 - done_before[i, j, m])
+
+        problem += finish_time[m] <= max_finish_time
+
+    # Solve the problem
+    problem.solve()
+
+    return value(problem.objective)
+```
+
+这段代码定义了一个线性规划问题，设置目标函数最小化所有任务的最晚完成时间，并添加了一系列约束。其中处理任务间的排斥对应的约束中使用了`permutations`函数，该函数生成了所有的任务对(i, j)，这能够确保任意两个任务都不会在同一台机器上同时处理。
+
+最后一行代码通过调用`problem.solve()`，使用默认的求解器求解这个问题，返回最优解。如果你的问题规模很大，或者你希望使用更先进的求解器，你可能需要使用一些商业的求解器，如`Gurobi`或`CPLEX`，他们通常可以提供更快更精确的解。

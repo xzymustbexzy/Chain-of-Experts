@@ -1,0 +1,48 @@
+运筹优化问题，包括农场策划模型，往往使用回归、图论或线性规划等策略去解决。这里，我们将使用Python的线性规划包PuLP来解决这个问题。以下是一个可能的实现方法：
+
+```python
+from pulp import *
+
+def farm_planning(Yield, Price, AmountInBundle, LandAvailable, BP_land, FractionOccupiesLand, LaborRequired, 
+                  AnnualWageRateFamilyLabor, AnnualWageRatePermanentLabor, HourlyWageRateTemporaryLabor,  
+                  WorkingHours, FamilyLaborAvailable, AnnualAmountOfWaterAvailable, WaterLimit, WaterRequirement, 
+                  PriceOfWater):
+
+    Crops = range(len(Yield))
+    Months = range(len(WorkingHours))
+    ConsumptionBundles = range(len(AmountInBundle[0]))
+    
+    m = LpProblem("FarmPlanning", LpMaximize)
+    
+    AmountPlanted = LpVariable.dicts("AmountPlanted", Crops, 0)
+    PermanentLaborHired = LpVariable("PermanentLaborHired", 0)
+    TemporaryLaborHired = LpVariable.dicts("TemporaryLaborHired", Months, 0)
+    Sales = LpVariable.dicts("Sales", Crops, 0)
+    FractionConsumed = LpVariable.dicts("FractionConsumed", ConsumptionBundles, 0, 1)
+
+    m += lpSum([Price[c] * Sales[c] for c in Crops] 
+               - AnnualWageRateFamilyLabor * FamilyLaborAvailable 
+               - AnnualWageRatePermanentLabor * PermanentLaborHired 
+               - lpSum([HourlyWageRateTemporaryLabor * TemporaryLaborHired[t] for t in Months])
+               - lpSum([PriceOfWater * WaterRequirement[t][c] * AmountPlanted[c] for t in Months for c in Crops]) ) 
+
+    for t in Months:
+        m += lpSum([FractionOccupiesLand[t][c] * AmountPlanted[c] for c in Crops]) <= LandAvailable 
+        m += lpSum([LaborRequired[t][c] * AmountPlanted[c] for c in Crops]) <= WorkingHours[t] * (FamilyLaborAvailable + PermanentLaborHired) + TemporaryLaborHired[t]
+        m += lpSum([WaterRequirement[t][c] * AmountPlanted[c] for c in Crops]) <= WaterLimit[t]
+
+    m += lpSum([WaterRequirement[t][c] * AmountPlanted[c] for t in Months for c in Crops]) <= AnnualAmountOfWaterAvailable  
+
+    for c in Crops:
+        m += Yield[c] * AmountPlanted[c] == lpSum([AmountInBundle[c][b] * FractionConsumed[b] for b in ConsumptionBundles]) + Sales[c]
+
+    m += lpSum([FractionConsumed[b] for b in ConsumptionBundles]) == 1
+    
+    m.solve()
+    
+    max_farm_earnings = value(m.objective)
+    
+    return max_farm_earnings
+```
+
+该代码通过PuLP包创建了一个线性规划模型，定义了优化问题，并在满足所有约束条件的前提下，计算了最大化的农场收益。这个具体框架可能会依据问题的具体需求和数据的具体上下文稍有偏差。

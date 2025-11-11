@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "first_dose": 40,
+            "second_dose": 40
+        },
+        "output": [
+            3200
+        ]
+    }
+]

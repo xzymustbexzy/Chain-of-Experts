@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "regular": 10,
+            "hybrid": 50
+        },
+        "output": [
+            60
+        ]
+    }
+]

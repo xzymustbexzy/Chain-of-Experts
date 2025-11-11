@@ -1,0 +1,42 @@
+[
+    {
+        "input": {
+            "periods": [1, 2, 3],
+            "resources": [1, 2],
+            "products": [1, 2, 3],
+            "products_per_resource": {
+                "1": [1, 2],
+                "2": [3]
+            },
+            "successors": {
+                "1": [3],
+                "2": [3],
+                "3": []
+            },
+            "required_units": [
+                [0, 0, 1], 
+                [0, 0, 1], 
+                [0, 0, 0]
+            ],
+            "capacity": [
+                [8, 10, 9],
+                [6, 6, 6]
+            ],
+            "big_number": 1000,
+            "overtime_cost": [5, 7],
+            "holding_cost": [2, 1, 3],
+            "setup_cost": [100, 150, 120],
+            "production_time_per_unit": [1, 2, 1],
+            "setup_time": [1, 1, 1],
+            "initial_inventory": [10, 5, 0],
+            "demand": [
+                [5, 5, 5],
+                [3, 3, 3],
+                [8, 8, 8]
+            ]
+        },
+        "output": [
+            2000
+        ]
+    }
+]

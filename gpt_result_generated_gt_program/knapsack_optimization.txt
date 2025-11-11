@@ -1,0 +1,37 @@
+要解决背包问题，我们可以使用不同的方法，包括动态规划、回溯、分支限界或贪婪算法等。其中，动态规划方法广泛应用于解决0/1背包问题，因为它的效率高而且易于实现。
+
+以下是一个Python函数，使用动态规划方法来解决这个问题：
+
+```python
+def knapsack_optimization(item_values, item_weights, max_weight_knapsack):
+    """
+    Args:
+        item_values: a list of integers, indicating the value of each item
+        item_weights: a list of integers, indicating the weight of each item
+        max_weight_knapsack: an integer, denotes the maximum weight capacity of the knapsack
+
+    Returns:
+        max_total_value: an integer, denotes the maximum total value of the items in the knapsack
+    """
+    num_items = len(item_values)
+    # 创建dp表格，行数为物品的数量加 1，列数为背包最大重量加 1
+    # dp[i][w] 将表示对于前 i 个物品，在不超过重量 w 的情况下能够获得的最大价值
+    dp = [[0] * (max_weight_knapsack + 1) for _ in range(num_items + 1)]
+
+    # 填充dp表
+    for i in range(1, num_items + 1):
+        for w in range(1, max_weight_knapsack + 1):
+            if item_weights[i - 1] <= w:
+                # 如果当前物品的重量小于等于背包重量限制，
+                # 我们可以选择放入这个物品或者不放入这个物品，取决于哪种选择值更大
+                dp[i][w] = max(item_values[i - 1] + dp[i - 1][w - item_weights[i - 1]], dp[i - 1][w])
+            else:
+                # 如果物品的重量超出了背包的限制，则这个物品不能被放入背包中
+                dp[i][w] = dp[i - 1][w]
+
+    # dp表的最后一个元素将包含最大的价值
+    max_total_value = dp[num_items][max_weight_knapsack]
+    return max_total_value
+```
+
+在这个实现中，我们使用了一个二维数组 `dp` 来存储子问题的解决方案。具体来说，`dp[i][w]` 表示在给定背包的最大重量为 `w` 且仅考虑前 `i` 个物品时，可达到的最大价值。通过填充这个表，我们可以构造出针对给定物品集和背包大小的最优解。最后，返回表格中的最后一个元素，它反映了全集的最大价值。

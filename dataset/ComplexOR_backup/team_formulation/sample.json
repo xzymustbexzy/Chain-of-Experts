@@ -1,0 +1,24 @@
+[
+    {
+        "input": {
+            "P": ["Alice", "Bob"],
+            "C": ["Project1", "Project2"],
+            "S": ["Skill1", "Skill2"],
+            "RequiredSkill": {
+                "(Project1, Skill1)": 3,
+                "(Project1, Skill2)": 2,
+                "(Project2, Skill1)": 1,
+                "(Project2, Skill2)": 4
+            },
+            "IndividualSkill": {
+                "(Alice, Skill1)": 2,
+                "(Alice, Skill2)": 5,
+                "(Bob, Skill1)": 3,
+                "(Bob, Skill2)": 2
+            }
+        },
+        "output": [
+            1.0
+        ]
+    }
+]

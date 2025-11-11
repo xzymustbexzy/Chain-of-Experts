@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "old_vans": 26,
+            "new_vans": 30
+        },
+        "output": [
+            2200
+        ]
+    }
+]

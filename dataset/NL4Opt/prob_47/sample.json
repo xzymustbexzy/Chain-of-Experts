@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "bagels": 29,
+            "croissants": 12,
+            "oven_hours": 70,
+            "chef_hours": 31
+        },
+        "output": [
+            1060
+        ]
+    }
+]

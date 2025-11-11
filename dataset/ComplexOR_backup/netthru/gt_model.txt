@@ -1,0 +1,23 @@
+Cities: a set of cities
+Links: a set of links between the cities
+
+Supply: amounts of goods available at city `i` \forall i \in Cities.
+Demand: amounts of goods required at city `i` \forall i \in Cities.
+Cost: shipment costs per ton over link `(i, j)` \forall i \in Links, j \in Links.
+CityCapacity: maximum throughput at city `i` \forall i \in Cities.
+LinkCapacity: maximum shipment over link `(i, j)` \forall i \in Links, j \in Links.
+
+Decision variable:
+Shipping: amount of goods to be shipped from city `i` to city `j` \forall i \in Links, j \in Links.
+
+Objective:
+the total cost of shipping goods over the network
+min: \sum_{i \in Links, j \in Links} Cost_{i, j} * Shipping_{i, j}
+
+Constraint:
+1. the balance flow constraints for city `k`
+Supply_{k} + \sum_{i \in Links, k \in Links} Shipping_{i, k} = Demand_{k} + \sum_{k \in Links, j \in Links} Shipping_{k, j}, \forall k \in Cities.
+2. the shipment over link `(i, j)` should not exceed its capacity
+Shipping_{i, j} <= LinkCapacity_{i, j}, \forall i \in Links, j \in Links.
+3. the flow through city `k` should not exceed its capacity
+Supply_{k} + \sum_{i \in Links, k \in Links} Shipping_{i, k} <= CityCapacity_{k}, \forall k \in Cities.

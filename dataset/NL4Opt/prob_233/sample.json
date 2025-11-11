@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "high_volume": 5.0,
+            "low_volume": 20.0
+        },
+        "output": [
+            25.0
+        ]
+    }
+]

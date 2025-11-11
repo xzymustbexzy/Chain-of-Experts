@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "blueberries": 15,
+            "strawberries": 45
+        },
+        "output": [
+            390
+        ]
+    }
+]

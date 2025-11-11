@@ -1,0 +1,1 @@
+{"HighVolumeCapacity": 10000, "LowVolumeCapacity": 5000, "TechniciansPerHighVolumePipe": 12, "TechniciansPerLowVolumePipe": 5, "DailyGasDemand": 150000, "TotalTechnicians": 160, "MaxHighVolumeProportion": 0.35, "MinLowVolumePipes": 8}

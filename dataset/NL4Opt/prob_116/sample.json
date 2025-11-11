@@ -1,0 +1,12 @@
+[
+    {
+        "input": {
+            "factory_1": 12,
+            "factory_2": 20,
+            "base_gel": 45
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

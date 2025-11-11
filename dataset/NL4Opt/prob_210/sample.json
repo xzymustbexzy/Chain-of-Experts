@@ -1,0 +1,12 @@
+[
+    {
+        "input": {
+            "light_oil": 33,
+            "non_sticky_oil": 25,
+            "heavy_oil": 0
+        },
+        "output": [
+            36900.0
+        ]
+    }
+]

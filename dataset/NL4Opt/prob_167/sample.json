@@ -1,0 +1,12 @@
+[
+    {
+        "input": {
+            "small_wagons": 45,
+            "large_wagons": 22,
+            "twice": 2
+        },
+        "output": [
+            67.0
+        ]
+    }
+]

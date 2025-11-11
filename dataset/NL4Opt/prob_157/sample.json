@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "containers": 40,
+            "trucks": 20,
+            "Max_Trucks": 20,
+            "Min_Oil_Units": 2000,
+            "Min_Containers": 15
+        },
+        "output": [
+            60
+        ]
+    }
+]

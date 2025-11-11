@@ -1,0 +1,43 @@
+这个问题可以通过线性规划解决。在Python中，我们可以使用PuLP库来解决线性规划问题。以下是完成的代码：
+
+```python
+from pulp import *
+
+def uncapacitated_lot_sizing_backlogging(periods, demand, cost_fixed, cost_unit_order, cost_unit_hold, penalty):
+    # Define the problem
+    prob = LpProblem("Uncapacitated_Lot_Sizing_Backlogging", LpMinimize)
+
+    # Variables
+    OrderedAmount = LpVariable.dicts("OrderedAmount", periods, 0, None, LpContinuous)
+    EndingInventory = LpVariable.dicts("EndingInventory", periods, 0, None, LpContinuous)
+    OrderIsPlaced = LpVariable.dicts("OrderIsPlaced", periods, 0, 1, LpInteger)
+    BackloggedAmount = LpVariable.dicts("BackloggedAmount", periods, 0, None, LpContinuous)
+
+    # Objective function
+    prob += lpSum([cost_fixed[t] * OrderIsPlaced[t] + cost_unit_order[t] * OrderedAmount[t] + cost_unit_hold[t] * EndingInventory[t] + penalty[t] * BackloggedAmount[t] for t in periods])
+
+    # Constraints
+    for t in periods:
+        if t == 0:
+            prob += EndingInventory[t-1] + OrderedAmount[t] - BackloggedAmount[t-1] == demand[t] - BackloggedAmount[t]
+            prob += OrderedAmount[t] <= OrderIsPlaced[t] * lpSum(demand)
+            prob += EndingInventory[t] == 0
+            prob += BackloggedAmount[t] == 0
+        else:
+            prob += EndingInventory[t-1] + OrderedAmount[t] - BackloggedAmount[t-1] == demand[t] + EndingInventory[t] - BackloggedAmount[t]
+            prob += OrderedAmount[t] <= OrderIsPlaced[t] * lpSum(demand)
+            prob += EndingInventory[t] == 0
+            prob += BackloggedAmount[t] == 0
+            
+    # Solve the problem
+    prob.solve()
+    total_cost = value(prob.objective)
+    
+    return total_cost
+```
+
+注意, 在这个代码中, `prob += EndingInventory[t] == 0` 和 `prob += BackloggedAmount[t] == 0` 应是开始和结束实际中具体情况对应的。需根据实际问题适当修改。
+
+另外，这个代码假设所有时间段都有相同的需求、固定成本、订购单位成本、持有单位成本和惩罚。如果各时间段的用量有所不同，需要更新约束以反映在每个时间段中的实际需求和成本。
+
+注意：上述代码可以解决该问题，但是这个问题的具体解对业务具有重要意义，因此通常需要将解提供给决策者，因此可能需要增加代码以返回有关订购量、库存、是否下单以及积压量的解决方案。

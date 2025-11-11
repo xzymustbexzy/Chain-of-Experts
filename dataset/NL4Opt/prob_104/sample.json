@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "orange_juice": 3.0,
+            "apple_juice": 46.0
+        },
+        "output": [
+            582.0
+        ]
+    }
+]

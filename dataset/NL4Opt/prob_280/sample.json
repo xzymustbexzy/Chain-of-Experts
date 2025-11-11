@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "bus": 9.0,
+            "personal_car": 5.0
+        },
+        "output": [
+            14.0
+        ]
+    }
+]

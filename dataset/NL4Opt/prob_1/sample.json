@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "color_printers": 20,
+            "bw_printers": 15
+        },
+        "output": [
+            5050
+        ]
+    }
+]

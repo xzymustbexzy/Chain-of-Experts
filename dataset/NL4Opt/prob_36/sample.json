@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "Oil_Max": 0,
+            "Oil_Max_Pro": 36,
+            "Constraint_A": 468.0,
+            "Constraint_B": 144.0,
+            "Constraint_C": 1620.0
+        },
+        "output": [
+            540
+        ]
+    }
+]

@@ -1,0 +1,18 @@
+[
+    {
+        "input": {
+            "daytime_pills": 133,
+            "nighttime_pills": 200,
+            "total_painkiller_units": 800,
+            "daytime_painkiller_units": 6,
+            "daytime_sleep_units": 2,
+            "nighttime_painkiller_units": 5,
+            "nighttime_sleep_units": 5,
+            "min_nighttime_pills": 200,
+            "min_daytime_ratio": 0.4
+        },
+        "output": [
+            1266
+        ]
+    }
+]

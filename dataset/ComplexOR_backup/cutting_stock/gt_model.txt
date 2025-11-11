@@ -1,0 +1,19 @@
+Width: a set of widths to be cut
+Patterns: a set of patterns
+
+RollWidth: width of raw rolls
+Orders: number of each width to be cut \forall i \in Width.
+NumRollsWidth: number of rolls of width `i` in pattern `j` \forall i \in Width, j \in Patterns.
+
+Decision variable:
+Cut: rolls cut using each pattern `j` \forall j \in Patterns.
+
+Objective:
+the total number of raw rolls cut
+minimize: \sum_{j \in Patterns} Cut_{j}
+
+Constraint:
+1. for each width `i`, the total number of rolls cut meets the total orders
+\sum_{j \in Patterns} NumRollsWidth_{i,j} * Cut_{j} >= Orders_{i}, \forall i \in Width.
+2. the total width of rolls in each pattern `j` does not exceed the width of raw rolls
+\sum_{i \in Width} i * NumRollsWidth_{i,j} <= RollWidth, \forall j \in Patterns.

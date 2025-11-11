@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "kids_size_bottle_capacity": 100,
+            "adult_size_bottle_capacity": 300,
+            "ratio": 3,
+            "available_cough_syrup": 25000
+        },
+        "output": [
+            100.0
+        ]
+    }
+]

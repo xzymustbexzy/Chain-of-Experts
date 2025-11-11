@@ -1,0 +1,23 @@
+[
+    {
+        "input": {
+            "setup_costs": [10, 20], 
+            "backlogging_costs": [5, 10], 
+            "holding_costs": [2, 3], 
+            "setup_times": [[1, 2], [1, 2]], 
+            "production_times": [[1, 1], [2, 1]], 
+            "gross_demands": [[30, 40], [20, 30]], 
+            "unit_requirements": [[0, 1], [1, 0]], 
+            "capacities": [[100, 100], [100, 100]], 
+            "large_number": 1000, 
+            "periods": [1, 2], 
+            "machines": [1, 2], 
+            "items": [1, 2], 
+            "end_items": [1], 
+            "successors": [[2], []]
+        },
+        "output": [ 
+            180.0
+        ]
+    }
+]

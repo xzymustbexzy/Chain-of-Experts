@@ -1,0 +1,21 @@
+Tower: Set of potential sites to build a tower
+Region: Set of regions
+
+Delta: Binary parameter, 1 if potential site `i` covers the region `j`; 0, otherwise \forall i \in Tower, j \in Region.
+Cost: The cost of setting up a tower at site `i` \forall i \in Tower.
+Population: The population at region `j` \forall j \in Region.
+Budget: Total budget to build the towers
+
+Decision variable:
+Covered: Binary variable, 1 if region`j` is covered; and 0 otherwise \forall j \in Region.
+Build: Binary variable, 1 if tower at site `i` is built; and 0 otherwise \forall i \in Tower.
+
+Objective:
+maximize the total population covered by the towers
+max: \sum_{j \in Region} Population_{j} * Covered_{j}
+
+Constraint:
+1. For each region `j` ensure that at least one tower that covers a region must be selected
+\sum_{i \in Tower} Delta_{i,j} * Build_{i} >= Covered_{j}, \forall j \in Region.
+2. the total cost of building towers do not exceed the allocated budget
+\sum_{i \in Tower} Cost_{i} * Build_{i} <= Budget, \forall i \in Tower.

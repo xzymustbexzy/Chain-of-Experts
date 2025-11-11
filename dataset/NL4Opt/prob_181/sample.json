@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "submarine": 2,
+            "boat": 10
+        },
+        "output": [
+            310.0
+        ]
+    }
+]

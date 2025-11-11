@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small": 2000.0,
+            "large": 0.0
+        },
+        "output": [
+            null
+        ]
+    }
+]

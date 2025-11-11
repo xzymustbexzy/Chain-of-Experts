@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "escalators": 18.0,
+            "elevators": 5.0
+        },
+        "output": [
+            100.0
+        ]
+    }
+]

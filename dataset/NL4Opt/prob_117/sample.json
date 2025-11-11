@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "burgers": 5,
+            "pizza": 10
+        },
+        "output": [
+            160
+        ]
+    }
+]

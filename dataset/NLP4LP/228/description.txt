@@ -1,0 +1,1 @@
+A party organizer needs to transport party goers either by limousine or bus. Limousines can carry 12 people and buses can carry 18 people. They need to transport at least 400 people. Because limousines are more attractive, at least 70% of the vehicles must be limousines. How many of each type of vehicle should be used to minimize the total number of limousines and buses used?

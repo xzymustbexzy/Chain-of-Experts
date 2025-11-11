@@ -1,0 +1,17 @@
+[
+    {
+        "input": {
+            "model_trains": 20.0,
+            "planes": 15.0,
+            "wood_train": 60.0,
+            "paint_train": 60.0,
+            "wood_plane": 60.0,
+            "paint_plane": 30.0,
+            "wood_available": 120,
+            "paint_available": 90
+        },
+        "output": [
+            310.0
+        ]
+    }
+]

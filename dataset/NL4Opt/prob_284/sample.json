@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "heavy_duty_yard_machine": 0.0,
+            "gas_lawn_mower": 0.0
+        },
+        "output": [
+            0.0
+        ]
+    }
+]

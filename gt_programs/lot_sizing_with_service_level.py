@@ -1,0 +1,38 @@
+from pulp import LpProblem, LpMinimize, LpVariable, LpInteger
+
+def lot_sizing_with_service_level(demand, cost_fixed, cost_unit_order, cost_unit_hold, penalty, service_level):
+
+    # Define problem
+    prob = LpProblem("LS-SL", LpMinimize)
+
+    # Parameters
+    periods = range(len(demand))
+
+    # Decision Vairables
+    ordered_amount = LpVariable.dicts("ordered", periods, 0, cat=LpInteger)
+    ending_inventory = LpVariable.dicts("inventory", periods, 0, cat=LpInteger)
+    order_is_placed = LpVariable.dicts("orderplace", periods, 0, 1, cat=LpInteger)
+    backlogged_amount = LpVariable.dicts("backlog", periods, 0, cat=LpInteger)
+    backorder_is_placed = LpVariable.dicts("backorderplace", periods, 0, 1, cat=LpInteger)
+
+    # Objective Function
+    prob += sum(cost_fixed[i]*order_is_placed[i] + cost_unit_order[i]*ordered_amount[i] + cost_unit_hold[i]*ending_inventory[i] + penalty[i]*backlogged_amount[i] for i in periods)
+
+    # Constraints
+    for t in periods:
+        prob += ending_inventory[t-1] + ordered_amount[t] - backlogged_amount[t-1] - demand[t] + backlogged_amount[t] == ending_inventory[t]  # flow balance
+        prob += ordered_amount[t] <= order_is_placed[t] * sum(demand)  # upper bound of order amount
+        prob += ending_inventory[0] == 0  # starting stock is zero
+        prob += ending_inventory[-1] == 0  # ending stock is zero
+        prob += backlogged_amount[0] == 0  # starting backorder is zero
+        prob += backlogged_amount[-1] == 0  # ending backorder is zero
+        prob += backorder_is_placed[t] * sum(demand) >= backlogged_amount[t]  # upper bound of backlogging amount
+        prob += sum(backorder_is_placed[i] for i in periods) <= service_level  # max number of backorders
+
+    # Solve problem
+    prob.solve()
+
+    # Get the optimal total cost
+    total_cost = value(prob.objective)
+
+    return total_cost

@@ -1,0 +1,22 @@
+Origins: a set of origins
+Destinations: a set of destinations
+
+Supply: amounts of goods available at origin `i` \forall i \in Origins.
+Demand: amounts of goods required at destination `j` \forall j \in Destinations.
+Rate: shipment costs per unit from origin `i` to destination `j` \forall i \in Origins, j \in Destinations.
+Limit: limit on units shipped from origin `i` to destination `j` \forall i \in Origins, j \in Destinations.
+
+Decision variable:
+Shipping: units to be shipped from origin `i` to destination `j` \forall i \in Origins, j \in Destinations.
+
+Objective:
+the total cost of shipping goods from the origins to the destinations
+min: \sum_{i \in Origins, j \in Destinations} Rate_{i,j} * Shipping_{i,j}
+
+Constraint:
+1. the total amount of goods shipped from origin `i` equals its supply
+\sum_{j \in Destinations} Shipping_{i,j} = Supply_{i}, \forall i \in Origins.
+2. the total amount of goods shipped to destination `j` equals its demand
+\sum_{i \in Origins} Shipping_{i,j} = Demand_{j}, \forall j \in Destinations.
+3. the number of units shipped can't exceed the limit
+Shipping_{i,j} <= Limit_{i,j}, \forall i \in Origins, j \in Destinations.

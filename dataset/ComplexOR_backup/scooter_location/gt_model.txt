@@ -1,0 +1,29 @@
+DemandPoints: Demand points
+CandidateLocations: Candidate locations
+
+EstimatedDemand: Estimated demand of demand point `i` \forall i \in DemandPoints.
+Distance: Distance/travel time between demand point `i` and location `j` \forall i \in DemandPoints, j \in CandidateLocations.
+NumAvailableScooters: Number of available scooters
+MaxSelectedLocations: Maximum number of selected locations
+NewMax: Maximum number of new scooters
+
+Decision variable:
+SelectedLocation: Binary variable, 1 if candidate location `j` is selected; 0 otherwise \forall j \in CandidateLocations.
+Assign: Binary variable, 1 if demand point `i` is assigned to candidate location `j` \forall i \in DemandPoints, j \in CandidateLocations.
+NewScooters: The number of new scooters to be added to the system
+
+Objective:
+Minimize the total users travel distance to find a scooter
+min: \sum_{i \in DemandPoints, j \in CandidateLocations} EstimatedDemand_{i} * Distance_{i,j} * Assign_{i,j}
+
+Constraint:
+1. Can only assign demand to location `i` if we select the location
+Assign_{i,j} <= SelectedLocation_{j}, \forall i \in DemandPoints, j \in CandidateLocations.
+2. Each demand should be assigned at most to one location
+\sum_{j \in CandidateLocations} Assign_{i,j} <= 1, \forall i \in DemandPoints.
+3. Only can cover demand as much as the number of scooters
+\sum_{i \in DemandPoints, j \in CandidateLocations} EstimatedDemand_{i} * Assign_{i,j} = NewScooters + NumAvailableScooters
+4. Limit the number of selected locations
+\sum_{j \in CandidateLocations} SelectedLocation_{j} <= MaxSelectedLocations
+5. Maximum of `NewMax` scooters can be added
+NewScooters <= NewMax

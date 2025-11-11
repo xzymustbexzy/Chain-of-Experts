@@ -1,0 +1,1 @@
+As a team leader, you have several projects requiring different expertise levels in different areas. You want to assign a set of people to these projects. Each person has a level of expertise in each of the areas. How to assign people to projects to minimize the maximum skill shortage from the project expertise requirement?

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "labradors": 0,
+            "golden_retrievers": 250
+        },
+        "output": [
+            2500
+        ]
+    }
+]

@@ -1,0 +1,53 @@
+在Python中解决这类问题时，通常使用Pulp、Scipy、Gurobi等库。它们用于解决线性优化问题或其它相关问题。在这里，我将使用Pulp库来解决这个问题。Pulp库在Python中被广泛应用于解决优化问题。
+
+以下是具体的代码实现，
+
+首先，确保你已经安装了`pulp`库，若未安装，你可以使用`pip install pulp`来安装。
+
+```python
+import pulp
+
+def netasgn(supply, demand, cost, limit):
+    """
+    Args:
+        supply: list, hours each person is available, length is number of people
+        demand: list, hours each project requires, length is number of projects
+        cost: 2D list, cost per hour of work for each person on each project, dimensions are number of people x number of projects
+        limit: 2D list, maximum contributions to projects for each person on each project, dimensions are number of people x number of projects
+
+    Returns:
+        total_cost: a float, denotes the minimized total cost of assigning people to projects
+    """
+    # Create problem instance
+    prob = pulp.LpProblem('ProjectAssignment', pulp.LpMinimize)
+
+    num_people = len(supply)
+    num_projects = len(demand)
+    
+    # Create decision variables
+    assign_vars = [[pulp.LpVariable(f"person_{i}_project_{j}", lowBound=0) for j in range(num_projects)] for i in range(num_people)]
+    
+    # Objective (to minimize total cost)
+    prob += pulp.lpSum([cost[i][j] * assign_vars[i][j] for i in range(num_people) for j in range(num_projects)])
+
+    # Constraint 1: total number of hours assigned from each person equals its supply
+    for i in range(num_people):
+        prob += pulp.lpSum([assign_vars[i][j] for j in range(num_projects)]) == supply[i]
+      
+    # Constraint 2: total number of hours assigned to each project equals its demand
+    for j in range(num_projects):
+        prob += pulp.lpSum([assign_vars[i][j] for i in range(num_people)]) == demand[j]
+    
+    # Constraint 3: hours to be assigned from each person to each project can't exceed the limit
+    for i in range(num_people):
+        for j in range(num_projects):
+            prob += assign_vars[i][j] <= limit[i][j]
+
+    # Solve the problem
+    prob.solve()
+    
+    total_cost = pulp.value(prob.objective)
+    return total_cost
+```
+
+以上函数接受四个参数（供应、需求、成本、限制），然后创建一个最小化目标的LP优化问题。他将分配变量作为决策变量，并定义目标函数以最小化总成本。然后，添加三个约束条件以符合问题的需求。最后，调用`.solve()`方法解决优化问题并返回所得的最小化总成本。

@@ -1,0 +1,49 @@
+基于您的项目需求，这需要应用 Mixed Integer Programming (MIP) 的概念。你可以用 Python 的库 `pulp` 来解决这个问题。以下是一个可能的实现：
+
+请确保您已经安装了`pulp`。如果没有，可以通过pip安装：
+```
+pip install pulp
+```
+
+```python
+from pulp import LpProblem, LpMinimize, LpVariable, lpSum, PULP_CBC_CMD
+
+def flowshop_scheduling(jobs, schedules, machines, proces_time):
+    M = len(machines)  # number of machines
+    S = len(schedules) # number of jobs
+    
+    prob = LpProblem("FlowShop_Scheduling", LpMinimize)
+    
+    # decision variables
+    JobSchedule = LpVariable.dicts("Job_Schedule", ((j, s) for j in jobs for s in schedules), cat='Binary')
+    StartTime = LpVariable.dicts("Start_Time", ((s, m) for s in schedules for m in machines), lowBound=0)
+    
+    # objective function
+    prob += StartTime[S, M] + lpSum(proces_time[j-1][M-1] * JobSchedule[j,S] for j in jobs)
+    
+    # constraints
+    for s in schedules:
+        prob += lpSum(JobSchedule[j,s] for j in jobs) == 1
+
+    for j in jobs:
+        prob += lpSum(JobSchedule[j,s] for s in schedules) == 1
+
+    for m in range(1, M):
+        for s in schedules:
+            prob += StartTime[s, m+1] >= StartTime[s, m] + lpSum(proces_time[j-1][m-1] * JobSchedule[j,s] for j in jobs)
+            
+    for s in range(1, S):
+        for m in machines:
+            prob += StartTime[s+1, m] >= StartTime[s, m] + lpSum(proces_time[j-1][m-1] * JobSchedule[j,s] for j in jobs)
+
+    # solve the problem
+    prob.solve(PULP_CBC_CMD(msg=0))
+
+    makespan = int(prob.objective.value())  # total time to process all jobs
+    
+    return makespan
+```
+
+这段代码首先定义了一个线性规划问题，目标函数是最小化所有任务在所有机器上的总处理时间。接着，我们定义了所有相关的决定变量和约束条件。最后，我们解决了这个问题，并返回了最小化的总时间。
+
+注意，上述代码仅供参考。在实际应用中，需要根据你具体的研究问题和数据集进行必要的修改。

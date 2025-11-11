@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "seasonal": 14,
+            "full_time": 34
+        },
+        "output": [
+            342.0
+        ]
+    }
+]

@@ -1,0 +1,33 @@
+运筹优化问题通常可以使用线性规划（Linear Programming，简称LP）来求解。在Python中，Pulp库是解决线性规划问题的一种常用工具。以下是基于数学模型和给出的函数框架完成的Python代码片段。
+
+```python
+import pulp
+
+def diet_problem(cost, f_min, f_max, n_min, n_max, amt):
+    # number of foods and nutrients
+    num_foods = len(cost)
+    num_nutri = len(n_min)
+
+    # declare a linear program
+    prob = pulp.LpProblem('DietProblem', pulp.LpMinimize)
+
+    # define the decision variables
+    food_vars = pulp.LpVariable.dicts("Buy", range(num_foods), f_min, f_max)
+
+    # objective function: total cost of foods
+    prob += pulp.lpSum([cost[j] * food_vars[j] for j in range(num_foods)])
+
+    # constraints
+    for i in range(num_nutri):
+        prob += pulp.lpSum([amt[i][j] * food_vars[j] for j in range(num_foods)]) >= n_min[i]
+        prob += pulp.lpSum([amt[i][j] * food_vars[j] for j in range(num_foods)]) <= n_max[i] 
+        
+    # optimize
+    prob.solve()
+
+    # total cost
+    total_cost = pulp.value(prob.objective)
+    return total_cost
+```
+
+在上述代码中，首先定义了一个名为“DietProblem”的最小化问题；然后，定义决策变量`Buy`，它们表示购买不同食物的数量；接着，添加了目标函数，即最小化购买食品的总成本；在此基础上，添加了满足每种营养素最低需求和最高需求的约束条件；最后，求解问题并获取最小总成本。

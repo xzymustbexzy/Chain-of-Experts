@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "turkey_dinner": 0,
+            "tuna_salad_sandwich": 9
+        },
+        "output": [
+            72
+        ]
+    }
+]

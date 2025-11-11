@@ -1,0 +1,15 @@
+[
+    {
+        "input": {
+            "supplement_A": 8.0,
+            "supplement_B": 0.0,
+            "constraint1": 40.0,
+            "constraint2": 80.0,
+            "cost_per_supplement_A": 2,
+            "cost_per_supplement_B": 3
+        },
+        "output": [
+            16.0
+        ]
+    }
+]

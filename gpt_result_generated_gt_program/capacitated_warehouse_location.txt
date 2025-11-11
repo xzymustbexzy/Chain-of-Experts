@@ -1,0 +1,39 @@
+为了解决这个问题，我们首先需要安装pulp库，这是一个Python优化库，可以解决线性规划、整数规划和混合整数线性规划问题。在Python环境中，我们可以使用以下命令来安装这个库：
+
+```sh
+pip install pulp
+```
+
+下面是对应的代码实现：
+
+```python
+from pulp import *
+
+def capacitated_warehouse_location(Locations, Customers, Demand, AllocationCost, Capacity, FixedCost):
+    prob = LpProblem("Capacitated Warehouse Location Problem", LpMinimize)
+
+    # 确定决策变量
+    Open = LpVariable.dicts("Open", Locations, cat='Binary')
+    DemandFractionSupplied = LpVariable.dicts("DemandFractionSupplie", [(i,j) for i in Locations for j in Customers], lowBound=0)
+
+    # 设置目标函数
+    prob += lpSum([AllocationCost[i][j] * DemandFractionSupplied[(i,j)] for i in Locations for j in Customers]) + \
+            lpSum([FixedCost[i] * Open[i] for i in Locations])
+
+    # 添加约束条件
+    for j in Customers:
+        prob += lpSum([DemandFractionSupplied[(i,j)] for i in Locations]) >= Demand[j]
+
+    for i in Locations:
+        prob += lpSum([Demand[j] * DemandFractionSupplied[(i,j)] for j in Customers]) <= Capacity[i] * Open[i]
+
+    # 求解问题
+    prob.solve()
+
+    # 返回最小代价
+    return value(prob.objective)
+```
+
+这个函数首先定义了一个线性规划问题，然后定义了两个决策变量：Open和DemandFractionSupplied。后者为字典类型，其中的键是二元组(i,j)，其中i是仓库的位置，j是客户的编号。接着，函数定义了目标函数，包括分配费用和固定费用的总和。然后，定义了满足需求的约束和供应不能超过仓库容量的约束。最后，求解了问题，并返回了最小代价。
+
+注意，这个函数没有处理不合法输入情况，例如如果Locations，Customers，Demand，AllocationCost，Capacity，FixedCost等列表长度不一致，或者任何一项的值为负数等，那么函数的行为是未定义的。

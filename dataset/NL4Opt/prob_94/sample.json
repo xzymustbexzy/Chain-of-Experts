@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "chemical_reaction_A": 96,
+            "chemical_reaction_B": 74
+        },
+        "output": [
+            1552
+        ]
+    }
+]

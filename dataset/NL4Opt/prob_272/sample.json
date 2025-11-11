@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "medication_patches": 30,
+            "anti_biotic_creams": 62
+        },
+        "output": [
+            214.0
+        ]
+    }
+]

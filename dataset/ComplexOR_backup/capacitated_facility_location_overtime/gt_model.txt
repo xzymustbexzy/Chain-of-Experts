@@ -1,0 +1,39 @@
+Periods: set of time periods
+Resources: set of resources
+Products: set of products
+ProductsPerResource: Set of products produced by resource `j`
+Successors: Set of immediate successors of product `k`
+
+RequiredUnits: Number of units of product `k` required to produce one unit of product `i` \forall k \in Products, i \in Products.
+Capacity: Available capacity of resource `j` in period `t` \forall j \in Resources, t \in Periods.
+BigNumber: a big number
+OvertimeCost: Overtime cost per unit of overtime at resource `j` \forall j \in Resources.
+HoldingCost: Holding cost of product `k` per unit and period \forall k \in Products.
+SetupCost: Setup cost of product `k` \forall k \in Products.
+ProductionTimePerUnit: Production time per unit of product `k` \forall k \in Products.
+SetupTime: Setup time of product `k` \forall k \in Products.
+InitialInventory: Physical initial inventory for product `k` \forall k \in Products.
+
+Decision variable:
+ProductionQuantity: Production quantity (lot size) of product `k` in period `t` \forall k \in Products, t \in Periods.
+Inventory: Inventory of item `k` at the end of period `t` \forall k \in Products, t \in Periods.
+Overtime: Overtime at resource `j` in period `t` \forall j \in Resources, t \in Periods.
+SetupState: Binary setup state variable of product `k` in period `t` \forall k \in Products, t \in Periods.
+
+Objective:
+The sum of the setup, holding, and overtime costs.
+min: \sum_{k \in Products, t \in Periods} (SetupCost_{k} * SetupState_{k,t} + HoldingCost_{k} * Inventory_{k,t}) + \sum_{j \in Resources, t \in Periods} OvertimeCost_{j} * Overtime_{j,t}
+
+Constraint:
+1. The inventory balance equations for period 2 to T-1
+Inventory_{k,t-1} + ProductionQuantity_{k,t} - \sum_{i \in Successors_{k}} RequiredUnits_{k,i} * ProductionQuantity_{i,t} - Inventory_{k,t} = Demand_{k,t}, \forall  > 1, {k \in Products, t \in Periods.
+2. The inventory balance equations for period 1
+InitialInventory_{k} - \sum_{i \in Successors_{k}} RequiredUnits_{k,i} * ProductionQuantity_{i,1} - Inventory_{k,1} = 0, \forall k \in Products.
+3. The production quantities and setup times meet the capacity constraints for all resources
+\sum_{k \in ProductsPerResource_{j}} (ProductionTimePerUnit_{k} * ProductionQuantity_{k,t} + SetupTime_{k} * SetupState_{k,t}) <= Capacity_{j,t} + Overtime_{j,t}, \forall j \in Resources, t \in Periods.
+4. A product can only be produced in a period if its associated resource is in the correct setup state
+ProductionQuantity_{k,t} <= BigNumber * SetupState_{k,t}, \forall k \in Products, t \in Periods.
+5. Initial value of inventory level
+SetupCost_{i,0} = 0, \forall i \in I.
+6. End period value of backlogging level
+Capacity_{i,P} = 0, \forall i \in I.

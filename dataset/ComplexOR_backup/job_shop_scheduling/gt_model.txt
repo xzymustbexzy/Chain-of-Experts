@@ -1,0 +1,26 @@
+Tasks: Set of all tasks/jobs
+Machines: Set of all machines
+
+ProcessingTime: Processing time of task `j` on machine `m` \forall j \in Tasks, m \in Machines.
+Delta: Binary parameter, 1 if task `i` should go directly from machine `m` to machine `n` \forall i \in Tasks, n \in Machines, m \in Machines.
+BigM: A big number
+
+Decision variable:
+StartTime: start time of job `j` on machine `m` \forall j \in Tasks, m \in Machines.
+DoneBefore: Binary variable, 1 if job `i` is done before job `j` on machine `m` \forall i \in Tasks, j \in Tasks, m \in Machines.
+FinishTimeOnMachine: the finish time on machine `m` \forall m \in Machines.
+MaxFinishTime: the maximum finish time of all machines
+
+Objective:
+minimize the completion time of all tasks
+min: MaxFinishTime
+
+Constraint:
+1. the latest finish time over machines
+FinishTimeOnMachine_{m} <= MaxFinishTime, \forall m \in Machines.
+2. the completion time of the last task on each machine
+StartTime_{j,m} + ProcessingTime_{j,m} <= FinishTimeOnMachine_{m}, \forall j \in Tasks, m \in Machines.
+3. logical constraint on the start times for a task
+StartTime_{j,m} + ProcessingTime_{j,m} <= - BigM * Delta_{j,n,m} + BigM + StartTime_{j,n}, \forall j \in Tasks, m \in Machines, n \in Machines.
+4. Avoid task overlap on each machine
+StartTime_{i,m} + ProcessingTime_{i,m} <= - BigM * DoneBefore_{i,j,m} + BigM + StartTime_{j,m}, \forall j \in Tasks, i \in Tasks, m \in Machines.

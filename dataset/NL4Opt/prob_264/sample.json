@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "specialized_third_party": 166.66667,
+            "common_third_party_annotation_company": 0.0
+        },
+        "output": [
+            16666.667
+        ]
+    }
+]

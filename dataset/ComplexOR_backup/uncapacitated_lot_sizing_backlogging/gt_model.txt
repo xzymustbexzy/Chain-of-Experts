@@ -1,0 +1,27 @@
+Periods: Set of periods
+
+Demand: Demand in period `t` \forall t \in Periods.
+CostFixed: Fixed ordering cost in period `t` \forall t \in Periods.
+CostUnitOrder: Unit ordering cost in period `t` \forall t \in Periods.
+CostUnitHold: Unit holding cost in period `t` \forall t \in Periods.
+Penalty: Unit backlogging penalty in period `t` \forall t \in Periods.
+
+Decision variable:
+OrderedAmount: Ordered amount in period `t` \forall t \in Periods.
+EndingInventory: Ending inventory in period `t` \forall t \in Periods.
+OrderIsPlaced: Whether order is placed in period `t` or not, i.e. OrderIsPlaced_{t} = 1 if an order takes place in period `t` and OrderIsPlaced_{t} = 0 otherwise \forall t \in Periods.
+BackloggedAmount: Backlogged amount in period `t` \forall t \in Periods.
+
+Objective:
+Minimize the total cost of all order lot size
+min: \sum_{t \in Periods} CostFixed_{t} * OrderIsPlaced_{t} + CostUnitOrder_{t} * OrderedAmount_{i} + CostUnitHold_{t} * EndingInventory_{t} + Penalty_{t} * BackloggedAmount_{t}
+
+Constraint:
+1. Flow balance in period `t` is satisfied
+EndingInventory_{t-1} + OrderedAmount_{t} - BackloggedAmount_{t-1} = EndingInventory_{t} + Demand_{t} - BackloggedAmount_{t}, \forall t \in Periods.
+2. Upper bound of order amount in period `t`
+OrderedAmount_{t} <= OrderIsPlaced_{t} * \sum_{i \in Periods} Demand_{i}, \forall t \in Periods.
+3. Without loss of generality, the starting and ending stocks are zero
+EndingInventory_{t} = 0, \forall  == 0 or t == P, {t \in Periods.
+4. Without loss of generality for backlogging, the starting and ending backlogged amount are zero
+BackloggedAmount_{t} = 0, \forall  == 0 or t == P, {t \in Periods.

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "large_pizzas": 629,
+            "medium_pizzas": 314
+        },
+        "output": [
+            10060
+        ]
+    }
+]

@@ -1,0 +1,1 @@
+Given a number of flights, each with a number of passengers to carry, and a set of vehicle types, each with a capacity, how should planes be assigned to flights, and planes be routed to carry the passengers at minimum cost.

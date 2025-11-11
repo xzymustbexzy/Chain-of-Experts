@@ -1,0 +1,16 @@
+[
+    {
+        "input": {
+            "glass": 90,
+            "plastic": 273,
+            "glass_capacity": 500,
+            "plastic_capacity": 750,
+            "glass_min": 20,
+            "glass_to_plastic_ratio": 3,
+            "available_water": 250000
+        },
+        "output": [
+            363.0
+        ]
+    }
+]

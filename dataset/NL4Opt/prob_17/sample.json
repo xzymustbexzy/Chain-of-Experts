@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "chair": 4,
+            "dresser": 1,
+            "constraint1": 1.4,
+            "constraint2": 1.1
+        },
+        "output": [
+            224.0
+        ]
+    }
+]

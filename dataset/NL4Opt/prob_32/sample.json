@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "regular_model": 6,
+            "premium_model": 6,
+            "upperbound_regular_models": 8,
+            "upperbound_premium_models": 6,
+            "maximum_cars": 12
+        },
+        "output": [
+            81000
+        ]
+    }
+]

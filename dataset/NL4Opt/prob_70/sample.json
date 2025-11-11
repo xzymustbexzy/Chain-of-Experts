@@ -1,0 +1,16 @@
+[
+    {
+        "input": {
+            "nurses": 0,
+            "pharmacists": 30,
+            "constraint1": 5,
+            "constraint2": 7,
+            "constraint3": 250,
+            "constraint4": 300,
+            "constraint5": 200
+        },
+        "output": [
+            null
+        ]
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "helicopter": 24,
+            "bus": 0,
+            "Min_Patients": 120,
+            "Min_Helicopter_Trips": 7,
+            "Max_Bus_Trips": 10
+        },
+        "output": [
+            24
+        ]
+    }
+]

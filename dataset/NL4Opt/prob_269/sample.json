@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "runners": 40,
+            "canoers": 19
+        },
+        "output": [
+            310
+        ]
+    }
+]

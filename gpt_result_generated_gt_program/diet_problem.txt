@@ -1,0 +1,55 @@
+你需要使用线性规划工具（如cvxpy、scipy.optimize等）来实现这个函数。这里，给出了一个使用cvxpy的版本。
+
+首先，需要将量化的输入参数转化为cvxpy能接受的变量和常量。然后，定义你的优化目标和约束条件，然后开始求解你的问题。最后，返回最优的购买总成本。
+
+```python
+import cvxpy as cp
+
+def diet_problem(food_set, nutrient_set, food_cost, min_food_amount, max_food_amount, min_nutrient_amount, max_nutrient_amount, nutrient_amount):
+    n_food = len(food_set)
+    n_nutrient = len(nutrient_set)
+    
+    # 定义变量
+    Buy = cp.Variable(n_food)
+    
+    # 定义目标函数
+    cost = cp.sum(cp.multiply(food_cost, Buy))
+    objective = cp.Minimize(cost)
+    
+    # 定义约束条件
+    constraints = []
+    for i in range(n_food):
+        constraints.append(Buy[i]>=min_food_amount[i])
+        constraints.append(Buy[i]<=max_food_amount[i])
+    for i in range(n_nutrient):
+        total_nutrient = cp.sum([Buy[j]*nutrient_amount[j][i] for j in range(n_food)])
+        constraints.append(total_nutrient>=min_nutrient_amount[i])
+        constraints.append(total_nutrient<=max_nutrient_amount[i])
+        
+    # 建立并求解问题
+    problem = cp.Problem(objective, constraints)
+    total_cost = problem.solve()
+    
+    # 如果没有可行解，返回None
+    if problem.status != "optimal":
+        return None
+
+    return total_cost
+
+# 这部分代码只是为了测试
+# 定义问题参数
+# food_set, nutrient_set, food_cost, min_food_amount, max_food_amount, min_nutrient_amount, max_nutrient_amount, nutrient_amount
+food_set = ["food1", "food2"]
+nutrient_set = ["nutrient1", "nutrient2"]
+food_cost = [5, 10]
+min_food_amount = [0, 0]
+max_food_amount = [10, 10]
+min_nutrient_amount = [5, 5]
+max_nutrient_amount = [15, 15]
+nutrient_amount = [[2, 3], [5, 7]]
+
+# 调用函数并打印结果
+print(diet_problem(food_set, nutrient_set, food_cost, min_food_amount, max_food_amount, min_nutrient_amount, max_nutrient_amount, nutrient_amount))
+```
+
+在实际解决问题时，这个函数将返回一个优化后的购买总成本。希望这可以帮到你。

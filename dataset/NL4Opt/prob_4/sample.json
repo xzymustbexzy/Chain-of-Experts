@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "desk_lamps": 150.0,
+            "night_lamps": 180.0
+        },
+        "output": [
+            2190.0
+        ]
+    }
+]

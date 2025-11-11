@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "cleansing_chemical": 200,
+            "odor_removing_chemical": 100
+        },
+        "output": [
+            1400.0
+        ]
+    }
+]

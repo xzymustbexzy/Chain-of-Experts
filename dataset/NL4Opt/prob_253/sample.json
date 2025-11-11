@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_boxes": 20.0,
+            "large_boxes": 6.0
+        },
+        "output": [
+            26.0
+        ]
+    }
+]

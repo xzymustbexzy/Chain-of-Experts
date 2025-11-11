@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "DecVar_trucks": 10.0,
+            "DecVar_vans": 14.0
+        },
+        "output": [
+            24.0
+        ]
+    }
+]

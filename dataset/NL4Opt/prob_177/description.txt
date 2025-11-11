@@ -1,0 +1,1 @@
+A corn farmer sends his corn to the city by either tractor or car.  A tractor can carry 40 kg of corn while a car can carry 20 kg of corn. Since tractors are very slow, the number of cars used has to be at least twice the number of tractors used. If at least 500 kg of corn need to be sent to the city, minimize the total number of tractors and cars needed.

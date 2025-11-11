@@ -1,0 +1,1 @@
+{"MedicinalIngredientPerRegularBatch": 50, "RehydrationProductPerRegularBatch": 40, "MedicinalIngredientPerPremiumBatch": 40, "RehydrationProductPerPremiumBatch": 60, "TotalMedicinalIngredients": 3000, "TotalRehydrationProduct": 3500, "MinRegularBatches": 10, "PeopleTreatedPerRegularBatch": 50, "PeopleTreatedPerPremiumBatch": 30}

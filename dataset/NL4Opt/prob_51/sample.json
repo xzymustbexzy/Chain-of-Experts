@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "high_intensity": 7,
+            "low_intensity": 15
+        },
+        "output": [
+            22.0
+        ]
+    }
+]

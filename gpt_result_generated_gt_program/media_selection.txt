@@ -1,0 +1,33 @@
+这个问题需要一个优化求解器，例如`pulp`或者`pyomo`。在这个情境下我们使用的是`pulp`。Python的优化库Pulp可以处理线性规划、整数规划和混合整数规划问题。这是一种运筹优化方法，可以通过求解数学模型来优化决策：
+
+```python
+import pulp
+
+def media_selection(target_audiences, advertising_media, incidence_matrix, media_costs):
+    model = pulp.LpProblem("MediaSelection", pulp.LpMinimize)
+
+    advertising_vars = pulp.LpVariable.dicts("IsSelectedMIP", 
+                                               (i for i in advertising_media), 
+                                               cat="Binary")
+
+    # Objective Function: Minimize total cost
+    model += pulp.lpSum([advertising_vars[i]*media_costs[i] for i in advertising_media])
+
+    # Constraints: At least one media should cover each target audience
+    for t in target_audiences:
+        model += pulp.lpSum([advertising_vars[i]*incidence_matrix[t][i] for i in advertising_media]) >= 1
+
+    # Solve Model
+    model.solve()
+
+    status = pulp.LpStatus[model.status]
+    
+    if status != "Optimal":
+        return "The problem does not have an optimal solution."
+    else:
+        min_total_cost = pulp.value(model.objective)
+
+    return min_total_cost
+```
+
+函数首先定义了一个名为“MediaSelection”的优化问题，其目标是最小化（即pulp.LpMinimize）。然后创建了一个字典，包含所有可能的广告媒体选择的二进制决策变量。目标函数通过将每个可能的广告媒体的成本与是否选择它进行乘积计算（如果选择了该广告媒体，结果为成本，否则为零），并对所有的广告媒体求和，来计算总成本。约束条件则确保至少有一种媒体能覆盖每个目标受众。最后，解决模型并返回最优总成本。注意，这个函数并未处理问题是否有解的情况，如果没有解，返回提示信息。

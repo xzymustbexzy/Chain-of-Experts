@@ -1,0 +1,65 @@
+在这个问题中，我们要解决一个多级产品结构的生产调度优化问题。下面是一个用Python和Gurobi来实现的可能的完整代码。
+
+```python
+from gurobipy import *
+
+def capacitated_facility_location_overtime(periods, resources, products, products_per_resource, successors, 
+           required_units, capacity, big_number, overtime_cost, holding_cost, 
+           setup_cost, production_time_per_unit, setup_time, initial_inventory, demand):
+    """
+    Args:
+        periods: list of integers, representing time periods [1, 2, 3, ..., P]
+        resources: list of integers, representing resources
+        products: list of integers, representing products
+        products_per_resource: dictionary, mapping each resource to the list of products it can produce
+        successors: dictionary, mapping each product to the list of its immediate successors
+        required_units: 2D list, number of units of product k required to produce one unit of product i
+        capacity: 2D list, available capacity of resource j in each period
+        big_number: an integer, a big number for setting constraints
+        overtime_cost: list of integers, overtime cost per unit of overtime at each resource
+        holding_cost: list of integers, holding cost of each product per unit and period
+        setup_cost: list of integers, setup cost of each product
+        production_time_per_unit: list of integers, production time per unit of each product
+        setup_time: list of integers, setup time of each product
+        initial_inventory: list of integers, initial inventory for each product
+        demand: 2D list, external demand for each product in each period
+
+    Returns:
+        least_cost: an integer, the minimum cost calculated based on the model
+    """
+    m = Model('capacitated_facility_location_overtime')
+
+    # decision variables
+    ProductionQuantity = m.addVars([(k, t) for k in products for t in periods], name="ProductionQuantity")
+    Inventory = m.addVars([(k, t) for k in products for t in periods], name="Inventory")
+    Overtime = m.addVars([(j, t) for j in resources for t in periods], name="Overtime")
+    SetupState = m.addVars([(k, t) for k in products for t in periods], vtype=GRB.BINARY, name="SetupState")
+
+    # objective function
+    m.setObjective(quicksum(setup_cost[k] * SetupState[k,t] + holding_cost[k] * Inventory[k,t] for k in products for t in periods) 
+                   + quicksum(overtime_cost[j] * Overtime[j,t] for j in resources for t in periods),
+                   GRB.MINIMIZE)
+
+    # constraints
+    m.addConstrs((Inventory[k, t-1] + ProductionQuantity[k, t] - quicksum(required_units[k][i] * ProductionQuantity[i, t] for i in successors[k]) 
+                  - Inventory[k, t] == demand[k][t] for k in products for t in periods[1:]), "inventory_balance")
+    
+    m.addConstrs((initial_inventory[k] - quicksum(required_units[k][i] * ProductionQuantity[i, 1] for i in successors[k]) 
+                  - Inventory[k, 1] == 0 for k in products), "initial_inventory_balance")
+    
+    m.addConstrs((quicksum(production_time_per_unit[k] * ProductionQuantity[k, t] + setup_time[k] * SetupState[k, t] 
+                           for k in products_per_resource[j]) <= capacity[j][t] + Overtime[j,t] for j in resources for t in periods), "capacity")
+    
+    m.addConstrs((ProductionQuantity[k, t] <= big_number * SetupState[k, t] for k in products for t in periods), "production_and_setup")
+    
+    # Run optimization engine
+    m.optimize()
+
+    # Check if the model has a feasible solution
+    if m.status == GRB.Status.OPTIMAL:
+        least_cost = m.objVal
+        return least_cost
+    else:
+        return None
+```
+这个代码会返回最少的总成本，包括所有产品的生产成本，库存成本和额外时间成本。注意上述代码只是一个基础版本的示例，你可能需要根据具体的情况进行调整。

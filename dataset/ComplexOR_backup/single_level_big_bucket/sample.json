@@ -1,0 +1,22 @@
+[
+    {
+        "input": {
+            "demand": [
+                [10, 15, 20],
+                [20, 10, 15]
+            ],
+            "total_capacity": [30, 40, 30],
+            "capacity": [
+                [10, 15, 20],
+                [20, 10, 15]
+            ],
+            "holding_cost": [5, 7],
+            "backlog_cost": [8, 10],
+            "fixed_cost": [2, 3],
+            "initial_stock": [5, 5]
+        },
+        "output": [
+            1000.0
+        ]
+    }
+]

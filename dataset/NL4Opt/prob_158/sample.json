@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_buses": 16.0,
+            "large_buses": 4.0
+        },
+        "output": [
+            20.0
+        ]
+    }
+]

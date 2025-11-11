@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "medium_sized_factory": 5.0,
+            "small_factory": 0.0
+        },
+        "output": [
+            5.0
+        ]
+    }
+]

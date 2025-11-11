@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "chop_saw": 8,
+            "steel_cutter": 64,
+            "cut_limitation": 520,
+            "waste_limitation": 400
+        },
+        "output": [
+            72
+        ]
+    }
+]

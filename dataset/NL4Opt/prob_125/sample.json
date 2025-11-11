@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "anxiety_medication": 66,
+            "anti_depressants": 34
+        },
+        "output": [
+            368
+        ]
+    }
+]

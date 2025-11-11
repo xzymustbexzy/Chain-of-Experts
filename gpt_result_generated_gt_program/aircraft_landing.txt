@@ -1,0 +1,90 @@
+为了解决这个问题，我们需要一个数学优化库。Python中常用的库是PuLP，可以用来定义问题、创建决策变量、设置约束和解决问题。这里我假设你已经安装了PuLP库；如果还没安装，请先用 pip 安装：
+
+```shell
+pip install pulp
+```
+
+以下是完整的 Python 代码示例，展示了如何使用 PuLP 来定义和解决飞机降落问题的数学模型：
+
+```python
+from pulp import *
+
+def aircraft_landing(EarliestLanding, LatestLanding, TargetLanding,
+                     PenaltyAfterTarget, PenaltyBeforeTarget, SeparationTime):
+    # 数量的飞机
+    num_aircrafts = len(EarliestLanding)
+    aircrafts = list(range(num_aircrafts))
+
+    # 创建优化问题
+    prob = LpProblem("Aircraft_Landing_Problem", LpMinimize)
+
+    # 决策变量
+    Landing = LpVariable.dicts("Landing", aircrafts, lowBound=0, cat='Continuous')
+    Early = LpVariable.dicts("Early", aircrafts, lowBound=0, cat='Continuous')
+    Late = LpVariable.dicts("Late", aircrafts, lowBound=0, cat='Continuous')
+    AircraftsOrder = LpVariable.dicts("Aircraft_Order", (aircrafts, aircrafts), 
+                                      cat='Binary')
+
+    # 目标函数(最小化总罚金)
+    prob += lpSum([PenaltyBeforeTarget[i] * Early[i] + PenaltyAfterTarget[i] * Late[i]
+                   for i in aircrafts])
+
+    # 约束条件
+    # 1. 飞机着陆顺序约束
+    for i in aircrafts:
+        for j in aircrafts:
+            if i != j:
+                prob += AircraftsOrder[i][j] + AircraftsOrder[j][i] == 1
+
+    # 2. 着陆间隔约束
+    for i in aircrafts:
+        for j in aircrafts:
+            if i != j:
+                prob += Landing[j] >= Landing[i] + SeparationTime[i][j] * AircraftsOrder[i][j] - (LatestLanding[i] - EarliestLanding[j]) * (1 - AircraftsOrder[i][j])
+
+    # 3. 最早着陆时间约束
+    for i in aircrafts:
+        prob += Landing[i] >= EarliestLanding[i]
+
+    # 4. 最晚着陆时间约束
+    for i in aircrafts:
+        prob += Landing[i] <= LatestLanding[i]
+
+    # 5. 提前着陆时间约束
+    for i in aircrafts:
+        prob += Early[i] >= TargetLanding[i] - Landing[i]
+
+    # 6. 延后着陆时间约束
+    for i in aircrafts:
+        prob += Late[i] >= Landing[i] - TargetLanding[i]
+
+    # 解决问题
+    prob.solve()
+
+    # 输出最终结果
+    min_total_penalty = value(prob.objective)
+
+    # 打印每个飞机的着陆时间
+    for i in aircrafts:
+        print(f"Aircraft {i} landing at {value(Landing[i])}")
+
+    return min_total_penalty
+
+# 示例输入数据
+EarliestLanding = [180, 200]
+LatestLanding = [200, 220]
+TargetLanding = [190, 210]
+PenaltyAfterTarget = [10, 10]
+PenaltyBeforeTarget = [10, 10]
+# 假设每两架飞机间至少需要5分钟间隔
+SeparationTime = [[0, 5], [5, 0]]
+
+# 调用函数
+min_total_penalty = aircraft_landing(EarliestLanding, LatestLanding, TargetLanding,
+                                     PenaltyAfterTarget, PenaltyBeforeTarget, SeparationTime)
+print(f"Minimum total penalty: {min_total_penalty}")
+```
+
+请注意，SeparationTime 应是一个二维矩阵 （\(n \times n\)），\(n\) 是飞机的数量，并且 SeparationTime[i][j] 代表飞机 i 和 j 之间的最小间隔时间。
+
+执行上述代码需要的输入数据是关于飞机最早着陆时间、最晚着陆时间、目标着陆时间和两个罚金的列表，以及飞机间隔时间的矩阵。代码会计算并返回最小化的总罚金，并打印出每个飞机的着陆时间。

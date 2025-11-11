@@ -1,0 +1,1 @@
+The Vehicle Routing Problem with Time Windows (VRPTW) deals with the distribution of goods between depots and customers using vehicles. The vehicles have a limited capacity. Each customer has to be supplied within the time window associated with the customer.

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "apartments": 200000,
+            "townhouses": 400000
+        },
+        "output": [
+            80000
+        ]
+    }
+]

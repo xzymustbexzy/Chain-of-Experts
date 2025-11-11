@@ -1,0 +1,24 @@
+MinRequirements: a set of nutrients with minimum requirements
+MaxRequirements: a set of nutrients with maximum requirements
+Nutrients: a set of nutrients
+Foods: a set of foods
+
+Cost: cost of each food `j` \forall j \in Foods.
+MinAmount: minimum amount of each food `j` to buy \forall j \in Foods.
+MaxAmount: maximum amount of each food `j` to buy \forall j \in Foods.
+MinRequirement: minimum requirement of each nutrient `i` \forall i \in MinRequirements.
+MaxRequirement: maximum requirement of each nutrient `i` \forall i \in MaxRequirements.
+NutrientAmount: amount of each nutrient `i` in each food `j` \forall i \in Nutrients, j \in Foods.
+
+Decision variable:
+Buy: amount of each food `j` to buy \forall j \in Foods.
+
+Objective:
+the total cost of buying foods
+min: \sum_{j \in Foods} Cost_{j} * Buy_{j}
+
+Constraint:
+1. the total amount of each nutrient `i` with minimum requirements in the foods bought is at least `MinRequirement_{i}`
+\sum_{j \in Foods} NutrientAmount_{i,j} * Buy_{j} >= MinRequirement_{i}, \forall i \in MinRequirements.
+2. the total amount of each nutrient `i` with maximum requirements in the foods bought is at most `MaxRequirement_{i}`
+\sum_{j \in Foods} NutrientAmount_{i,j} * Buy_{j} <= MaxRequirement_{i}, \forall i \in MaxRequirements.

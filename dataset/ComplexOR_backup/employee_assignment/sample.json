@@ -1,0 +1,18 @@
+[
+    {
+        "input": {
+            "restaurants": ["R1"],
+            "employees": [0, 1],
+            "shifts": ["Morning", "Evening"],
+            "skills": ["Cooking", "Serving"],
+            "demand": [[[1, 1], [0, 2]]],
+            "employee_has_skill": [[1, 1], [0, 1]],
+            "employee_skill_preference": [[1, 2], [3, 0]],
+            "employee_does_shift": [[1, 0], [1, 1]],
+            "unfulfilled_weighting_factor": 10.0
+        },
+        "output": [
+            12.0
+        ]
+    }
+]

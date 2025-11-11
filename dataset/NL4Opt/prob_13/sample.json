@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "radio_ads": -14,
+            "social_media_ads": 35
+        },
+        "output": [
+            899975
+        ]
+    }
+]

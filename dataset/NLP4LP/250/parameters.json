@@ -1,0 +1,1 @@
+{"NumVehicleTypes": 2, "TransportCapacity": [30, 70], "Pollution": [4, 15], "Earnings": [100, 225], "MaxVehiclePercentage": [0.25, 1.0], "PollutionCap": 200, "MinTransportCapacity": 1200}

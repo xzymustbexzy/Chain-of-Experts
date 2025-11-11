@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "almond": 0,
+            "pistachio": 0,
+            "butter_units": 0,
+            "flour_units": 0,
+            "production_time": 0
+        },
+        "output": [
+            0
+        ]
+    }
+]

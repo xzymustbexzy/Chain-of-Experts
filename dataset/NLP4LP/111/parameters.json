@@ -1,0 +1,1 @@
+{"MetalAvailable": 200, "AcidAvailable": 300, "MaxHeat": 50, "NumBoxTypes": 2, "MetalPerBoxType": [3, 5], "AcidPerBoxType": [5, 8], "FoamPerBoxType": [8, 10], "HeatPerBoxType": [2, 3]}

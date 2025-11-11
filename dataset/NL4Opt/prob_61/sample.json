@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "new_model": 11,
+            "old_model": 5
+        },
+        "output": [
+            17.0212768
+        ]
+    }
+]

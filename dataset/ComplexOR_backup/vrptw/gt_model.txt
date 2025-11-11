@@ -1,0 +1,34 @@
+Customers: Set of customers
+
+Demand: Demand of customer `i` \forall i \in Customers.
+LowerTimeWindow: Lower Bound of the Time Window of customer `i` \forall i \in Customers.
+UpperTimeWindow: Upper Bound of the Time Window of customer `i` \forall i \in Customers.
+Distance: Distance or cost between pair of customer `i` and customer `j` \forall i \in Customers, j \in Customers.
+ServiceTime: Service time at customer `i` \forall i \in Customers.
+VehicleCapacity: Capacity of the vehicles
+M: A large constant
+
+Decision variable:
+ArcVisit: Binary variable indicating that an arc from customer `i` to customer `j` is in the route \forall i \in Customers, j \in Customers.
+DepartureTime: Departure time at customer `i` \forall i \in Customers.
+Load: Load of the vehicle arriving at customer `i` \forall i \in Customers.
+
+Objective:
+Minimize the total distance or cost
+min: \sum_{i \in Customers, j \in Customers} Distance_{i,j} * ArcVisit_{i,j}
+
+Constraint:
+1. The vehicle visits customer `i` exactly once
+\sum_{j \in Customers} ArcVisit_{i,j} = 1, \forall  > 0, {i \in Customers.
+2. Flow balance constraint
+\sum_{j \in Customers} ArcVisit_{i,j} - \sum_{j \in Customers} ArcVisit_{j,i} = 0, \forall  > 0, {i \in Customers.
+3. Ensures feasibility of the schedule
+DepartureTime_{i} + Distance_{i,j} + ServiceTime_{i} - DepartureTime_{j} <= M * (1 - ArcVisit_{i,j}), \forall  > 0 and j > 0 and i != j, {i \in Customers, j \in Customers.
+4. Ensures that customer `i` has to be supplied within the time window
+LowerTimeWindow_{i} <= DepartureTime_{i}, \forall  > 0, {i \in Customers.
+5. Ensures that customer `i` has to be supplied within the time window
+DepartureTime_{i} <= UpperTimeWindow_{i}, \forall  > 0, {i \in Customers.
+6. Ensures feasibility of the loads
+Load_{j} + Demand_{i} - Load_{i} <= M * (1 - ArcVisit_{i,j}), \forall  > 0 and i != j, {i \in Customers, j \in Customers.
+7. Ensures feasibility of the loads
+Load_{i} <= VehicleCapacity, \forall  > 0, {i \in Customers.

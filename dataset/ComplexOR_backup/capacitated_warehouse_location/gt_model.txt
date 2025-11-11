@@ -1,0 +1,23 @@
+Locations: set of potential locations
+Customers: set of customers
+
+Demand: demand of customer `j` \forall j \in Customers.
+AllocationCost: allocation cost of customer `j` to location `i` \forall i \in Locations, j \in Customers.
+Capacity: capacity of location `i` \forall i \in Locations.
+FixedCost: fixed cost of opening location `i` \forall i \in Locations.
+
+Decision variable:
+DemandFractionSupplied: demand fraction supplied from location `i` to customer `j` \forall i \in Locations, j \in Customers.
+Open: binary decision of opening location `i`. If opening, equal to 1; otherwise 0 \forall i \in Locations.
+
+Objective:
+summation of allocation costs and fix costs
+min: \sum_{i \in Locations, j \in Customers} AllocationCost_{i,j} * DemandFractionSupplied_{i,j} + \sum_{i \in Locations} FixedCost_{i} * Open_{i}
+
+Constraint:
+1. constraints of satisfying demand
+\sum_{i \in Locations} DemandFractionSupplied_{i,j} >= 1, \forall j \in Customers.
+2. the total amount of supply can not exceed the capacity of warehouse in location `i`
+\sum_{j \in Customers} Demand_{j} * DemandFractionSupplied_{i,j} <= Capacity_{i} * Open_{i}, \forall i \in Locations.
+3. Effective Capacity
+DemandFractionSupplied_{i,j} * Demand_{j} <= Capacity_{i} * Open_{i}, \forall i \in Locations, j \in Customers.

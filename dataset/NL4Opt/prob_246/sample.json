@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "LED_fixture": 210,
+            "fluorescence_lamp": 90
+        },
+        "output": [
+            990
+        ]
+    }
+]

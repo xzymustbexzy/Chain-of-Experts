@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_container": 40.0,
+            "large_container": 5.0
+        },
+        "output": [
+            950.0
+        ]
+    }
+]

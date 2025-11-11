@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "milk": 3.0,
+            "vegetables": 0.0
+        },
+        "output": [
+            3.0
+        ]
+    }
+]

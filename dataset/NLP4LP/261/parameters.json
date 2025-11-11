@@ -1,0 +1,1 @@
+{"PreparationTimeMedicationPatch": 3, "PreparationTimeAntiBioticCream": 5, "MaterialRequiredMedicationPatch": 5, "MaterialRequiredAntiBioticCream": 6, "MinRatioAntiBioticCreamToMedicationPatch": 2, "MaxTotalBatches": 100, "AvailableStaffTime": 400, "AvailableMaterials": 530, "TreatmentPerBatchMedicationPatch": 3, "TreatmentPerBatchAntiBioticCream": 2}

@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "miter_saw": 15,
+            "circular_saw": 11,
+            "constraint1": 20,
+            "constraint2": 0
+        },
+        "output": [
+            0
+        ]
+    }
+]

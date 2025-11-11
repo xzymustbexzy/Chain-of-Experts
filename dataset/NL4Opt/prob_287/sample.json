@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "type_II_ambulance": 10,
+            "hospital_van": 8,
+            "constraint1": 0,
+            "constraint2": -2
+        },
+        "output": [
+            12600
+        ]
+    }
+]

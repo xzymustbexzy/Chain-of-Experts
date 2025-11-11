@@ -1,0 +1,16 @@
+[
+    {
+        "input": {
+            "glass_jars": 23.0,
+            "plastic_jars": 47.0,
+            "glass_jar_capacity": 250,
+            "plastic_jar_capacity": 300,
+            "glass_jar_constraint": "twice",
+            "minimum_glass_jar_count": 20,
+            "total_honey_capacity": 20000
+        },
+        "output": [
+            70.0
+        ]
+    }
+]

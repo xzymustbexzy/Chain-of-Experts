@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "traditional_machine": 300,
+            "modern_machine": 200
+        },
+        "output": [
+            17000
+        ]
+    }
+]

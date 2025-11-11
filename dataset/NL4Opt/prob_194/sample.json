@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_trucks": 9.0,
+            "large_trucks": 3.0
+        },
+        "output": [
+            420.0
+        ]
+    }
+]

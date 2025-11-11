@@ -1,0 +1,2 @@
+Runtime Error
+Invalid input for linprog: c must be a 1-D array of numerical coefficients

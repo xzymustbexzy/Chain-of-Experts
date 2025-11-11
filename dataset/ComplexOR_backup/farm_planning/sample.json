@@ -1,0 +1,41 @@
+[
+    {
+        "input": {
+            "Yield": [10, 20, 30],
+            "Price": [100, 150, 200],
+            "AmountInBundle": [
+                [1, 2],
+                [2, 1],
+                [1, 1]
+            ],
+            "LandAvailable": 100.0,
+            "BP_land": [1, 1, 1],
+            "FractionOccupiesLand": [
+                [0.2, 0.3, 0.5],
+                [0.1, 0.4, 0.4],
+                [0.3, 0.3, 0.4]
+            ],
+            "LaborRequired": [
+                [5, 10, 15],
+                [10, 5, 10],
+                [15, 15, 5]
+            ],
+            "AnnualWageRateFamilyLabor": 20000,
+            "AnnualWageRatePermanentLabor": 25000,
+            "HourlyWageRateTemporaryLabor": 15,
+            "WorkingHours": [160, 160, 160],
+            "FamilyLaborAvailable": 5,
+            "AnnualAmountOfWaterAvailable": 50.0,
+            "WaterLimit": [5, 10, 10],
+            "WaterRequirement": [
+                [0.1, 0.2, 0.3],
+                [0.2, 0.1, 0.2],
+                [0.3, 0.3, 0.4]
+            ],
+            "PriceOfWater": 100
+        },
+        "output": [
+            300000.0
+        ]
+    }
+]

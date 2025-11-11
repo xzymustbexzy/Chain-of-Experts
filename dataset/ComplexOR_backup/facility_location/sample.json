@@ -1,0 +1,21 @@
+[
+    {
+        "input": {
+            "locations": ["L1", "L2", "L3"],
+            "commodities": ["C1", "C2"],
+            "product_plants": ["L1"],
+            "distribution_centers": ["L2"],
+            "customer_zones": ["L3"],
+            "supply": [[10, 5]],
+            "demand": [[0, 5], [0, 5]],
+            "max_throughput": [20, 15],
+            "min_throughput": [5, 5],
+            "unit_throughput_cost": [1, 1],
+            "fixed_throughput_cost": [10, 10],
+            "variable_cost": [[[[1]]]]
+        },
+        "output": [
+            40
+        ]
+    }
+]

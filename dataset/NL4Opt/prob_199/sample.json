@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "hamburgers": 3,
+            "chicken_wraps": 1
+        },
+        "output": [
+            23
+        ]
+    }
+]

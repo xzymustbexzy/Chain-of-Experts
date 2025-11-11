@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "circular_tables": 60.0,
+            "rectangular_tables": 50.0
+        },
+        "output": [
+            1080.0
+        ]
+    }
+]

@@ -1,0 +1,38 @@
+由于这是一个典型的线性优化问题，我们可以使用 Python 的线性优化库 PuLP 来解决这个问题。
+
+下面是一个可能的实现，它使用了 PuLP库的 LpProblem、LpVariable 和 LpMinimize 模块。
+```python
+from pulp import LpProblem, LpVariable, LpMinimize, LpStatus, lpSum, value
+
+def contract_allocation(producers, contracts, available_capacity, production_cost, minimal_delivery, contract_size, minimal_number_of_contributors):
+    # 初始化问题
+    model = LpProblem("Minimize contract allocation costs", LpMinimize)
+
+    # 决策变量
+    generation = LpVariable.dicts("generation", (producers, contracts), lowBound=0)
+    generation_incidence = LpVariable.dicts("generation_incidence", (producers, contracts), cat='Binary')
+
+    # 目标函数
+    model += lpSum(production_cost[p][c] * generation[p][c] for p in producers for c in contracts)
+
+    # 约束条件
+    for p in producers:
+        model += lpSum(generation[p][c] for c in contracts) <= available_capacity[p]
+        for c in contracts:
+            model += generation[p][c] >= minimal_delivery[p] * generation_incidence[p][c]
+
+    for c in contracts:
+        model += lpSum(generation[p][c] for p in producers) >= contract_size[c]
+        model += lpSum(generation_incidence[p][c] for p in producers) >= minimal_number_of_contributors[c]
+
+    # 解决问题
+    model.solve()
+
+    # 返回解决方案
+    if LpStatus[model.status] == 'Optimal':
+        total_cost = value(model.objective)
+        return total_cost
+    else:
+        return None
+```
+注意，这段代码没有包括对输入的任何错误检查，因此在使用时需要确保输入是合理的。

@@ -1,0 +1,16 @@
+[
+    {
+        "input": {
+            "participants": ["P1", "P2", "P3"],
+            "cars": ["C1", "C2", "C3"],
+            "possible_assignments": [
+                [1, 0, 1],
+                [0, 1, 0],
+                [1, 1, 1]
+            ]
+        },
+        "output": [
+            3
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_shop": 1,
+            "large_shop": 7
+        },
+        "output": [
+            8
+        ]
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "input": {
+            "Locations": [1, 2, 3],
+            "Customers": [1, 2, 3, 4],
+            "Demand": [30, 20, 50, 40],
+            "AllocationCost": [
+                [5, 2, 4, 7], 
+                [3, 6, 8, 1], 
+                [7, 3, 5, 4]
+            ],
+            "Capacity": [100, 60, 80],
+            "LowerLimitOnDemand": [20, 15, 25],
+            "LowerLimitOfOpenWarehouses": 1,
+            "UpperLimitOfOpenWarehouses": 2,
+            "FixedCost": [100, 200, 150]
+        },
+        "output": [
+            450
+        ]
+    }
+]

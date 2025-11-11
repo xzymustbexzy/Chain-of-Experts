@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "coconut_oil": 300.0,
+            "lavender": 0.0
+        },
+        "output": [
+            210.0
+        ]
+    }
+]

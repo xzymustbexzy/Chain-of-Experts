@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "vintage_bottles": 28,
+            "regular_bottles": 114
+        },
+        "output": [
+            142
+        ]
+    }
+]

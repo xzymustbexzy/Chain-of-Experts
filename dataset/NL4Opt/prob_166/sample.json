@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "large": 8,
+            "small": 8,
+            "large_planes": 8,
+            "small_planes": 8
+        },
+        "output": [
+            16.0
+        ]
+    }
+]

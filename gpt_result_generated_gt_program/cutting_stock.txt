@@ -1,0 +1,77 @@
+为了解决切割库存问题，我们需要使用线性规划。在Python中，我们可以使用 `pulp` 库实现该优化问题。首先，您需要安装pulp库（如果之前没有安装的话），您可以通过下面的命令来安装它：
+
+```bash
+pip install pulp
+```
+
+以下是完成`cutting_stock`函数的一个示意性实现：
+
+```python
+from pulp import *
+
+def cutting_stock(roll_width, widths, orders, num_patterns, num_rolls_width):
+    """
+    Solves the Cutting Stock Problem to minimize the number of raw rolls cut.
+    
+    Args:
+    - roll_width: An integer, the width of the raw rolls.
+    - widths: A list of integers, the set of widths to be cut.
+    - orders: A list of integers, the number of orders for each width.
+    - num_patterns: An integer, the number of different patterns.
+    - num_rolls_width: A list of lists, where each inner list contains the number of rolls of a 
+                       particular width in a given pattern.
+    
+    Returns:
+    - min_rolls_cut: An integer, the minimum number of raw rolls cut.
+    """
+    
+    # Create problem instance
+    prob = LpProblem("Cutting_Stock_Problem", LpMinimize)
+    
+    # Decision variables
+    Cut = [LpVariable('Cut_%d' % j, lowBound=0, cat='Integer') for j in range(num_patterns)]
+
+    # Objective function - Minimize the total number of raw rolls cut
+    prob += lpSum(Cut), "Total number of rolls cut"
+    
+    # Constraints
+    # Each width i must meet its orders
+    for i in range(len(widths)):
+        prob += lpSum(num_rolls_width[j][i] * Cut[j] for j in range(num_patterns)) >= orders[i], \
+                "Meet_orders_for_width_%d" % widths[i]
+    
+    # Width of rolls in each pattern j should not exceed the width of raw roll
+    for j in range(num_patterns):
+        prob += lpSum(widths[i] * num_rolls_width[j][i] for i in range(len(widths))) <= roll_width, \
+                "Max_roll_width_for_pattern_%d" % j
+            
+    # Solve the problem
+    prob.solve()
+    
+    # The status of the solution
+    print("Status:", LpStatus[prob.status])
+    
+    # The optimized variable values
+    min_rolls_cut = value(prob.objective)
+    cutting_plan = [(j, Cut[j].varValue) for j in range(num_patterns)]
+
+    # Return the minimum number of raw rolls required
+    return min_rolls_cut, cutting_plan
+
+# Example use:
+roll_width = 100
+widths = [20, 45, 50]    
+orders = [150, 36, 60]    
+num_patterns = 3
+num_rolls_width = [[0, 2, 2], [1, 1, 0], [5, 0, 0]]
+
+min_rolls_cut, cutting_plan = cutting_stock(roll_width, widths, orders, num_patterns, num_rolls_width)
+print("The minimum number of rolls cut is:", min_rolls_cut)
+print("Cutting plan:")
+for pattern, num_rolls in cutting_plan:
+    print(f"Pattern {pattern + 1}: cut {num_rolls} rolls")
+```
+
+上面的代码定义了所需的切割库存问题，并使用`pulp`进行了线性规划。请注意，输出中的`cutting_plan`变量表示每个模式应该切多少卷。这意味着你可以根据这个计划分配原材料的切割。此外，`min_rolls_cut`变量给出了切割所需的最少原纸卷数量。代码还包括了一个简单的示例，以显示如何调用该函数。
+
+务必说明这段代码是一个示意性实现，具体情况可能要更复杂的逻辑，比如可能涉及到列生成算法去寻找最优的切割模式，这取决于问题的规模和复杂度。

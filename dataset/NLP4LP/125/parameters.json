@@ -1,0 +1,1 @@
+{"NumLabs": 2, "NumPillTypes": 2, "ProductionRate": [[20, 30], [30, 40]], "WorkerLaborPerLab": [3, 5], "TotalWorkerHours": 1500, "MinRequiredPills": [20000, 30000]}

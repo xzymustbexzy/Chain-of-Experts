@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "long_desks": 0,
+            "short_desks": 20
+        },
+        "output": [
+            40.0
+        ]
+    }
+]

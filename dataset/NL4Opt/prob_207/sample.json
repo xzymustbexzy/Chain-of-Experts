@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "graph_paper": 2.0,
+            "music_paper": 113.0
+        },
+        "output": [
+            290.5
+        ]
+    }
+]

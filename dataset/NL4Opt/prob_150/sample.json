@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_bottles": 134,
+            "large_bottles": 66
+        },
+        "output": [
+            1990
+        ]
+    }
+]

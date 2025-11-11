@@ -1,0 +1,90 @@
+实现上述运筹优化问题的求解可以通过利用线性规划库，例如Python中的PuLP库。首先，您需要安装PuLP库，如果没有安装的话，请运行`pip install pulp`来进行安装。下面是根据您提供的数学模型实现的PuLP代码。这份代码定义了目标函数、决策变量以及约束条件，并调用线性规划求解器来找到一个最小化总成本的解。
+
+```python
+from pulp import *
+
+def capacitated_lot_sizing_with_lost_sales(N, T, demand, production_time, setup_time, capacity, production_cost, setup_cost, inventory_holding_cost, lost_sales_cost, big_number):
+    """
+    Solve the capacitated lot-sizing problem with setup times and lost sales.
+    """
+
+    # 问题定义，这里我们使用最小化问题
+    problem = LpProblem("Capacitated_Lot_Sizing_with_Lost_Sales", LpMinimize)
+
+    # 创建决策变量
+    production_units = LpVariable.dicts("ProductionUnits", ((i, t) for i in range(N) for t in range(T)), lowBound=0, cat='Continuous')
+    inventory = LpVariable.dicts("Inventory", ((i, t) for i in range(N) for t in range(T)), lowBound=0, cat='Continuous')
+    setup_variable = LpVariable.dicts("SetupVariable", ((i, t) for i in range(N) for t in range(T)), cat='Binary')
+    lost_sales = LpVariable.dicts("LostSales", ((i, t) for i in range(N) for t in range(T)), lowBound=0, cat='Continuous')
+
+    # 目标函数
+    cost_list = [
+        setup_cost[i][t] * setup_variable[(i, t)] +
+        production_cost[i][t] * production_units[(i, t)] +
+        inventory_holding_cost[i][t] * inventory[(i, t)] +
+        lost_sales_cost[i][t] * lost_sales[(i, t)]
+        for i in range(N) for t in range(T)
+    ]
+    problem += lpSum(cost_list)
+
+    # 约束条件
+    for t in range(T):
+        for i in range(N):
+            if t == 0:
+                problem += inventory[(i, t)] - production_units[(i, t)] - lost_sales[(i, t)] == -demand[i][t]
+            else:
+                problem += inventory[(i, t)] - inventory[(i, t-1)] - production_units[(i, t)] - lost_sales[(i, t)] == -demand[i][t]
+
+    for t in range(T):
+        problem += lpSum(production_time[i][t] * production_units[(i, t)] + setup_time[i][t] * setup_variable[(i, t)] for i in range(N)) <= capacity[t]
+
+    for i in range(N):
+        for t in range(T):
+            problem += production_units[(i, t)] - big_number * setup_variable[(i, t)] <= 0
+            problem += lost_sales[(i, t)] <= demand[i][t]
+
+    # 求解问题
+    problem.solve()
+
+    # 如果未找到可行解，则返回None
+    if LpStatus[problem.status] != 'Optimal':
+        return None
+
+    # 否则返回最小化成本以及详细的生产计划
+    minimize_cost = value(problem.objective)
+    detailed_production_plan = {(i, t): production_units[(i, t)].varValue for i in range(N) for t in range(T)}
+
+    return minimize_cost, detailed_production_plan
+
+# 测试代码，此部分需要您提供具体的数据和参数进行测试。
+N = ...  # 物品数量
+T = ...  # 时间周期数
+demand = ...  # 需求量
+production_time = ...  # 生产时间
+setup_time = ...  # 设置时间
+capacity = ...  # 容量限制
+production_cost = ...  # 单位生产成本
+setup_cost = ...  # 固定设置成本
+inventory_holding_cost = ...  # 存货保管成本
+lost_sales_cost = ...  # 销售损失成本
+big_number = ...  # 大数，用于设置约束
+
+min_cost, production_plan = capacitated_lot_sizing_with_lost_sales(
+    N,
+    T,
+    demand,
+    production_time,
+    setup_time,
+    capacity,
+    production_cost,
+    setup_cost,
+    inventory_holding_cost,
+    lost_sales_cost,
+    big_number
+)
+
+print("Minimum Cost:", min_cost)
+print("Production Plan:", production_plan)
+```
+
+请注意，您需要提供具体的数据，如需求量(demand)、生产时间(production_time)、设置时间(setup_time)、容量限制(capacity)、单位生产成本(production_cost)、固定设置成本(setup_cost)、存货保管成本(inventory_holding_cost)、销售损失成本(lost_sales_cost)以及大数(big_number)等，以完成这份代码的测试和运行。此外，这段代码假设索引`i`和`t`从0开始计数，这一点您在输入数据时也需要注意。

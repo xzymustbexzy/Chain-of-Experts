@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "phones": 0,
+            "laptops": 60
+        },
+        "output": [
+            2400
+        ]
+    }
+]

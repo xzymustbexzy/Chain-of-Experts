@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_containers": 91,
+            "large_containers": 3
+        },
+        "output": [
+            1970.0
+        ]
+    }
+]

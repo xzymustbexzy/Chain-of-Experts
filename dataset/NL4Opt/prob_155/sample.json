@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "otters": 13,
+            "dolphins": 32
+        },
+        "output": [
+            71.0
+        ]
+    }
+]

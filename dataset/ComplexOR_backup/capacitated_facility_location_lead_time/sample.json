@@ -1,0 +1,44 @@
+[
+    {
+        "input": {
+            "items": ["Item1", "Item2", "Item3"],
+            "periods": ["Period1", "Period2"],
+            "machines": ["Machine1", "Machine2"],
+            "successors": {
+                "Item1": ["Item2"],
+                "Item2": ["Item3"],
+                "Item3": []
+            },
+            "required_quantity": [
+                [0, 1, 0],
+                [0, 0, 1],
+                [0, 0, 0]
+            ],
+            "production_time": [
+                [1, 1, 1],
+                [1, 1, 1]
+            ],
+            "setup_cost": [50, 50, 50],
+            "demand": [
+                [0, 0],
+                [0, 0],
+                [10, 5]
+            ],
+            "large_number": 1000,
+            "initial_inventory": [0, 0, 0],
+            "holding_cost": [1, 1, 1],
+            "machine_capacity": [
+                [100, 100],
+                [100, 100]
+            ],
+            "lead_time": [1, 1, 1],
+            "setup_time": [
+                [1, 1, 1],
+                [1, 1, 1]
+            ]
+        },
+        "output": [
+            350
+        ]
+    }
+]

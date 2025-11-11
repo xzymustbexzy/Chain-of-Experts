@@ -1,0 +1,37 @@
+使用python的解决运筹优化问题常见的方法是使用pulp库。
+
+这是使用pulp库解决该问题的一个示例：
+
+首先，你需要安装pulp库，你可以使用pip进行安装。
+```python
+pip install pulp
+```
+安装之后，你可以使用下列代码完成题目的要求：
+```python
+import pulp
+
+def net1(Cities, Links, Supply, Demand, ShippingCost, Capacity):
+    # 创建问题
+    prob = pulp.LpProblem("Network_Flow_Problem", pulp.LpMinimize)
+
+    # 创建决策变量
+    Ship = pulp.LpVariable.dicts("ship", (Cities, Cities), lowBound=0, cat='Integer')
+
+    # 添加目标函数
+    prob += pulp.lpSum([ShippingCost[i][j] * Ship[i][j] for i in Cities for j in Cities])
+
+    # 添加约束条件
+    for k in Cities:
+        prob += pulp.lpSum([Ship[i][k] for (i, j) in Links if j == k]) + \
+                Supply[k] == Demand[k] + pulp.lpSum([Ship[k][j] for (i, j) in Links if i == k])
+    for (i, j) in Links:
+        prob += Ship[i][j] <= Capacity[i][j]
+    
+    # 解决问题
+    prob.solve()
+
+    # 返回最优解的总成本
+    total_cost = pulp.value(prob.objective)
+    return total_cost
+```
+这段代码首先定义了一个最小化问题，然后定义了决策变量，然后定义了目标函数，然后定义了约束条件，最后解决了这个问题，并返回了最小的总成本。

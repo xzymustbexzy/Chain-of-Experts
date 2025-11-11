@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "densely_seated_one": 20,
+            "loosely_seated_one": 5
+        },
+        "output": [
+            25
+        ]
+    }
+]

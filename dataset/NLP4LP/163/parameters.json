@@ -1,0 +1,1 @@
+{"WorkersPerSmallBin": 2, "WorkersPerLargeBin": 5, "CapacitySmallBin": 25, "CapacityLargeBin": 60, "TotalWorkers": 100, "SmallBinToLargeBinRatio": 3, "MinimumSmallBins": 10, "MinimumLargeBins": 4}

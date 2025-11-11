@@ -1,0 +1,26 @@
+[
+    {
+        "input": {
+            "cheap_box": 25,
+            "expensive_box": 0,
+            "constraint1": [
+                3,
+                5,
+                200
+            ],
+            "constraint2": [
+                5,
+                8,
+                300
+            ],
+            "constraint3": [
+                2,
+                3,
+                50
+            ]
+        },
+        "output": [
+            200
+        ]
+    }
+]

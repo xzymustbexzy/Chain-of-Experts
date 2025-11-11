@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_bins": 12,
+            "large_bins": 4
+        },
+        "output": [
+            540
+        ]
+    }
+]

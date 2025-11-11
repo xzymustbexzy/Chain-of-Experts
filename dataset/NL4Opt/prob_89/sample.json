@@ -1,0 +1,15 @@
+[
+    {
+        "input": {
+            "goat": 0,
+            "chicken": 0,
+            "goat_meat": 3,
+            "goat_base": 6,
+            "chicken_meat": 5,
+            "chicken_base": 5
+        },
+        "output": [
+            0
+        ]
+    }
+]

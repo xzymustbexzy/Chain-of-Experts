@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "factory_1": 5,
+            "factory_2": 0,
+            "constraint_1": 5,
+            "constraint_2": 25,
+            "constraint_3": 0
+        },
+        "output": [
+            1500
+        ]
+    }
+]

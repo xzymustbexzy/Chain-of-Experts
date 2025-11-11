@@ -11,7 +11,8 @@ class BaseExpert(object):
 
         self.llm = ChatOpenAI(
             model_name=model,
-            temperature=0
+            temperature=0,
+            openai_api_base='https://api.gptsapi.net/v1'
         )
         self.forward_prompt_template = self.ROLE_DESCRIPTION + '\n' + self.FORWARD_TASK
         self.forward_chain = LLMChain(

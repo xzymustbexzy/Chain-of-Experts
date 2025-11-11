@@ -1,0 +1,26 @@
+Producers: Set of all producers
+Contracts: Set of all contracts
+
+AvailableCapacity: Available capacity for producer `p` \forall p \in Producers.
+ProductionCost: Unit cost for delivery by producer `p` for contract `c` \forall p \in Producers, c \in Contracts.
+MinimalDelivery: Minimal delivery size for producer `p` \forall p \in Producers.
+ContractSize: Size of contract `c` \forall c \in Contracts.
+MinimalNumberofContributors: Minimal number of producers that delivery to contract `c` \forall c \in Contracts.
+
+Decision variable:
+Generation: Amount of commodity delivered by producers `p` for contract `c` \forall p \in Producers, c \in Contracts.
+GenerationIncidence: Producers `p` produce for contract `c` \forall p \in Producers, c \in Contracts.
+
+Objective:
+Minimize the total cost of all deliveries
+min: \sum_{p \in Producers, c \in Contracts} ProductionCost_{p,c} * Generation_{p,c}
+
+Constraint:
+1. Production capacity for producer `p`
+\sum_{c \in Contracts} Generation_{p,c} <= AvailableCapacity_{p}, \forall p \in Producers.
+2. The demand for contract `c` is met
+\sum_{p \in Producers} Generation_{p,c} >= ContractSize_{c}, \forall c \in Contracts.
+3. Minimal number of contributors to contract `c`
+\sum_{p \in Producers} GenerationIncidence_{p,c} >= MinimalNumberofContributors_{c}, \forall c \in Contracts.
+4. Determine if producer `p` delivers to contract `c`
+Generation_{p,c} >= MinimalDelivery_{p} * GenerationIncidence_{p,c}, \forall p \in Producers, c \in Contracts.

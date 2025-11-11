@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "dine_in_place": 100,
+            "food_truck": 50
+        },
+        "output": [
+            8.0
+        ]
+    }
+]

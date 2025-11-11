@@ -1,0 +1,19 @@
+[
+    {
+        "input": {
+            "cat_paw": 4,
+            "gold_shark": 32,
+            "cat_paw_percentage_first_mix": 0.2,
+            "gold_shark_percentage_first_mix": 0.8,
+            "cat_paw_percentage_second_mix": 0.35,
+            "gold_shark_percentage_second_mix": 0.65,
+            "cat_paw_limit": 20,
+            "gold_shark_limit": 50,
+            "profit_first_mix": 12,
+            "profit_second_mix": 15
+        },
+        "output": [
+            535
+        ]
+    }
+]

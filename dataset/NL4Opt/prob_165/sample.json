@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "electric_bikes": 26,
+            "scooters": 61,
+            "Max_Bikes": 26,
+            "Min_Scooters": 20,
+            "Charge_Limit": 200
+        },
+        "output": [
+            513
+        ]
+    }
+]

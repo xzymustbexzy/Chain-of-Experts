@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "lychee_bubble_tea": 0,
+            "mango_bubble_tea": 0,
+            "mango_juice_limit": 0,
+            "lychee_juice_limit": 0,
+            "lychee_flavored_limit": 0
+        },
+        "output": [
+            0
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "bikes": 35,
+            "scooters": 5
+        },
+        "output": [
+            1965
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "windrower": 100.0,
+            "hay_harvester": 100.0
+        },
+        "output": [
+            1800.0
+        ]
+    }
+]

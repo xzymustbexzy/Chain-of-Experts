@@ -1,0 +1,43 @@
+运筹优化问题通常可以使用线性规划或者混合整数规划模型解决。在Python中，标准库提供有一些相应的求解器，如`scipy.optimize.linprog` 或者`pulp`等。在这里，将使用`pulp`库来解决这个问题。首先需要安装这个库，使用pip安装方法如下： `pip install pulp`
+
+下面是使用`pulp`求解这个问题的一个例子：
+
+```python
+from pulp import LpProblem, LpMinimize, LpVariable, lpSum, LpStatus
+
+def netthru(cities, links, supply, demand, cost, city_capacity, link_capacity):
+    prob = LpProblem("Minimum_Cost_Network_Flow", LpMinimize)
+
+    shipping = LpVariable.dicts("Shipping", ((i, j) for i, j in links), lowBound=0, cat='Continuous')
+
+    # Objective Function
+    prob += lpSum([cost[i][j] * shipping[(i, j)] for i, j in links])
+
+    # Constraints
+    for k in cities:
+        prob += (lpSum(shipping[(i, k)] for i, _ in links if k == _) + supply[k] ==
+                 lpSum(shipping[(k, j)] for _, j in links if k == _) + demand[k])
+
+        prob += lpSum(shipping[(i, k)] for i, _ in links if k == _) + supply[k] <= city_capacity[k]
+
+    for i, j in links:
+        prob += shipping[(i, j)] <= link_capacity[i][j]
+    
+    # Solve the problem
+    prob.solve()
+
+    if LpStatus[prob.status] == 'Optimal':
+        total_cost = 0
+        for i, j in links:
+            total_cost += shipping[(i, j)].varValue * cost[i][j]
+        return total_cost
+    else:
+        return None
+```
+在上述代码中，首先我们定义了线性规划问题并指定了我们的目标是最小化。然后，我们定义了我们的决策变量`shipping`，这是一个字典，其中键是链接元组`(i, j)`，值是一个`LpVariable`实例，该实例表示从城市`i`到城市`j`的货物运输量。`LpVariable`的参数`lowBound`是零，表示运输量不能为负。这是一个连续变量`'Continuous'`（即非整数）。
+
+然后，我们定义了目标函数，其为所有链接的运输成本总和。
+
+然后，我们为每个城市和每个链接添加了约束条件。首先，对于每个城市，我们添加了平衡流约束，保证对每个城市，输入流（其他城市运输到该城市的货物加上该城市的供应量）等于输出流（该城市运输到其他城市的货物加上该城市的需求量）。接着，我们又添加了一个约束，确保每个城市的输入流不超过其吞吐量。最后，我们为每个链接添加了一个约束，保证运输的货物不超过该链接的容量。
+
+在定义了所有的约束和目标函数后，我们调用了`.solve()`方法来解决这个问题。如果问题有最优解，我们计算并返回总成本。如果没有最优解，我们返回`None`。

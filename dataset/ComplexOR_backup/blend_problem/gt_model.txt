@@ -1,0 +1,19 @@
+AlloysOnMarket: Set of alloys available on the market
+RequiredElements: Set of required elements
+
+CompositionDataPercentage: Percentage of composition data of required element `e` in alloy `a` \forall e \in RequiredElements, a \in AlloysOnMarket.
+DesiredBlendPercentage: Desired blend percentage of required element `e` \forall e \in RequiredElements.
+AlloyPrice: Price of alloy `a` \forall a \in AlloysOnMarket.
+
+Decision variable:
+AlloyPurchased: Amount of alloys purchased \forall a \in AlloysOnMarket.
+
+Objective:
+Total cost of the alloy blend
+min: \sum_{a \in AlloysOnMarket} AlloyPrice_{a} * AlloyPurchased_{a}
+
+Constraint:
+1. Constraint to ensure desired blend percentage
+\sum_{a \in AlloysOnMarket} CompositionDataPercentage_{e,a} * AlloyPurchased_{a} = DesiredBlendPercentage_{e}, \forall e \in RequiredElements.
+2. Constraint to ensure material balance
+\sum_{a \in AlloysOnMarket} AlloyPurchased_{a} = 1, \forall .

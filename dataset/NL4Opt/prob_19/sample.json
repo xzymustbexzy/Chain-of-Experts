@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "thin_jar": 1.0,
+            "stubby_jar": 26.0
+        },
+        "output": [
+            239.0
+        ]
+    }
+]

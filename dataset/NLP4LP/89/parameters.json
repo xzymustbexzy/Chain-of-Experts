@@ -1,0 +1,1 @@
+{"NumPillTypes": 2, "PainMedicationPerPill": [0.2, 0.6], "AnxietyMedicationPerPill": [0.3, 0.2], "DischargePerPill": [0.3, 0.1], "MaxPainMedication": 6, "MinAnxietyMedication": 3}

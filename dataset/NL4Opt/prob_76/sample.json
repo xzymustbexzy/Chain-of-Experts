@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "light_grilled_cheese_sandwiches": 0,
+            "heavy_grilled_cheese_sandwiches": 0
+        },
+        "output": [
+            0
+        ]
+    }
+]

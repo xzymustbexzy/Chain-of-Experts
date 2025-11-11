@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "clothing_company": 2500.0,
+            "tech_company": 500.0
+        },
+        "output": [
+            225.00000000000003
+        ]
+    }
+]

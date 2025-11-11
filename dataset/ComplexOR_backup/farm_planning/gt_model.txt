@@ -1,0 +1,45 @@
+Crops: Set of crops available for planting
+Months: Set of months in a year
+ConsumptionBundles: Set of consumption bundles
+
+Yield: Crop `c` yield in tons per hectare \forall c \in Crops.
+Price: Crop `c` price in dollars per ton \forall c \in Crops.
+AmountInBundle: Amount of crop `c` in consumption bundle `b` in tons \forall c \in Crops, b \in ConsumptionBundles.
+LandAvailable: Total land available for planting in hectares
+BP_land: Binary parameter indicating whether a crop is planted or not \forall c \in Crops.
+FractionOccupiesLand: Fraction of land occupied by crop `c` in month `t` \forall t \in Months, c \in Crops.
+LaborRequired: Labor required per hectare for each crop in each month \forall t \in Months, c \in Crops.
+AnnualWageRateFamilyLabor: Annual wage rate for family labor in dollars per man
+AnnualWageRatePermanentLabor: Annual wage rate for permanent labor in dollars per man
+HourlyWageRateTemporaryLabor: Hourly wage rate for temporary labor in dollars per hour
+WorkingHours: Number of working hours available per month per man \forall t \in Months.
+FamilyLaborAvailable: Number of family laborers available
+AnnualAmountOfWaterAvailable: Annual amount of water available in cubic kilometers
+WaterLimit: Maximum amount of water available per month in cubic kilometers \forall t \in Months.
+WaterRequirement: Water requirement per hectare for each crop in each month in cubic kilometers \forall t \in Months, c \in Crops.
+PriceOfWater: Price of water in dollars per cubic kilometer
+
+Decision variable:
+AmountPlanted: Amount of crop `c` planted in hectares \forall c \in Crops.
+PermanentLaborHired: Number of permanent laborers hired
+TemporaryLaborHired: Number of temporary laborers hired per month \forall t \in Months.
+Sales: Amount of each crop sold in tons \forall c \in Crops.
+FractionConsumed: Fraction of each consumption bundle consumed \forall b \in ConsumptionBundles.
+
+Objective:
+maximize farm earnings
+max: \sum_{c \in Crops} Price_{c} * Sales_{c} - AnnualWageRateFamilyLabor * FamilyLaborAvailable - AnnualWageRatePermanentLabor * PermanentLaborHired - HourlyWageRateTemporaryLabor * \sum_{t \in Months} TemporaryLaborHired_{t} - PriceOfWater * \sum_{t \in Months, c \in Crops} WaterRequirement_{t,c} * AmountPlanted_{c}
+
+Constraint:
+1. Constraint on land limitations
+\sum_{c \in Crops} FractionOccupiesLand_{t,c} * AmountPlanted_{c} <= LandAvailable, \forall t \in Months.
+2. Constraint on labor requirements
+\sum_{c \in Crops} LaborRequired_{t,c} * AmountPlanted_{c} <= WorkingHours_{t} * (FamilyLaborAvailable + PermanentLaborHired) + TemporaryLaborHired_{t}, \forall t \in Months.
+3. Constraint on water requirements 1
+\sum_{c \in Crops} WaterRequirement_{t,c} * AmountPlanted_{c} <= WaterLimit_{t}, \forall t \in Months.
+4. Constraint on water requirements 2
+\sum_{t \in Months, c \in Crops} WaterRequirement_{t,c} * AmountPlanted_{c} <= AnnualAmountOfWaterAvailable
+5. Constraint on family consumption 1
+Yield_{c} * AmountPlanted_{c} = \sum_{b \in ConsumptionBundles} AmountInBundle_{c,b} * FractionConsumed_{b} + Sales_{c}, \forall c \in Crops.
+6. Constraint on family consumption 2
+\sum_{b \in ConsumptionBundles} FractionConsumed_{b} = 1

@@ -1,0 +1,48 @@
+很抱歉，理论上您需要一种数学建模工具来解决这个问题，如Gurobi、Cplex等，或者一些开源的数学优化软件包如Pulp、CVXPY等以及作为接口的Python库。然而，这些软件包必须要在环境中安装，并对相关的数学建模方法有所了解，才能正确完成编码。
+
+由于以上工具需要特定的运行环境，所以在这里我提供一个使用pulp的完整例子，它是Python的一个开源线性规划包，
+
+```python
+from pulp import *
+
+def scooter_location(estimated_demand, distance_matrix, num_available_scooters, max_selected_locations, new_max):
+    num_demand_points = len(estimated_demand)
+    num_candidate_locations = len(distance_matrix[0])
+
+    problem = LpProblem("Scooter Distribution", LpMinimize)
+
+    # Decision Variables
+    assign_matrix = [[LpVariable(f'assign_{i}_{j}', 0, 1, LpInteger) for j in range(num_candidate_locations)] for i in range(num_demand_points)]
+    selected_location = [LpVariable(f'selected_{j}', 0, 1, LpInteger) for j in range(num_candidate_locations)]
+    new_scooters = LpVariable("new_scooters", lowBound=0, upBound=new_max)
+
+    # Objective
+    problem += lpSum(estimated_demand[i] * distance_matrix[i][j] * assign_matrix[i][j] for i in range(num_demand_points) for j in range(num_candidate_locations))
+
+    # Constraints
+    for i in range(num_demand_points):
+        for j in range(num_candidate_locations):
+            problem += assign_matrix[i][j] <= selected_location[j]
+
+    for i in range(num_demand_points):
+        problem += lpSum(assign_matrix[i][j] for j in range(num_candidate_locations)) <= 1
+
+    problem += lpSum(estimated_demand[i] * assign_matrix[i][j] for i in range(num_demand_points) for j in range(num_candidate_locations)) == num_available_scooters + new_scooters
+
+    problem += lpSum(selected_location[j] for j in range(num_candidate_locations)) <= max_selected_locations
+
+    # Solve
+    problem.solve()
+
+    min_total_distance = value(problem.objective)
+
+    return min_total_distance
+```
+
+这段代码的工作方式是：首先，我们创建了决策变量；然后，设定了目标函数，即用户的旅行距离最小；接着，添加了一系列约束条件；最后，调用solve()函数对线性规划问题进行求解。
+
+但是需要注意的是，这段代码需要在环境中安装了pulp包才能运行，安装方法为：命令行运行
+```bash
+pip install pulp
+```
+如果你的环境中没有这样的工具，这段代码是无法运行的。此外，线性规划只能返回一个最优解，但实际情况中可能存在多个最优解。

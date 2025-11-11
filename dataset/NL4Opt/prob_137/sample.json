@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "oranges": 15,
+            "grapefruit": 5
+        },
+        "output": [
+            105
+        ]
+    }
+]

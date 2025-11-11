@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "freezers": 160,
+            "washing_machine": 0,
+            "constraint1": 5000,
+            "constraint2": 20000
+        },
+        "output": [
+            60000
+        ]
+    }
+]

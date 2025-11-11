@@ -1,0 +1,19 @@
+[
+    {
+        "input": {
+            "generator_types": [0, 1, 2],
+            "time_periods": [1, 2, 3, 4, 5],
+            "generators": [3, 2, 1],
+            "demand": [100, 150, 200, 250, 300],
+            "on_start": 2,
+            "min_output": [10, 20, 30],
+            "max_output": [100, 150, 200],
+            "base_cost": [500, 600, 700],
+            "per_mw_cost": [30, 40, 50],
+            "startup_cost": [1000, 2000, 3000]
+        },
+        "output": [
+            285000
+        ]
+    }
+]

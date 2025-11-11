@@ -1,0 +1,22 @@
+People: a set of people
+Projects: a set of projects
+
+Supply: hours each person `i` is available \forall i \in People.
+Demand: hours each project `j` requires \forall j \in Projects.
+Cost: cost per hour of work for person `i` on project `j` \forall i \in People, j \in Projects.
+Limit: maximum contributions to projects for person `i` on project `j` \forall i \in People, j \in Projects.
+
+Decision variable:
+Assign: hours to be assigned from person `i` to project `j` \forall i \in People, j \in Projects.
+
+Objective:
+the total cost of assigning people to projects
+min: \sum_{i \in People, j \in Projects} Cost_{i,j} * Assign_{i,j}
+
+Constraint:
+1. the total number of hours assigned from person `i` equals its supply
+\sum_{i \in People, j \in Projects} Assign_{i,j} = Supply_{i}, \forall i \in People.
+2. the total number of hours assigned to project `j` equals its demand
+\sum_{i \in People, j \in Projects} Assign_{i,j} = Demand_{j}, \forall j \in Projects.
+3. hours to be assigned from person `i` to project `j` can't exceed the capacity
+Assign_{i,j} <= Limit_{i,j}, \forall i \in People, j \in Projects.

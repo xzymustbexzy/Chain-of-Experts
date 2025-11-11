@@ -1,0 +1,1 @@
+{"NumFactories": 2, "NumColors": 3, "FactoryRunningCost": [300, 600], "ProductionRate": [[5, 6, 3], [10, 10, 0]], "Demand": [20, 5, 15]}

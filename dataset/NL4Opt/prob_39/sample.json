@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "chocolate_ice_cream": 10,
+            "vanilla_ice_cream": 8
+        },
+        "output": [
+            4400
+        ]
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "input": {
+            "electronic_thermometer": 3750,
+            "regular_thermometer": 1875,
+            "electronic_constraint": 3750,
+            "regular_constraint": 50,
+            "time_constraint": 15000
+        },
+        "output": [
+            5625
+        ]
+    }
+]

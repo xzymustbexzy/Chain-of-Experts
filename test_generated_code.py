@@ -88,7 +88,8 @@ def read_test_samples(dataset, problem):
 
 
 if __name__ == '__main__':
-    dataset = 'LPWP'
-    problem = 'prob_245'
+    dataset = 'ComplexOR'
+    problem = 'cell_tower'
     test_samples = read_test_samples(dataset, problem)
-    test_generated_code(problem, test_samples)
+    with open('log.txt', 'w') as f:
+        test_generated_code(problem, test_samples, log_file=f)

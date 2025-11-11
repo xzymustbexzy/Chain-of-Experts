@@ -1,0 +1,17 @@
+[
+    {
+        "input": {
+            "C": 2.5925926,
+            "Y": 0.22222222,
+            "Fertilizer_C_cost": 2,
+            "Fertilizer_Y_cost": 3,
+            "Fertilizer_C_nitrous_oxide": 1.5,
+            "Fertilizer_C_vitamin_mix": 3,
+            "Fertilizer_Y_nitrous_oxide": 5,
+            "Fertilizer_Y_vitamin_mix": 1
+        },
+        "output": [
+            5.85185186
+        ]
+    }
+]

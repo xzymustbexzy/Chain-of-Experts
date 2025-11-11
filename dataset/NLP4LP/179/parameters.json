@@ -1,0 +1,1 @@
+{"SmallCrateCapacity": 200, "LargeCrateCapacity": 500, "MinimumSmallToLargeRatio": 3, "MaxSmallCrates": 100, "MaxLargeCrates": 50, "MaxTotalCrates": 60, "MinLargeCrates": 10}

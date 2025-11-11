@@ -1,0 +1,1 @@
+{"NumMachines": 2, "NumProducts": 2, "ProductionRate": [[30, 60], [45, 30]], "WaterUsage": [20, 15], "TotalWaterAvailable": 1200, "RequiredProduct": [1300, 1500]}

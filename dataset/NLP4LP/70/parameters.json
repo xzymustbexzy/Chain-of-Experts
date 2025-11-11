@@ -1,0 +1,1 @@
+{"MotionActivatedDropRate": 50, "MotionActivatedEnergyConsumption": 30, "ManualDropRate": 75, "ManualEnergyConsumption": 20, "MaxManualPercentage": 0.4, "MinMotionActivatedMachines": 3, "MinTotalDrops": 1000, "MaxTotalEnergy": 500}

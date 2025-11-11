@@ -1,0 +1,34 @@
+Periods: set of time periods in the planning horizon
+Items: set of items (subassemblies and/or end items)
+
+Demand: demand of item `i` at period `t` \forall i \in Items, t \in Periods.
+ProductionTime: production time for one unit of item `i` produced at period `t` \forall i \in Items, t \in Periods.
+SetupTime: fixed setup time for one unit of item `i` produced at period `t` \forall i \in Items, t \in Periods.
+Capacity: capacity restriction for period `t` \forall t \in Periods.
+ProductionCost: production cost for one unit of item `i` at period `t` \forall i \in Items, t \in Periods.
+SetupCost: fixed setup cost for one unit of item `i` at period `t` \forall i \in Items, t \in Periods.
+InventoryHoldingCost: inventory holding cost for one unit of item `i` at period `t` \forall i \in Items, t \in Periods.
+LostSalesCost: lost sales cost for one unit of item `i` at period `t` \forall i \in Items, t \in Periods.
+BigNumber: a large number
+
+Decision variable:
+ProductionUnits: number of units of item `i` produced in period `t` \forall i \in Items, t \in Periods.
+Inventory: inventory of item `i` at the end of period `t` \forall i \in Items, t \in Periods.
+SetupVariable: setup variable equals to 1 if there is production for item `i` at period `t`, and 0 otherwise \forall i \in Items, t \in Periods.
+LostSales: quantity of lost sales for item `i` at the end of period `t` \forall i \in Items, t \in Periods.
+
+Objective:
+the total production, setup, inventory, and lost-sales costs of all items over the planning horizon
+min: \sum_{i \in Items, t \in Periods} (SetupCost_{i,t} * SetupVariable_{i,t} + ProductionCost_{i,t} * ProductionUnits_{i,t} + InventoryHoldingCost_{i,t} * Inventory_{i,t} + LostSalesCost_{i,t} * LostSales_{i,t})
+
+Constraint:
+1. inventory balance equations
+Inventory_{i,t-1} + ProductionUnits_{i,t} + LostSales_{i,t} = Demand_{i,t} + Inventory_{i,t}, \forall i \in Items, t \in Periods.
+2. the capacity consumed by setup and production times does not exceed the maximum production capacity
+\sum_{i \in Items} (SetupTime_{i,t} * SetupVariable_{i,t} + ProductionTime_{i,t} * ProductionUnits_{i,t}) <= Capacity_{t}, \forall t \in Periods.
+3. constraints link the continuous production variables with the binary setup variables
+ProductionUnits_{i,t} <= BigNumber * SetupVariable_{i,t}, \forall i \in Items, t \in Periods.
+4. ensure that no production occurs for item `i` in period `t` unless the corresponding binary setup variable, `SetupVariable_{i,t}` takes a value of 1
+ProductionUnits_{i,t} <= BigNumber * SetupVariable_{i,t}, \forall i \in Items, t \in Periods.
+5. the quantity of lost sales cannot exceed the demand
+LostSales_{i,t} <= Demand_{i,t}, \forall i \in Items, t \in Periods.

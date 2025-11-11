@@ -1,0 +1,13 @@
+[
+    {
+        "input": {
+            "regular_mix": 94.285714,
+            "sour_surprise_mix": 45.714286,
+            "constraint1": 80,
+            "constraint2": 60
+        },
+        "output": [
+            511.42857200000003
+        ]
+    }
+]

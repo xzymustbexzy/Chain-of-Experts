@@ -1,0 +1,12 @@
+[
+    {
+        "input": {
+            "kayak": 107,
+            "motorboat": 25,
+            "constraint1": 550
+        },
+        "output": [
+            610
+        ]
+    }
+]

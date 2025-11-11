@@ -1,0 +1,12 @@
+[
+    {
+        "input": {
+            "item_values": [60, 100, 120],
+            "item_weights": [10, 20, 30],
+            "max_weight_knapsack": 50
+        },
+        "output": [
+            220
+        ]
+    }
+]

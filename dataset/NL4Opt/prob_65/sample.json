@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "small_oil_well": 0,
+            "large_oil_well": 225
+        },
+        "output": [
+            1125.0
+        ]
+    }
+]

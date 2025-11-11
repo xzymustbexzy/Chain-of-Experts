@@ -1,0 +1,15 @@
+[
+    {
+        "input": {
+            "top_loading_model": 0,
+            "front_loading_model": 67,
+            "50": 50,
+            "75": 75,
+            "85": 85,
+            "100": 100
+        },
+        "output": [
+            67
+        ]
+    }
+]

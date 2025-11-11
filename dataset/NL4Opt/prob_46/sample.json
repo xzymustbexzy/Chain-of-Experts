@@ -1,0 +1,11 @@
+[
+    {
+        "input": {
+            "vegetable": 10,
+            "fruits": 0
+        },
+        "output": [
+            30.0
+        ]
+    }
+]
