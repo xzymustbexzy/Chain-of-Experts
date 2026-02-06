@@ -43,7 +43,8 @@ class CommentPool(object):
             comments_text = 'There is no comment available, please ignore this section.\n'
         else:
             for comment in self.comments:
-                comments_text += comment.expert.name + ': ```' + comment.comment_text + '```\n'
+                comment_text = comment.comment_text if comment.comment_text is not None else ''
+                comments_text += comment.expert.name + ': ```' + str(comment_text) + '```\n'
         return comments_text
     
     def __len__(self):

@@ -1,5 +1,4 @@
 import os
-import json
 import numpy as np
 from comment import Comment
 from conductor import Conductor
@@ -16,7 +15,7 @@ from experts import (
     TerminologyInterpreter,
 )
 from comment_pool import CommentPool
-from utils import extract_code_from_string
+from utils import extract_code_from_string, parse_json_from_string
 
 
 def chain_of_experts(problem, 
@@ -32,6 +31,11 @@ def chain_of_experts(problem,
     Return:
         code: code of problem
     """
+    if max_collaborate_nums <= 0:
+        raise ValueError('max_collaborate_nums must be positive')
+    if max_trials <= 0:
+        raise ValueError('max_trials must be positive')
+
     all_experts = [
         TerminologyInterpreter(model_name),
         ParameterExtractor(model_name),
@@ -42,16 +46,23 @@ def chain_of_experts(problem,
         ModelingKnowledgeSupplementExpert(model_name),
         CodeReviewer(model_name),
     ]
+    expert_names = [expert.name for expert in all_experts]
+    if len(expert_names) != len(set(expert_names)):
+        raise ValueError(f'Experts must have unique names, got: {expert_names}')
+
     num_experts = len(all_experts)
     reducer = Reducer(model_name)
-    comment_pool = CommentPool(all_experts, visible_matrix=np.ones((num_experts, num_experts)))
     conductor = Conductor(model_name)
     evaluator = Evaluator(model_name)
-    expert_stack = []
+    collaborate_nums = min(max_collaborate_nums, num_experts)
+    trials = max_trials if enable_reflection else 1
+    answer = ''
 
-    for _ in range(max_trials):
-        for _ in range(max_collaborate_nums):
-            next_expert = conductor.forward(problem, comment_pool, max_collaborate_nums)
+    for _ in range(trials):
+        comment_pool = CommentPool(all_experts, visible_matrix=np.ones((num_experts, num_experts)))
+        expert_stack = []
+        for _ in range(collaborate_nums):
+            next_expert = conductor.forward(problem, comment_pool, collaborate_nums)
             print(f'Choose next expert: {next_expert.name}')
             comment_text = next_expert.forward(problem, comment_pool)
             print(f'Given comment:\n{comment_text}')
@@ -68,23 +79,28 @@ def chain_of_experts(problem,
             print(f'Generate test sample:\n{test_sample}')
             test_samples = [test_sample]
             feedback = evaluator.evaluate(test_samples)
+            if feedback is None:
+                break
+
             feedback_pool = CommentPool(all_experts, visible_matrix=np.ones((num_experts, num_experts)))
             feedback_pool.add_comment(Comment(evaluator, feedback))
-            if feedback is not None:
-                while expert_stack:
-                    previous_expert = expert_stack.pop()
-                    previous_comment = comment_pool.pop_comment()
-                    result = previous_expert.backward(feedback_pool)
-                    result = json.loads(result)
-                    if result['is_caused_by_you']:
-                        previous_comment.comment_text = result['refined_result']
-                        expert_stack.append(previous_expert)
-                        comment_pool.add_comment(previous_comment)
-                        break
-                    else:
-                        feedback_pool.add_comment(Comment(previous_expert, result['reason']))
-            else:
-                break
+            while expert_stack:
+                previous_expert = expert_stack.pop()
+                previous_comment = comment_pool.pop_comment()
+                result = previous_expert.backward(feedback_pool)
+                try:
+                    result = parse_json_from_string(result, expected_type=dict)
+                except ValueError:
+                    feedback_pool.add_comment(Comment(previous_expert, str(result)))
+                    continue
+
+                if result.get('is_caused_by_you'):
+                    previous_comment.comment_text = result.get('refined_result', previous_comment.comment_text)
+                    expert_stack.append(previous_expert)
+                    comment_pool.add_comment(previous_comment)
+                    break
+
+                feedback_pool.add_comment(Comment(previous_expert, result.get('reason', '')))
     return answer
 
 

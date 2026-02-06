@@ -1,5 +1,5 @@
-from langchain import PromptTemplate, OpenAI, LLMChain
-from langchain.chat_models import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
 
 from utils import extract_code_from_string
 
@@ -12,10 +12,11 @@ Now the origin problem is as follow:\n{problem}\nGive your Python code directly.
         model_name=model_name,
         temperature=0
     )
-    llm_chain = LLMChain(
-        llm=llm,
-        prompt=PromptTemplate.from_template(prompt_template)
-    )
-    answer = llm_chain.predict(problem=problem)
+    llm_chain = PromptTemplate.from_template(prompt_template) | llm
+    answer = llm_chain.invoke({'problem': problem})
+    if hasattr(answer, 'content'):
+        answer = answer.content
+    else:
+        answer = str(answer)
     code = extract_code_from_string(answer)
     return code

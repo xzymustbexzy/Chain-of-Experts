@@ -1,5 +1,5 @@
-from langchain import PromptTemplate, OpenAI, LLMChain
-from langchain.chat_models import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
 
 from utils import extract_code_from_string
 
@@ -19,9 +19,10 @@ Here is a starter code:
         model_name=model_name,
         temperature=0
     )
-    llm_chain = LLMChain(
-        llm=llm,
-        prompt=PromptTemplate.from_template(prompt_template)
-    )
-    answer = llm_chain.predict(problem_description=problem_description, code_example=code_example)
+    llm_chain = PromptTemplate.from_template(prompt_template) | llm
+    answer = llm_chain.invoke({'problem_description': problem_description, 'code_example': code_example})
+    if hasattr(answer, 'content'):
+        answer = answer.content
+    else:
+        answer = str(answer)
     return answer

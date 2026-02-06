@@ -1,8 +1,5 @@
 import random
 
-from langchain import PromptTemplate, OpenAI, LLMChain
-from langchain.chat_models import ChatOpenAI
-
 from experts.base_expert import BaseExpert
 
 
@@ -37,25 +34,28 @@ You should output the name of expert directly. The next expert is:'''
 
     def forward(self, problem, comment_pool, max_collaborate_nums):
         all_experts = comment_pool.all_experts
-        all_experts_name = [e.name for e in all_experts]
         commented_experts_name = [c.expert.name for c in comment_pool.comments]
+        remaining_expert_objs = [e for e in all_experts if e.name not in commented_experts_name]
 
         experts_info = '\n'.join([str(e) for e in all_experts])
-        commented_experts = str(commented_experts_name)     
-        remaining_experts = str(list(set(all_experts_name) - set(commented_experts_name)))
+        commented_experts = str(commented_experts_name)
+        remaining_experts = str([e.name for e in remaining_expert_objs])
         answer = self.forward_chain.predict(
             problem_description=problem['description'], 
             experts_info=experts_info,
             commented_experts=commented_experts,
             remaining_experts=remaining_experts,
             max_collaborate_nums=max_collaborate_nums,
-            remaining_collaborate_nums=max_collaborate_nums-len(commented_experts_name),
+            remaining_collaborate_nums=max(0, max_collaborate_nums - len(commented_experts_name)),
         )
         expert_name_to_obj = { e.name: e for e in all_experts }
+        for expert in remaining_expert_objs:
+            if expert.name in answer:
+                return expert
         for name, expert in expert_name_to_obj.items():
             if name in answer:
                 return expert
 
         print('Can not find expert, random choice!')
-        return random.choice(list(expert_name_to_obj.values()))
-
+        candidate_experts = remaining_expert_objs if remaining_expert_objs else list(expert_name_to_obj.values())
+        return random.choice(candidate_experts)

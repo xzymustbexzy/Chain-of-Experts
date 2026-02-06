@@ -1,8 +1,5 @@
 from experts.base_expert import BaseExpert
 
-from langchain import PromptTemplate, OpenAI, LLMChain
-from langchain.chat_models import ChatOpenAI
-
 
 class ProgrammingExampleProvider(BaseExpert):
 
@@ -27,8 +24,8 @@ The original problem is as follow:
 The feedback is as follow:
 {feedback}
 
-The modeling you give previously is as follow:
-{previous_modeling}
+The code you give previously is as follow:
+{previous_code}
 
 The output format is a JSON structure followed by refined code:
 {{
@@ -40,23 +37,9 @@ The output format is a JSON structure followed by refined code:
 
     def __init__(self, model):
         super().__init__(
-            name='Programming Expert',
+            name='Programming Example Provider',
             description='Skilled in programming and coding, capable of implementing the optimization solution in a programming language.',
             model=model   
-        )
-        self.llm = ChatOpenAI(
-            model_name=model,
-            temperature=0
-        )
-        self.forward_prompt_template = self.ROLE_DESCRIPTION + '\n' + self.FORWARD_TASK
-        self.forward_chain = LLMChain(
-            llm=self.llm,
-            prompt=PromptTemplate.from_template(self.forward_prompt_template)
-        )
-        self.backward_prompt_template = self.ROLE_DESCRIPTION + '\n' + self.BACKWARD_TASK
-        self.backward_chain = LLMChain(
-            llm=self.llm,
-            prompt=PromptTemplate.from_template(self.backward_prompt_template)
         )
 
     def forward(self, problem, comment_pool):

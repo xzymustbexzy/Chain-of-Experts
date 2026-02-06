@@ -1,8 +1,5 @@
 from experts.base_expert import BaseExpert
 
-from langchain import PromptTemplate, OpenAI, LLMChain
-from langchain.chat_models import ChatOpenAI
-
 
 class ParameterExtractor(BaseExpert):
 
@@ -41,20 +38,6 @@ The output format is a JSON structure followed by refined code:
             name='Parameter Extractor',
             description='Skilled in programming and coding, capable of implementing the optimization solution in a programming language.',
             model=model   
-        )
-        self.llm = ChatOpenAI(
-            model_name=model,
-            temperature=0
-        )
-        self.forward_prompt_template = self.ROLE_DESCRIPTION + '\n' + self.FORWARD_TASK
-        self.forward_chain = LLMChain(
-            llm=self.llm,
-            prompt=PromptTemplate.from_template(self.forward_prompt_template)
-        )
-        self.backward_prompt_template = self.ROLE_DESCRIPTION + '\n' + self.BACKWARD_TASK
-        self.backward_chain = LLMChain(
-            llm=self.llm,
-            prompt=PromptTemplate.from_template(self.backward_prompt_template)
         )
 
     def forward(self, problem, comment_pool):

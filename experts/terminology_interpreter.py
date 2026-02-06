@@ -1,8 +1,6 @@
-import json
 from experts.base_expert import BaseExpert
 
-from langchain import PromptTemplate, OpenAI, LLMChain
-from langchain.chat_models import ChatOpenAI
+from utils import parse_json_from_string
 
 
 class TerminologyInterpreter(BaseExpert):
@@ -49,20 +47,6 @@ The output format is a JSON structure followed by refined code:
             description='Provides additional domain-specific knowledge to enhance problem understanding and formulation.',
             model=model   
         )
-        self.llm = ChatOpenAI(
-            model_name=model,
-            temperature=0
-        )
-        self.forward_prompt_template = self.ROLE_DESCRIPTION + '\n' + self.FORWARD_TASK
-        self.forward_chain = LLMChain(
-            llm=self.llm,
-            prompt=PromptTemplate.from_template(self.forward_prompt_template)
-        )
-        self.backward_prompt_template = self.ROLE_DESCRIPTION + '\n' + self.BACKWARD_TASK
-        self.backward_chain = LLMChain(
-            llm=self.llm,
-            prompt=PromptTemplate.from_template(self.backward_prompt_template)
-        )
 
     def forward(self, problem, comment_pool):
         self.problem = problem
@@ -79,10 +63,25 @@ The output format is a JSON structure followed by refined code:
             knowledge='None',
             comments_text=comments_text
         )
-        output = json.loads(output)
+        try:
+            parsed_output = parse_json_from_string(output)
+        except ValueError:
+            parsed_output = output
+
         answer = ''
-        for item in output:
-            answer += item['terminology'] + ':' + item['interpretation'] + '\n'
+        if isinstance(parsed_output, dict):
+            parsed_output = [parsed_output]
+        if isinstance(parsed_output, list):
+            for item in parsed_output:
+                if not isinstance(item, dict):
+                    continue
+                terminology = item.get('terminology')
+                interpretation = item.get('interpretation')
+                if terminology is None and interpretation is None:
+                    continue
+                answer += f'{terminology}:{interpretation}\n'
+        if answer.strip() == '':
+            answer = str(output).strip()
         self.previous_answer = answer
         return answer
 

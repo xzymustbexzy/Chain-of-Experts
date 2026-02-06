@@ -8,7 +8,7 @@ class NullWriter:
     def write(self, s):
         pass
 
-def test_generated_code(problem, samples, log_file=None):
+def test_generated_code(problem, samples, log_file=None, dataset='ComplexOR'):
     log_file = log_file or NullWriter()
 
     with open(f'gt_programs/{problem}.py', 'r', encoding='utf8') as f:
@@ -32,8 +32,8 @@ def test_generated_code(problem, samples, log_file=None):
         return Result.COMPILE_ERROR
 
     post_process = None
-    if os.path.exists(os.path.join('dataset', problem, 'data_process.py')):
-        data_process = importlib.import_module('dataset.' + problem + '.data_process')
+    if os.path.exists(os.path.join('dataset', dataset, problem, 'data_process.py')):
+        data_process = importlib.import_module(f'dataset.{dataset}.{problem}.data_process')
         if hasattr(data_process, 'post_process'):
             post_process = data_process.post_process
 
@@ -91,4 +91,4 @@ if __name__ == '__main__':
         problem = filename[:-3]
         test_samples = read_test_samples(dataset, problem)
         with open(f'gt_program_result/{problem}.txt', 'w') as f:
-            test_generated_code(problem, test_samples, log_file=f)
+            test_generated_code(problem, test_samples, log_file=f, dataset=dataset)

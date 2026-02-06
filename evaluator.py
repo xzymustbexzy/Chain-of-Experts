@@ -1,9 +1,9 @@
-import json
 import importlib
 import traceback
 import inspect
 
 from experts.base_expert import BaseExpert
+from utils import parse_json_from_string
 
 
 class Evaluator(BaseExpert):
@@ -62,9 +62,14 @@ Output:
             problem_description=problem['description'], 
             code_example=problem['code_example'],
         )
-        answer = answer.strip("'").strip('')
-        answer = json.loads(answer)
-        return answer
+        parsed = parse_json_from_string(answer)
+        if isinstance(parsed, list) and len(parsed) > 0:
+            parsed = parsed[0]
+        if not isinstance(parsed, dict):
+            raise ValueError(f'Evaluator expects dict JSON output, got: {type(parsed)}')
+        if 'input' not in parsed:
+            raise ValueError(f'Evaluator output missing "input" field: {parsed}')
+        return parsed
     
     def evaluate(self, samples):
         feedback = ''
